@@ -1,0 +1,414 @@
+<resources>
+
+    <properties>
+        <property id="bgColor" type="number">0x000000</property>
+        <property id="ticksColor" type="number">0xFFFFFF</property>
+        <property id="handsColor" type="number">0xFFFFFF</property>
+        <property id="showSecondHand" type="boolean">false</property>
+        <property id="useBatterySecondHandColor" type="boolean">false</property>
+        <property id="secondHandColor" type="number">0x00FF00</property>
+        <property id="handsOnTop" type="boolean">false</property>
+
+        <property id="oneColor" type="number">-999</property>
+
+        <property id="showBatteryIndicator" type="boolean">true</property>
+        <property id="battery100Color" type="number">0x00FF00</property>
+        <property id="battery30Color" type="number">0xFF5500</property>
+        <property id="battery15Color" type="number">0xFF0000</property>
+
+        <property id="notificationColor" type="number">0xFF00FF</property>
+        <property id="bluetoothColor" type="number">0x00AAFF</property>
+        <property id="dndColor" type="number">0xAA00FF</property>
+        <property id="alarmColor" type="number">0xFFAA00</property>
+
+        <property id="eventName" type="string"></property>
+        <property id="eventDate" type="number">1559421760</property>
+        <property id="eventColor" type="number">-999</property>
+
+        <property id="dualTimeOffset" type="number">0</property>
+        <property id="dualTimeLocation" type="string"></property>
+        <property id="dualTimeColor" type="number">-999</property>
+
+        <property id="dateColor" type="number">0xAAAAAA</property>
+    </properties>
+
+    <strings>
+        <string id="bgColor">Background color</string>
+        <string id="ticksColor">Ticks color</string>
+        <string id="handsColor">Hands color</string>
+        <string id="showSecondHand">Show second hand when awake</string>
+        <string id="useBatterySecondHandColor">Use battery status colors for second hand (overrides battery color settings below)</string>
+        <string id="secondHandColor">Second hand color</string>
+        <string id="handsOnTop">Draw hands on top of time infos</string>
+
+        <string id="oneColor">One color for all indicators (off or color; color overrides indicator color settings below)</string>
+
+        <string id="showBatteryIndicator">Show battery indicator</string>
+        <string id="battery100Color">Battery 100%-30% color</string>
+        <string id="battery30Color">Battery 30%-15% color</string>
+        <string id="battery15Color">Battery 15%-0% color</string>
+
+        <string id="notificationColor">Notification indicator color (off or color)</string>
+
+        <string id="bluetoothColor">Bluetooth indicator color (off or color)</string>
+
+        <string id="dndColor">Do not disturb indicator color (off or color)</string>
+
+        <string id="alarmColor">Alarm indicator color (off or color)</string>
+
+        <string id="eventName">Event name</string>
+        <string id="eventDate">Event date</string>
+        <string id="eventColor">Event color (off or color)</string>
+        <string id="eventNameError">Location length: 11 characters</string>
+
+        <string id="dualTimeOffset">Dual time offset</string>
+        <string id="dualTimeLocation">Dual time location</string>
+        <string id="dualTimeColor">Dual time color (off or color)</string>
+        <string id="dualTimeOffsetError">Values range: -23 to 23</string>
+        <string id="dualTimeLocationError">Location length: 6 characters</string>
+
+        <string id="dateColor">Date color (off or color)</string>
+
+        <string id="white">White</string>
+        <string id="ltGray">Light gray</string>
+        <string id="dkGray">Dark gray</string>
+        <string id="black">Black</string>
+        <string id="red">Red</string>
+        <string id="dkRed">Dark red</string>
+        <string id="orange">Orange</string>
+        <string id="yellow">Yellow</string>
+        <string id="green">Green</string>
+        <string id="dkGreen">Dark green</string>
+        <string id="blue">Blue</string>
+        <string id="dkBlue">Dark blue</string>
+        <string id="purple">Purple</string>
+        <string id="pink">Pink</string>
+
+        <string id="off">- Off -</string>
+    </strings>
+
+    <settings>
+        <setting propertyKey="@Properties.bgColor" title="@Strings.bgColor">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.ticksColor" title="@Strings.ticksColor">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.handsColor" title="@Strings.handsColor">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.handsOnTop" title="@Strings.handsOnTop">
+            <settingConfig type="boolean"/>
+        </setting>
+
+        <setting propertyKey="@Properties.showSecondHand" title="@Strings.showSecondHand">
+            <settingConfig type="boolean"/>
+        </setting>
+        <setting propertyKey="@Properties.useBatterySecondHandColor" title="@Strings.useBatterySecondHandColor">
+            <settingConfig type="boolean"/>
+        </setting>
+        <setting propertyKey="@Properties.secondHandColor" title="@Strings.secondHandColor">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.handsOnTop" title="@Strings.handsOnTop">
+            <settingConfig type="boolean"/>
+        </setting>
+
+        <setting propertyKey="@Properties.oneColor" title="@Strings.oneColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.showBatteryIndicator" title="@Strings.showBatteryIndicator">
+            <settingConfig type="boolean"/>
+        </setting>
+        <setting propertyKey="@Properties.battery100Color" title="@Strings.battery100Color">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.battery30Color" title="@Strings.battery30Color">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.battery15Color" title="@Strings.battery15Color">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.notificationColor" title="@Strings.notificationColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.bluetoothColor" title="@Strings.bluetoothColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.dndColor" title="@Strings.dndColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.alarmColor" title="@Strings.alarmColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.eventColor" title="@Strings.eventColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.eventName" title="@Strings.eventName">
+            <settingConfig type="alphaNumeric" maxLength="11" errorMessage="@Strings.eventNameError"/>
+        </setting>
+        <setting propertyKey="@Properties.eventDate" title="@Strings.eventDate">
+            <settingConfig type="date"/>
+        </setting>
+
+        <setting propertyKey="@Properties.dualTimeColor" title="@Strings.dualTimeColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.dualTimeOffset" title="@Strings.dualTimeOffset">
+            <settingConfig type="numeric" min="-23" max="23" errorMessage="@Strings.dualTimeOffsetError"/>
+        </setting>
+        <setting propertyKey="@Properties.dualTimeLocation" title="@Strings.dualTimeLocation">
+            <settingConfig type="alphaNumeric" maxLength="6" errorMessage="@Strings.dualTimeLocationError"/>
+        </setting>
+
+        <setting propertyKey="@Properties.dateColor" title="@Strings.dateColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+    </settings>
+
+</resources>
