@@ -1,4 +1,4 @@
-#SmartArcs - Garmin Watch Face
+# SmartArcs - Garmin Watch Face
 
 This watch face is designed to be a smart watch, it does not show any fitness statuses. Arc indicators around the screen display:
 * battery status
