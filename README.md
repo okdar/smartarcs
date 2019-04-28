@@ -12,8 +12,6 @@ Text infos on the screen display:
 * dual time ('+' means there is already next day in the dual time location, '-' means previous day)
 * date
 
-If you like this watch face you can support the development by buying me a piece of cake :-) https://paypal.me/RadkoNajman
-
 SmartArcs watch face was inspired by Activity Classic Watch Face (https://apps.garmin.com/en-US/apps/8432711c-837b-41bc-a9b1-370037d60ef1) and ManniAT Face (https://apps.garmin.com/en-US/apps/b9f63114-cebb-4da0-b7ae-dd021ed00016).
 
 Limitations of 1.0.0 version:
