@@ -1,4 +1,5 @@
 .idea
+.project
 *.iml
 out
-
+bin

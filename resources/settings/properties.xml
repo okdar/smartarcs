@@ -29,6 +29,8 @@
         <property id="dualTimeLocation" type="string"></property>
         <property id="dualTimeColor" type="number">-999</property>
 
+        <property id="datePosition" type="number">6</property>
+        <property id="dateFormat" type="number">1</property>
         <property id="dateColor" type="number">0xAAAAAA</property>
     </properties>
 
@@ -59,15 +61,24 @@
         <string id="eventName">Event name</string>
         <string id="eventDate">Event date</string>
         <string id="eventColor">Event color (off or color)</string>
-        <string id="eventNameError">Location length: 11 characters</string>
+        <string id="eventNameError">Event name length: 13 characters</string>
 
         <string id="dualTimeOffset">Dual time offset</string>
         <string id="dualTimeLocation">Dual time location</string>
         <string id="dualTimeColor">Dual time color (off or color)</string>
         <string id="dualTimeOffsetError">Values range: -23 to 23</string>
-        <string id="dualTimeLocationError">Location length: 6 characters</string>
+        <string id="dualTimeLocationError">Location length: 13 characters</string>
 
         <string id="dateColor">Date color (off or color)</string>
+        <string id="dateShowAt">Show date at position</string>
+        <string id="datePosition3">3</string>
+        <string id="datePosition6">6</string>
+        <string id="datePosition9">9</string>
+        <string id="dateFormat">Date format</string>
+        <string id="dateFormat1">DayOfWeek Day</string>
+        <string id="dateFormat2">Day DayOfWeek</string>
+        <string id="dateFormat3">Day Month</string>
+        <string id="dateFormat4">Month Day</string>
 
         <string id="white">White</string>
         <string id="ltGray">Light gray</string>
@@ -358,7 +369,7 @@
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.eventName" title="@Strings.eventName">
-            <settingConfig type="alphaNumeric" maxLength="11" errorMessage="@Strings.eventNameError"/>
+            <settingConfig type="alphaNumeric" maxLength="13" errorMessage="@Strings.eventNameError"/>
         </setting>
         <setting propertyKey="@Properties.eventDate" title="@Strings.eventDate">
             <settingConfig type="date"/>
@@ -387,7 +398,7 @@
             <settingConfig type="numeric" min="-23" max="23" errorMessage="@Strings.dualTimeOffsetError"/>
         </setting>
         <setting propertyKey="@Properties.dualTimeLocation" title="@Strings.dualTimeLocation">
-            <settingConfig type="alphaNumeric" maxLength="6" errorMessage="@Strings.dualTimeLocationError"/>
+            <settingConfig type="alphaNumeric" maxLength="13" errorMessage="@Strings.dualTimeLocationError"/>
         </setting>
 
         <setting propertyKey="@Properties.dateColor" title="@Strings.dateColor">
@@ -407,6 +418,21 @@
                 <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
                 <listEntry value="0xAA00FF">@Strings.purple</listEntry>
                 <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.datePosition" title="@Strings.dateShowAt">
+            <settingConfig type="list">
+                <listEntry value="3">@Strings.datePosition3</listEntry>
+                <listEntry value="6">@Strings.datePosition6</listEntry>
+                <listEntry value="9">@Strings.datePosition9</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.dateFormat" title="@Strings.dateFormat">
+            <settingConfig type="list">
+                <listEntry value="1">@Strings.dateFormat1</listEntry>
+                <listEntry value="2">@Strings.dateFormat2</listEntry>
+                <listEntry value="3">@Strings.dateFormat3</listEntry>
+                <listEntry value="4">@Strings.dateFormat4</listEntry>
             </settingConfig>
         </setting>
     </settings>

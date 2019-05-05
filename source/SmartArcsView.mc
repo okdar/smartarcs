@@ -8,12 +8,12 @@ using Toybox.WatchUi;
 
 class SmartArcsView extends WatchUi.WatchFace {
 
-	var screenWidth;
+    var screenWidth;
     var screenRadius;
-  	var twoPI = Math.PI * 2;
-	var deviceSettings;
-	var arcPenWidth = 10;
-	var arcRadius;
+    var twoPI = Math.PI * 2;
+    var deviceSettings;
+    var arcPenWidth = 10;
+    var arcRadius;
     var today;
     var eventDay;
     var isAwake = false;
@@ -44,6 +44,8 @@ class SmartArcsView extends WatchUi.WatchFace {
     var oneColor;
     var handsOnTop;
     var showBatteryIndicator;
+    var datePosition;
+    var dateFormat;
 
     function initialize() {
         loadUserSettings();
@@ -65,15 +67,15 @@ class SmartArcsView extends WatchUi.WatchFace {
     function onUpdate(dc) {
         deviceSettings = System.getDeviceSettings();
 
-		screenWidth = dc.getWidth();
-    	screenRadius = screenWidth / 2;
+        screenWidth = dc.getWidth();
+        screenRadius = screenWidth / 2;
         arcRadius = screenRadius - (arcPenWidth / 2);
 
         today = Time.today();
 
         //clear the screen
         dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
-    	dc.fillCircle(screenRadius, screenRadius, screenRadius + 2);
+        dc.fillCircle(screenRadius, screenRadius, screenRadius + 2);
 
         if (showBatteryIndicator) {
             drawBattery(dc);
@@ -167,6 +169,11 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (dualTimeColor != offSettingFlag) {
             dualTimeOffset = app.getProperty("dualTimeOffset");
             dualTimeLocation = app.getProperty("dualTimeLocation");
+        }
+
+        if (dateColor != offSettingFlag) {
+            datePosition = app.getProperty("datePosition");
+            dateFormat = app.getProperty("dateFormat");
         }
 
         handsOnTop = app.getProperty("handsOnTop");
@@ -284,25 +291,84 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawDualTime(dc, clockTime, offset, location) {
-            var dayPrefix = "";
-            var dualHour = clockTime.hour + offset;
-            if (dualHour > 23) {
-                dualHour = dualHour - 24;
-                dayPrefix = "+";
-            } else if (dualHour < 0) {
-                dualHour = dualHour + 24;
-                dayPrefix = "-";
+        var dualTime;
+        var suffix12Hour = "";
+        var dayPrefix = "";
+        var dualHour = clockTime.hour + offset;
+
+        //compute dual hour
+        if (dualHour > 23) {
+            dualHour = dualHour - 24;
+            dayPrefix = "+";
+        } else if (dualHour < 0) {
+            dualHour = dualHour + 24;
+            dayPrefix = "-";
+        }
+
+        //12-hour format conversion
+        if (!deviceSettings.is24Hour) {
+            if (dualHour > 12) {
+                dualHour = dualHour - 12;
+                suffix12Hour = " PM";
+            } else if (dualHour == 12) {
+                suffix12Hour = " PM";
+            } else {
+                suffix12Hour = " AM";
             }
-            var dualTime = Lang.format("$1$$2$:$3$ $4$", [dayPrefix, dualHour, clockTime.min.format("%02d"), location]);
-            dc.setColor(dualTimeColor, Graphics.COLOR_TRANSPARENT);
+        }
+
+        dc.setColor(dualTimeColor, Graphics.COLOR_TRANSPARENT);
+        if (datePosition != 6 || dateColor == offSettingFlag) {
+            dc.drawText(screenRadius, screenWidth - (2 * Graphics.getFontHeight(font)) - 32, font, location, Graphics.TEXT_JUSTIFY_CENTER);
+            dualTime = Lang.format("$1$$2$:$3$", [dayPrefix, dualHour, clockTime.min.format("%02d")]);
+            if (deviceSettings.is24Hour) {
+                dc.drawText(screenRadius, screenWidth - (2 * Graphics.getFontHeight(font)) - 30 + Graphics.getFontAscent(font), font, dualTime, Graphics.TEXT_JUSTIFY_CENTER);
+            } else {
+                //X position fine tuning
+                var xShift = 50;
+                if (dualHour < 10 && dayPrefix.equals("")) {
+                    xShift = 38;
+                } else if ((dualHour >= 10 && dayPrefix.equals("")) || (dualHour < 10 && !dayPrefix.equals(""))) {
+                    xShift = 44;
+                }
+                dc.drawText(screenRadius - xShift, screenWidth - (2 * Graphics.getFontHeight(font)) - 30 + Graphics.getFontAscent(font), font, dualTime, Graphics.TEXT_JUSTIFY_LEFT);
+                dc.drawText(screenRadius + xShift, screenWidth - Graphics.getFontHeight(font) - 30 + Graphics.getFontAscent(font) - Graphics.getFontHeight(Graphics.FONT_XTINY) - 1, Graphics.FONT_XTINY, suffix12Hour, Graphics.TEXT_JUSTIFY_RIGHT);
+            }
+        } else {
+            if (deviceSettings.is24Hour) {
+                location = location.substring(0, 6);
+                dualTime = Lang.format("$1$$2$:$3$ $4$", [dayPrefix, dualHour, clockTime.min.format("%02d"), location]);
+            } else {
+                location = location.substring(0, 3);
+                dualTime = Lang.format("$1$$2$:$3$$4$ $5$", [dayPrefix, dualHour, clockTime.min.format("%02d"), suffix12Hour, location]);
+            }
             dc.drawText(screenRadius, screenWidth - Graphics.getFontHeight(font) - 70, font, dualTime, Graphics.TEXT_JUSTIFY_CENTER);
+        }
     }
 
     function drawDate(dc, today) {
         var info = Gregorian.info(today, Time.FORMAT_MEDIUM);
-        var dateString = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+
+        var dateString;
+        switch (dateFormat) {
+            case 1: dateString = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+                    break;
+            case 2: dateString = Lang.format("$1$ $2$", [info.day, info.day_of_week]);
+                    break;
+            case 3: dateString = Lang.format("$1$ $2$", [info.day, info.month]);
+                    break;
+            case 4: dateString = Lang.format("$1$ $2$", [info.month, info.day]);
+                    break;
+        }
         dc.setColor(dateColor, Graphics.COLOR_TRANSPARENT);
-      	dc.drawText(screenRadius, screenWidth - Graphics.getFontHeight(font) - 30, font, dateString, Graphics.TEXT_JUSTIFY_CENTER);
+        switch (datePosition) {
+            case 3: dc.drawText(screenWidth - 30, screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
+                    break;
+            case 6: dc.drawText(screenRadius, screenWidth - Graphics.getFontHeight(font) - 30, font, dateString, Graphics.TEXT_JUSTIFY_CENTER);
+                    break;
+            case 9: dc.drawText(30, screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
+                    break;
+        }
     }
 
     function drawEvent(dc, eventName, daysToEvent) {
