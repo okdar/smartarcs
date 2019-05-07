@@ -3,6 +3,9 @@
     <properties>
         <property id="bgColor" type="number">0x000000</property>
         <property id="ticksColor" type="number">0xFFFFFF</property>
+        <property id="ticks1MinWidth" type="number">0</property>
+        <property id="ticks5MinWidth" type="number">3</property>
+        <property id="ticks15MinWidth" type="number">4</property>
         <property id="handsColor" type="number">0xFFFFFF</property>
         <property id="showSecondHand" type="boolean">false</property>
         <property id="useBatterySecondHandColor" type="boolean">false</property>
@@ -32,11 +35,18 @@
         <property id="datePosition" type="number">6</property>
         <property id="dateFormat" type="number">1</property>
         <property id="dateColor" type="number">0xAAAAAA</property>
+
+        <property id="arcsStyle" type="number">1</property>
     </properties>
 
     <strings>
         <string id="bgColor">Background color</string>
         <string id="ticksColor">Ticks color</string>
+        <string id="ticks1MinWidth">1-minute ticks width</string>
+        <string id="ticks5MinWidth">5-minute ticks width</string>
+        <string id="ticks15MinWidth">Quarter ticks width</string>
+        <string id="ticks1MinError">Value range: 0 to 5</string>
+        <string id="ticks5MinError">Value range: 0 to 10</string>
         <string id="handsColor">Hands color</string>
         <string id="showSecondHand">Show second hand when awake</string>
         <string id="useBatterySecondHandColor">Use battery status colors for second hand (overrides battery color settings below)</string>
@@ -66,7 +76,7 @@
         <string id="dualTimeOffset">Dual time offset</string>
         <string id="dualTimeLocation">Dual time location</string>
         <string id="dualTimeColor">Dual time color (off or color)</string>
-        <string id="dualTimeOffsetError">Values range: -23 to 23</string>
+        <string id="dualTimeOffsetError">Value range: -23 to 23</string>
         <string id="dualTimeLocationError">Location length: 13 characters</string>
 
         <string id="dateColor">Date color (off or color)</string>
@@ -96,6 +106,10 @@
         <string id="pink">Pink</string>
 
         <string id="off">- Off -</string>
+
+        <string id="arcsStyle">Indicators style</string>
+        <string id="arcsDecent">Decent</string>
+        <string id="arcsExtravagant">Extravagant (experimental)</string>
     </strings>
 
     <settings>
@@ -135,6 +149,15 @@
                 <listEntry value="0xAA00FF">@Strings.purple</listEntry>
                 <listEntry value="0xFF00FF">@Strings.pink</listEntry>
             </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.ticks1MinWidth" title="@Strings.ticks1MinWidth">
+            <settingConfig type="numeric" min="0" max="5" errorMessage="@Strings.ticks1MinError"/>
+        </setting>
+        <setting propertyKey="@Properties.ticks5MinWidth" title="@Strings.ticks5MinWidth">
+            <settingConfig type="numeric" min="0" max="10" errorMessage="@Strings.ticks5MinError"/>
+        </setting>
+        <setting propertyKey="@Properties.ticks15MinWidth" title="@Strings.ticks15MinWidth">
+            <settingConfig type="numeric" min="0" max="10" errorMessage="@Strings.ticks5MinError"/>
         </setting>
 
         <setting propertyKey="@Properties.handsColor" title="@Strings.handsColor">
@@ -185,8 +208,11 @@
             </settingConfig>
         </setting>
 
-        <setting propertyKey="@Properties.handsOnTop" title="@Strings.handsOnTop">
-            <settingConfig type="boolean"/>
+        <setting propertyKey="@Properties.arcsStyle" title="@Strings.arcsStyle">
+            <settingConfig type="list">
+                <listEntry value="1">@Strings.arcsDecent</listEntry>
+                <listEntry value="2">@Strings.arcsExtravagant</listEntry>
+            </settingConfig>
         </setting>
 
         <setting propertyKey="@Properties.oneColor" title="@Strings.oneColor">
