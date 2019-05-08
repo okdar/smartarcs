@@ -1,3 +1,8 @@
+# 1.2.0 (May 8, 2019)
+* adjustable size of hands (width, length) and ticks (width)
+* hands can be outlined by a line of a different color (2 pixels width)
+* new watch face style - Extravagant (note this style is experimental, you may need to tune colors of hands and time infos to make them readable ... you know, extravagant :-) )
+
 # 1.1.0 (May 5, 2019)
 * date can be positioned at 3, 6 or 9 hour position
 * two lines dual time when date at 3 or 9 hour position or when date is not displayed

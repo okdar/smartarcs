@@ -5,9 +5,16 @@
         <property id="ticksColor" type="number">0xFFFFFF</property>
         <property id="ticks1MinWidth" type="number">0</property>
         <property id="ticks5MinWidth" type="number">3</property>
-        <property id="ticks15MinWidth" type="number">4</property>
+        <property id="ticks15MinWidth" type="number">3</property>
         <property id="handsColor" type="number">0xFFFFFF</property>
-        <property id="showSecondHand" type="boolean">false</property>
+        <property id="handsOutlineColor" type="number">-999</property>
+        <property id="hourHandWidth" type="number">4</property>
+        <property id="minuteHandWidth" type="number">4</property>
+        <property id="secondHandWidth" type="number">0</property>
+        <property id="hourHandLength" type="number">70</property>
+        <property id="minuteHandLength" type="number">90</property>
+        <property id="secondHandLength" type="number">100</property>
+        <property id="handsTailLength" type="number">15</property>
         <property id="useBatterySecondHandColor" type="boolean">false</property>
         <property id="secondHandColor" type="number">0x00FF00</property>
         <property id="handsOnTop" type="boolean">false</property>
@@ -48,7 +55,19 @@
         <string id="ticks1MinError">Value range: 0 to 5</string>
         <string id="ticks5MinError">Value range: 0 to 10</string>
         <string id="handsColor">Hands color</string>
-        <string id="showSecondHand">Show second hand when awake</string>
+        <string id="handsOutlineColor">Hands outline color (off or color)</string>
+        <string id="hourHandWidth">Hour hand width</string>
+        <string id="minuteHandWidth">Minute hand width</string>
+        <string id="secondHandWidth">Second hand width (shown only when the watch is awake)</string>
+        <string id="hourHandLength">Hour hand length</string>
+        <string id="minuteHandLength">Minute hand length</string>
+        <string id="secondHandLength">Second hand length (shown only when the watch is awake)</string>
+        <string id="handsTailLength">Hands tail length</string>
+        <string id="handWidthError">Value range: 1 to 10</string>
+        <string id="secondHandWidthError">Value range: 0 to 10</string>
+        <string id="handLengthError">Value range: 10 to 100</string>
+        <string id="secondHandLengthError">Value range: 0 to 100</string>
+        <string id="handsTailLengthError">Value range: 0 to 30</string>
         <string id="useBatterySecondHandColor">Use battery status colors for second hand (overrides battery color settings below)</string>
         <string id="secondHandColor">Second hand color</string>
         <string id="handsOnTop">Draw hands on top of time infos</string>
@@ -108,7 +127,7 @@
         <string id="off">- Off -</string>
 
         <string id="arcsStyle">Indicators style</string>
-        <string id="arcsDecent">Decent</string>
+        <string id="arcsDecent">Classic</string>
         <string id="arcsExtravagant">Extravagant (experimental)</string>
     </strings>
 
@@ -178,14 +197,51 @@
                 <listEntry value="0xFF00FF">@Strings.pink</listEntry>
             </settingConfig>
         </setting>
+        <setting propertyKey="@Properties.handsOutlineColor" title="@Strings.handsOutlineColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.hourHandWidth" title="@Strings.hourHandWidth">
+            <settingConfig type="numeric" min="1" max="10" errorMessage="@Strings.handWidthError"/>
+        </setting>
+        <setting propertyKey="@Properties.hourHandLength" title="@Strings.hourHandLength">
+            <settingConfig type="numeric" min="10" max="100" errorMessage="@Strings.handLengthError"/>
+        </setting>
+        <setting propertyKey="@Properties.minuteHandWidth" title="@Strings.minuteHandWidth">
+            <settingConfig type="numeric" min="1" max="10" errorMessage="@Strings.handWidthError"/>
+        </setting>
+        <setting propertyKey="@Properties.minuteHandLength" title="@Strings.minuteHandLength">
+            <settingConfig type="numeric" min="10" max="100" errorMessage="@Strings.handLengthError"/>
+        </setting>
+        <setting propertyKey="@Properties.secondHandWidth" title="@Strings.secondHandWidth">
+            <settingConfig type="numeric" min="0" max="10" errorMessage="@Strings.secondHandWidthError"/>
+        </setting>
+        <setting propertyKey="@Properties.secondHandLength" title="@Strings.secondHandLength">
+            <settingConfig type="numeric" min="0" max="100" errorMessage="@Strings.secondHandLengthError"/>
+        </setting>
+        <setting propertyKey="@Properties.handsTailLength" title="@Strings.handsTailLength">
+            <settingConfig type="numeric" min="0" max="30" errorMessage="@Strings.handsTailLengthError"/>
+        </setting>
 
         <setting propertyKey="@Properties.handsOnTop" title="@Strings.handsOnTop">
             <settingConfig type="boolean"/>
         </setting>
 
-        <setting propertyKey="@Properties.showSecondHand" title="@Strings.showSecondHand">
-            <settingConfig type="boolean"/>
-        </setting>
         <setting propertyKey="@Properties.useBatterySecondHandColor" title="@Strings.useBatterySecondHandColor">
             <settingConfig type="boolean"/>
         </setting>

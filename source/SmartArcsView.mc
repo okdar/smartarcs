@@ -17,7 +17,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var font = Graphics.FONT_TINY;
     var precompute;
 
-    //variables for pre-computation
+    // variables for pre-computation
     var screenWidth;
     var screenRadius;
     var arcRadius;
@@ -28,11 +28,20 @@ class SmartArcsView extends WatchUi.WatchFace {
     var dualTimeOneLinerY;
     var eventNameY;
     var dateAt6Y;
+    var ticks;
 
-    //user settings
+    // user settings
     var bgColor;
     var handsColor;
+    var handsOutlineColor;
     var secondHandColor;
+    var hourHandWidth;
+    var minuteHandWidth;
+    var secondHandWidth;
+    var hourHandLength;
+    var minuteHandLength;
+    var secondHandLength;
+    var handsTailLength;
     var battery100Color;
     var battery30Color;
     var battery15Color;
@@ -51,7 +60,6 @@ class SmartArcsView extends WatchUi.WatchFace {
     var eventDate;
     var dualTimeOffset;
     var dualTimeLocation;
-    var showSecondHand;
     var useBatterySecondHandColor;
     var oneColor;
     var handsOnTop;
@@ -65,7 +73,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         WatchFace.initialize();
     }
 
-    // Load your resources here
+    // Load resources here
     function onLayout(dc) {
         setLayout(Rez.Layouts.WatchFace(dc));
     }
@@ -76,10 +84,14 @@ class SmartArcsView extends WatchUi.WatchFace {
     function onShow() {
     }
 
+    // pre-compute values which don't need to be computed on each update
     function computeConstants(dc) {
         screenWidth = dc.getWidth();
         screenRadius = screenWidth / 2;
 
+        computeTicks(); // array of ticks coordinates
+
+        // Y coordinates of time infos
         var fontHeight = Graphics.getFontHeight(font);
         var fontAscent = Graphics.getFontAscent(font);
         dualTimeLocationY = screenWidth - (2 * fontHeight) - 32;
@@ -103,14 +115,14 @@ class SmartArcsView extends WatchUi.WatchFace {
     function onUpdate(dc) {
         deviceSettings = System.getDeviceSettings();
 
-        //compute what does not need to be computed on each update
+        // compute what does not need to be computed on each update
         if (precompute) {
             computeConstants(dc);
         }
 
         today = Time.today();
 
-        //clear the screen
+        // clear the screen
         dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(screenRadius, screenRadius, screenRadius + 2);
 
@@ -137,7 +149,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (eventColor != offSettingFlag) {
-            //compute days to event
+            // compute days to event
             var eventDateMoment = new Time.Moment(eventDate);
             var daysToEvent = (eventDateMoment.value() - today.value()) / Gregorian.SECONDS_PER_DAY;
 
@@ -193,13 +205,20 @@ class SmartArcsView extends WatchUi.WatchFace {
         ticks5MinWidth = app.getProperty("ticks5MinWidth");
         ticks15MinWidth = app.getProperty("ticks15MinWidth");
         handsColor = app.getProperty("handsColor");
+        handsOutlineColor = app.getProperty("handsOutlineColor");
         secondHandColor = app.getProperty("secondHandColor");
+        hourHandWidth = app.getProperty("hourHandWidth");
+        minuteHandWidth = app.getProperty("minuteHandWidth");
+        secondHandWidth = app.getProperty("secondHandWidth");
+        hourHandLength = app.getProperty("hourHandLength");
+        minuteHandLength = app.getProperty("minuteHandLength");
+        secondHandLength = app.getProperty("secondHandLength");
+        handsTailLength = app.getProperty("handsTailLength");
         eventColor = app.getProperty("eventColor");
         dualTimeColor = app.getProperty("dualTimeColor");
         dateColor = app.getProperty("dateColor");
         arcsStyle = app.getProperty("arcsStyle");
 
-        showSecondHand = app.getProperty("showSecondHand");
         useBatterySecondHandColor = app.getProperty("useBatterySecondHandColor");
 
         if (eventColor != offSettingFlag) {
@@ -226,97 +245,11 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     function drawTicks(dc) {
         dc.setColor(ticksColor, Graphics.COLOR_TRANSPARENT);
-
-        if (ticks15MinWidth > 0) {
-            dc.setPenWidth(ticks15MinWidth);
-            //pre-computed 15-minute ticks coordinates, length 20
-            dc.drawLine(220.000000, 120.000000, 240.000000, 120.000000); //15
-            dc.drawLine(119.999992, 220.000000, 119.999992, 240.000000); //30
-            dc.drawLine(20.000000, 119.999992, 0.000000, 119.999992); //45
-            dc.drawLine(120.000000, 20.000000, 120.000000, 0.000000); //60
+        for (var i = 0; i < 60; i++) {
+            if (ticks[i] != null) {
+                dc.fillPolygon(ticks[i]);
+            }
         }
-
-        if (ticks5MinWidth > 0) {
-            dc.setPenWidth(ticks5MinWidth);
-            //pre-computed 5-minute ticks coordinates, length 20
-            dc.drawLine(206.602539, 170.000000, 223.923050, 180.000000); //20
-            dc.drawLine(170.000000, 206.602539, 180.000000, 223.923050); //25
-            dc.drawLine(69.999992, 206.602539, 59.999992, 223.923050); //35
-            dc.drawLine(33.397461, 170.000000, 16.076950, 180.000000); //40
-            dc.drawLine(33.397476, 69.999985, 16.076965, 59.999977); //50
-            dc.drawLine(70.000008, 33.397453, 60.000011, 16.076950); //55
-            dc.drawLine(170.000000, 33.397453, 179.999985, 16.076950); //5
-            dc.drawLine(206.602554, 70.000023, 223.923065, 60.000031); //10
-        }
-
-        if (ticks1MinWidth > 0) {
-            dc.setPenWidth(ticks1MinWidth);
-            //pre-computed minute ticks coordinates, length 10
-            dc.drawLine(229.397400, 131.498138, 239.342621, 132.543411); //16
-            dc.drawLine(227.596237, 142.870285, 237.377716, 144.949402); //17
-            dc.drawLine(224.616211, 153.991867, 234.126785, 157.082031); //18
-            dc.drawLine(220.489990, 164.741028, 229.625458, 168.808395); //19
-            dc.drawLine(208.991867, 184.656372, 217.082031, 190.534225); //21
-            dc.drawLine(201.745926, 193.604370, 209.177368, 200.295685); //22
-            dc.drawLine(193.604370, 201.745941, 200.295670, 209.177383); //23
-            dc.drawLine(184.656372, 208.991867, 190.534225, 217.082031); //24
-            dc.drawLine(164.741028, 220.490005, 168.808395, 229.625458); //26
-            dc.drawLine(153.991867, 224.616211, 157.082031, 234.126785); //27
-            dc.drawLine(142.870285, 227.596237, 144.949402, 237.377716); //28
-            dc.drawLine(131.498123, 229.397400, 132.543411, 239.342621); //29
-            dc.drawLine(108.501862, 229.397400, 107.456581, 239.342621); //31
-            dc.drawLine(97.129707, 227.596222, 95.050591, 237.377716); //32
-            dc.drawLine(86.008125, 224.616211, 82.917953, 234.126770); //33
-            dc.drawLine(75.258965, 220.489990, 71.191597, 229.625458); //34
-            dc.drawLine(55.343605, 208.991852, 49.465752, 217.082031); //36
-            dc.drawLine(46.395622, 201.745926, 39.704315, 209.177368); //37
-            dc.drawLine(38.254074, 193.604370, 30.822624, 200.295685); //38
-            dc.drawLine(31.008125, 184.656372, 22.917953, 190.534225); //39
-            dc.drawLine(19.509995, 164.741028, 10.374542, 168.808395); //41
-            dc.drawLine(15.383774, 153.991852, 5.873207, 157.082016); //42
-            dc.drawLine(12.403763, 142.870270, 2.622284, 144.949402); //43
-            dc.drawLine(10.602592, 131.498138, 0.657372, 132.543427); //44
-            dc.drawLine(10.602592, 108.501869, 0.657372, 107.456589); //46
-            dc.drawLine(12.403770, 97.129700, 2.622292, 95.050583); //47
-            dc.drawLine(15.383797, 86.008102, 5.873230, 82.917938); //48
-            dc.drawLine(19.510002, 75.258957, 10.374550, 71.191589); //49
-            dc.drawLine(31.008133, 55.343613, 22.917969, 49.465759); //51
-            dc.drawLine(38.254074, 46.395630, 30.822624, 39.704323); //52
-            dc.drawLine(46.395645, 38.254066, 39.704338, 30.822617); //53
-            dc.drawLine(55.343643, 31.008118, 49.465790, 22.917946); //54
-            dc.drawLine(75.258972, 19.510002, 71.191605, 10.374550); //56
-            dc.drawLine(86.008163, 15.383774, 82.917999, 5.873207); //57
-            dc.drawLine(97.129745, 12.403763, 95.050629, 2.622284); //58
-            dc.drawLine(108.501884, 10.602592, 107.456596, 0.657372); //59
-            dc.drawLine(131.498123, 10.602592, 132.543396, 0.657372); //1
-            dc.drawLine(142.870316, 12.403770, 144.949432, 2.622292); //2
-            dc.drawLine(153.991882, 15.383789, 157.082062, 5.873222); //3
-            dc.drawLine(164.741089, 19.510025, 168.808441, 10.374573); //4
-            dc.drawLine(184.656403, 31.008148, 190.534256, 22.917984); //6
-            dc.drawLine(193.604385, 38.254074, 200.295685, 30.822632); //7
-            dc.drawLine(201.745941, 46.395638, 209.177383, 39.704330); //8
-            dc.drawLine(208.991898, 55.343658, 217.082062, 49.465805); //9
-            dc.drawLine(220.490021, 75.258987, 229.625458, 71.191620); //11
-            dc.drawLine(224.616211, 86.008133, 234.126785, 82.917969); //12
-            dc.drawLine(227.596222, 97.129707, 237.377716, 95.050591); //13
-            dc.drawLine(229.397400, 108.501900, 239.342621, 107.456619); //14
-        }
-
-//        var x1, y1, x2, y2;
-//        var outerR = screenRadius;
-//        var innerR = outerR - 10;
-//        var tick = 15;
-//        for (var i = 0; i < 60; i++) {
-//            var angle = i * twoPI / 60;
-//            x1 = outerR + innerR * Math.cos(angle);
-//            y1 = outerR + innerR * Math.sin(angle);
-//            x2 = outerR + outerR * Math.cos(angle);
-//            y2 = outerR + outerR * Math.sin(angle);
-//            dc.drawLine(x1, y1, x2, y2);
-//            System.println("dc.drawLine(" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + "); //" + tick);
-//            tick++;
-//        }
-//        System.println("=================");
     }
 
     function getColor(indicatorColor) {
@@ -508,54 +441,103 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
     }
 
-    function drawHand(dc, angle, length, width, tailHandLength) {
-        dc.setPenWidth(width);
-
-        var cos = Math.cos(angle);
-        var sin = Math.sin(angle);
-
-        var x1 = screenRadius - tailHandLength * sin;
-        var y1 = screenRadius + tailHandLength * cos;
-        var x2 = screenRadius + length * sin;
-        var y2 = screenRadius - length * cos;
-        dc.drawLine(x1, y1, x2, y2);
-    }
-
     function drawHands(dc, clockTime) {
-        var hour, min, sec;
-        var tailHandLength = 15;
+        var hourAngle, minAngle, secAngle;
 
         //draw hour hand
-        hour = (((clockTime.hour % 12) * 60.0) + clockTime.min);
-        hour = hour / (12 * 60.0);
-        hour = hour * twoPI;
-        dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-        drawHand(dc, hour, screenRadius - 50, 5, tailHandLength);
+        hourAngle = ((clockTime.hour % 12) * 60.0) + clockTime.min;
+        hourAngle = hourAngle / (12 * 60.0) * twoPI;
+        if (handsOutlineColor != offSettingFlag) {
+            drawHand(dc, handsOutlineColor, computeHandRectangle(hourAngle, hourHandLength + 2, handsTailLength + 2, hourHandWidth + 4));
+        }
+        drawHand(dc, handsColor, computeHandRectangle(hourAngle, hourHandLength, handsTailLength, hourHandWidth));
 
         //draw minute hand
-        min = (clockTime.min / 60.0) * twoPI;
-        dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-        drawHand(dc, min, screenRadius - 30, 5, tailHandLength);
+        minAngle = (clockTime.min / 60.0) * twoPI;
+        if (handsOutlineColor != offSettingFlag) {
+            drawHand(dc, handsOutlineColor, computeHandRectangle(minAngle, minuteHandLength + 2, handsTailLength + 2, minuteHandWidth + 4));
+        }
+        drawHand(dc, handsColor, computeHandRectangle(minAngle, minuteHandLength, handsTailLength, minuteHandWidth));
 
         //draw second hand
         var secondHandColor = -1;
-        if (isAwake && showSecondHand) {
+        if (isAwake && secondHandWidth > 0 && secondHandLength > 0) {
             secondHandColor = getSecondHandColor();
 
-            sec = (clockTime.sec / 60.0) *  twoPI;
-            dc.setColor(secondHandColor, Graphics.COLOR_TRANSPARENT);
-            drawHand(dc, sec, screenRadius - 20, 3, tailHandLength);
+            secAngle = (clockTime.sec / 60.0) *  twoPI;
+            if (handsOutlineColor != offSettingFlag) {
+                drawHand(dc, handsOutlineColor, computeHandRectangle(secAngle, secondHandLength + 2, handsTailLength + 2, secondHandWidth + 4));
+            }
+            drawHand(dc, secondHandColor, computeHandRectangle(secAngle, secondHandLength, handsTailLength, secondHandWidth));
         }
 
-        //draq center bullet
+        //draw center bullet
+        var bulletRadius = hourHandWidth > minuteHandWidth ? hourHandWidth / 2 : minuteHandWidth / 2;
         dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
-        dc.setPenWidth(3);
-        dc.fillCircle(screenRadius, screenRadius, 5);
-        if (isAwake && showSecondHand) {
+        dc.fillCircle(screenRadius, screenRadius, bulletRadius + 1);
+        if (isAwake && secondHandWidth > 0 && secondHandLength > 0) {
+            dc.setPenWidth(secondHandWidth);
             dc.setColor(secondHandColor, Graphics.COLOR_TRANSPARENT);
+            dc.drawCircle(screenRadius, screenRadius, bulletRadius + 2);
         } else {
+            dc.setPenWidth(bulletRadius);
             dc.setColor(handsColor,Graphics.COLOR_TRANSPARENT);
+            dc.drawCircle(screenRadius, screenRadius, bulletRadius + 2);
         }
-        dc.drawCircle(screenRadius, screenRadius, 5);
     }
+
+    function drawHand(dc, color, coords) {
+        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+        dc.fillPolygon(coords);
+    }
+
+    function computeHandRectangle(angle, handLength, tailLength, width) {
+        var halfWidth = width / 2;
+        var coords = [[-halfWidth, tailLength], [-halfWidth, -handLength], [halfWidth, -handLength], [halfWidth, tailLength]];
+        return computeRectangle(coords, angle);
+    }
+
+    function computeTickRectangle(angle, length, width) {
+        var halfWidth = width / 2;
+        var coords = [[-halfWidth, screenRadius], [-halfWidth, screenRadius - length], [halfWidth, screenRadius - length], [halfWidth, screenRadius]];
+        return computeRectangle(coords, angle);
+    }
+
+    function computeRectangle(coords, angle) {
+        var rect = new [4];
+        var x;
+        var y;
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
+
+        //transform coordinates
+        for (var i = 0; i < 4; i++) {
+            x = (coords[i][0] * cos) - (coords[i][1] * sin) + 0.5;
+            y = (coords[i][0] * sin) + (coords[i][1] * cos) + 0.5;
+
+            rect[i] = [screenRadius + x, screenRadius + y];
+        }
+
+        return rect;
+    }
+
+    function computeTicks() {
+        var angle;
+        ticks = new [60];
+        for (var i = 0; i < 60; i++) {
+            angle = i * twoPI / 60.0;
+            if ((i % 15) == 0) { //quarter tick
+                if (ticks15MinWidth > 0) {
+                    ticks[i] = computeTickRectangle(angle, 20, ticks15MinWidth);
+                }
+            } else if ((i % 5) == 0) { //5-minute tick
+                if (ticks5MinWidth > 0) {
+                    ticks[i] = computeTickRectangle(angle, 20, ticks5MinWidth);
+                }
+            } else if (ticks1MinWidth > 0) { //1-minute tick
+                ticks[i] = computeTickRectangle(angle, 10, ticks1MinWidth);
+            }
+        }
+    }
+
 }
