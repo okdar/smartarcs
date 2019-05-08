@@ -9,7 +9,7 @@ using Toybox.WatchUi;
 class SmartArcsView extends WatchUi.WatchFace {
 
     var deviceSettings;
-    var arcPenWidth = 10;
+    var arcPenWidth;
     var today;
     var eventDay;
     var isAwake = false;
@@ -17,7 +17,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var font = Graphics.FONT_TINY;
     var precompute;
 
-    //variables for pre-computation
+    // variables for pre-computation
     var screenWidth;
     var screenRadius;
     var arcRadius;
@@ -28,11 +28,20 @@ class SmartArcsView extends WatchUi.WatchFace {
     var dualTimeOneLinerY;
     var eventNameY;
     var dateAt6Y;
+    var ticks;
 
-    //user settings
+    // user settings
     var bgColor;
     var handsColor;
+    var handsOutlineColor;
     var secondHandColor;
+    var hourHandWidth;
+    var minuteHandWidth;
+    var secondHandWidth;
+    var hourHandLength;
+    var minuteHandLength;
+    var secondHandLength;
+    var handsTailLength;
     var battery100Color;
     var battery30Color;
     var battery15Color;
@@ -44,24 +53,27 @@ class SmartArcsView extends WatchUi.WatchFace {
     var dualTimeColor;
     var dateColor;
     var ticksColor;
+    var ticks1MinWidth;
+    var ticks5MinWidth;
+    var ticks15MinWidth;
     var eventName;
     var eventDate;
     var dualTimeOffset;
     var dualTimeLocation;
-    var showSecondHand;
     var useBatterySecondHandColor;
     var oneColor;
     var handsOnTop;
     var showBatteryIndicator;
     var datePosition;
     var dateFormat;
+    var arcsStyle;
 
     function initialize() {
         loadUserSettings();
         WatchFace.initialize();
     }
 
-    // Load your resources here
+    // Load resources here
     function onLayout(dc) {
         setLayout(Rez.Layouts.WatchFace(dc));
     }
@@ -72,19 +84,29 @@ class SmartArcsView extends WatchUi.WatchFace {
     function onShow() {
     }
 
+    // pre-compute values which don't need to be computed on each update
     function computeConstants(dc) {
         screenWidth = dc.getWidth();
         screenRadius = screenWidth / 2;
-        arcRadius = screenRadius - (arcPenWidth / 2);
 
+        computeTicks(); // array of ticks coordinates
+
+        // Y coordinates of time infos
         var fontHeight = Graphics.getFontHeight(font);
         var fontAscent = Graphics.getFontAscent(font);
-        dualTimeLocY = screenWidth - (2 * fontHeight) - 32;
+        dualTimeLocationY = screenWidth - (2 * fontHeight) - 32;
         dualTimeTimeY = screenWidth - (2 * fontHeight) - 30 + fontAscent;
         dualTimeAmPmY = screenWidth - fontHeight - 30 + fontAscent - Graphics.getFontHeight(Graphics.FONT_XTINY) - 1;
         dualTimeOneLinerY = screenWidth - fontHeight - 70;
         eventNameY = 35 + fontAscent;
         dateAt6Y = screenWidth - fontHeight - 30;
+
+        if (arcsStyle == 1) {
+            arcPenWidth = 10;
+        } else {
+            arcPenWidth = screenRadius;
+        }
+        arcRadius = screenRadius - (arcPenWidth / 2);
 
         precompute = false;
     }
@@ -93,14 +115,14 @@ class SmartArcsView extends WatchUi.WatchFace {
     function onUpdate(dc) {
         deviceSettings = System.getDeviceSettings();
 
-        //compute what does not need to be computed on each update
+        // compute what does not need to be computed on each update
         if (precompute) {
             computeConstants(dc);
         }
 
         today = Time.today();
 
-        //clear the screen
+        // clear the screen
         dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(screenRadius, screenRadius, screenRadius + 2);
 
@@ -127,7 +149,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (eventColor != offSettingFlag) {
-            //compute days to event
+            // compute days to event
             var eventDateMoment = new Time.Moment(eventDate);
             var daysToEvent = (eventDateMoment.value() - today.value()) / Gregorian.SECONDS_PER_DAY;
 
@@ -179,13 +201,24 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
         bgColor = app.getProperty("bgColor");
         ticksColor = app.getProperty("ticksColor");
+        ticks1MinWidth = app.getProperty("ticks1MinWidth");
+        ticks5MinWidth = app.getProperty("ticks5MinWidth");
+        ticks15MinWidth = app.getProperty("ticks15MinWidth");
         handsColor = app.getProperty("handsColor");
+        handsOutlineColor = app.getProperty("handsOutlineColor");
         secondHandColor = app.getProperty("secondHandColor");
+        hourHandWidth = app.getProperty("hourHandWidth");
+        minuteHandWidth = app.getProperty("minuteHandWidth");
+        secondHandWidth = app.getProperty("secondHandWidth");
+        hourHandLength = app.getProperty("hourHandLength");
+        minuteHandLength = app.getProperty("minuteHandLength");
+        secondHandLength = app.getProperty("secondHandLength");
+        handsTailLength = app.getProperty("handsTailLength");
         eventColor = app.getProperty("eventColor");
         dualTimeColor = app.getProperty("dualTimeColor");
         dateColor = app.getProperty("dateColor");
+        arcsStyle = app.getProperty("arcsStyle");
 
-        showSecondHand = app.getProperty("showSecondHand");
         useBatterySecondHandColor = app.getProperty("useBatterySecondHandColor");
 
         if (eventColor != offSettingFlag) {
@@ -212,34 +245,11 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     function drawTicks(dc) {
         dc.setColor(ticksColor, Graphics.COLOR_TRANSPARENT);
-        dc.setPenWidth(3);
-
-        //pre-computed ticks coordinates for length 20
-        dc.drawLine(220.000000, 120.000000, 240.000000, 120.000000); //3
-        dc.drawLine(206.602539, 170.000000, 223.923050, 180.000000); //4
-        dc.drawLine(170.000000, 206.602539, 180.000000, 223.923050); //5
-        dc.drawLine(119.999992, 220.000000, 119.999992, 240.000000); //6
-        dc.drawLine(69.999992, 206.602539, 59.999992, 223.923050); //7
-        dc.drawLine(33.397446, 169.999985, 16.076942, 179.999969); //8
-        dc.drawLine(20.000000, 119.999992, 0.000000, 119.999992); //9
-        dc.drawLine(33.397476, 69.999985, 16.076965, 59.999977); //10
-        dc.drawLine(70.000008, 33.397453, 60.000011, 16.076950); //11
-        dc.drawLine(120.000000, 20.000000, 120.000000, 0.000000); //12
-        dc.drawLine(170.000031, 33.397476, 180.000046, 16.076973); //1
-        dc.drawLine(206.602554, 70.000023, 223.923065, 60.000031); //2
-
-//        var x1, y1, x2, y2;
-//        var outerR = halfWidth;
-//        var innerR = outerR - 20;
-//        for (var i = 0; i < 12; i++) {
-//            var angle = i * twoPI / 12;
-//            x1 = outerR + innerR * Math.cos(angle);
-//            y1 = outerR + innerR * Math.sin(angle);
-//            x2 = outerR + outerR * Math.cos(angle);
-//            y2 = outerR + outerR * Math.sin(angle);
-//            dc.drawLine(x1, y1, x2, y2);
-//            System.println("dc.drawLine(" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ")");
-//        }
+        for (var i = 0; i < 60; i++) {
+            if (ticks[i] != null) {
+                dc.fillPolygon(ticks[i]);
+            }
+        }
     }
 
     function getColor(indicatorColor) {
@@ -253,7 +263,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         return color;
     }
 
-    function getSecondHandColor(indicatorColor) {
+    function getSecondHandColor() {
         var color;
         if (oneColor != offSettingFlag) {
             color = oneColor;
@@ -431,54 +441,103 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
     }
 
-    function drawHand(dc, angle, length, width, tailHandLength) {
-        dc.setPenWidth(width);
-
-        var cos = Math.cos(angle);
-        var sin = Math.sin(angle);
-
-        var x1 = screenRadius - tailHandLength * sin;
-        var y1 = screenRadius + tailHandLength * cos;
-        var x2 = screenRadius + length * sin;
-        var y2 = screenRadius - length * cos;
-        dc.drawLine(x1, y1, x2, y2);
-    }
-
     function drawHands(dc, clockTime) {
-        var hour, min, sec;
-        var tailHandLength = 15;
+        var hourAngle, minAngle, secAngle;
 
         //draw hour hand
-        hour = (((clockTime.hour % 12) * 60.0) + clockTime.min);
-        hour = hour / (12 * 60.0);
-        hour = hour * twoPI;
-        dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-        drawHand(dc, hour, screenRadius - 50, 5, tailHandLength);
+        hourAngle = ((clockTime.hour % 12) * 60.0) + clockTime.min;
+        hourAngle = hourAngle / (12 * 60.0) * twoPI;
+        if (handsOutlineColor != offSettingFlag) {
+            drawHand(dc, handsOutlineColor, computeHandRectangle(hourAngle, hourHandLength + 2, handsTailLength + 2, hourHandWidth + 4));
+        }
+        drawHand(dc, handsColor, computeHandRectangle(hourAngle, hourHandLength, handsTailLength, hourHandWidth));
 
         //draw minute hand
-        min = (clockTime.min / 60.0) * twoPI;
-        dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-        drawHand(dc, min, screenRadius - 30, 5, tailHandLength);
+        minAngle = (clockTime.min / 60.0) * twoPI;
+        if (handsOutlineColor != offSettingFlag) {
+            drawHand(dc, handsOutlineColor, computeHandRectangle(minAngle, minuteHandLength + 2, handsTailLength + 2, minuteHandWidth + 4));
+        }
+        drawHand(dc, handsColor, computeHandRectangle(minAngle, minuteHandLength, handsTailLength, minuteHandWidth));
 
         //draw second hand
         var secondHandColor = -1;
-        if (isAwake && showSecondHand) {
+        if (isAwake && secondHandWidth > 0 && secondHandLength > 0) {
             secondHandColor = getSecondHandColor();
 
-            sec = (clockTime.sec / 60.0) *  twoPI;
-            dc.setColor(secondHandColor, Graphics.COLOR_TRANSPARENT);
-            drawHand(dc, sec, screenRadius - 20, 3, tailHandLength);
+            secAngle = (clockTime.sec / 60.0) *  twoPI;
+            if (handsOutlineColor != offSettingFlag) {
+                drawHand(dc, handsOutlineColor, computeHandRectangle(secAngle, secondHandLength + 2, handsTailLength + 2, secondHandWidth + 4));
+            }
+            drawHand(dc, secondHandColor, computeHandRectangle(secAngle, secondHandLength, handsTailLength, secondHandWidth));
         }
 
-        //draq center bullet
+        //draw center bullet
+        var bulletRadius = hourHandWidth > minuteHandWidth ? hourHandWidth / 2 : minuteHandWidth / 2;
         dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
-        dc.setPenWidth(3);
-        dc.fillCircle(screenRadius, screenRadius, 5);
-        if (isAwake && showSecondHand) {
+        dc.fillCircle(screenRadius, screenRadius, bulletRadius + 1);
+        if (isAwake && secondHandWidth > 0 && secondHandLength > 0) {
+            dc.setPenWidth(secondHandWidth);
             dc.setColor(secondHandColor, Graphics.COLOR_TRANSPARENT);
+            dc.drawCircle(screenRadius, screenRadius, bulletRadius + 2);
         } else {
+            dc.setPenWidth(bulletRadius);
             dc.setColor(handsColor,Graphics.COLOR_TRANSPARENT);
+            dc.drawCircle(screenRadius, screenRadius, bulletRadius + 2);
         }
-        dc.drawCircle(screenRadius, screenRadius, 5);
     }
+
+    function drawHand(dc, color, coords) {
+        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+        dc.fillPolygon(coords);
+    }
+
+    function computeHandRectangle(angle, handLength, tailLength, width) {
+        var halfWidth = width / 2;
+        var coords = [[-halfWidth, tailLength], [-halfWidth, -handLength], [halfWidth, -handLength], [halfWidth, tailLength]];
+        return computeRectangle(coords, angle);
+    }
+
+    function computeTickRectangle(angle, length, width) {
+        var halfWidth = width / 2;
+        var coords = [[-halfWidth, screenRadius], [-halfWidth, screenRadius - length], [halfWidth, screenRadius - length], [halfWidth, screenRadius]];
+        return computeRectangle(coords, angle);
+    }
+
+    function computeRectangle(coords, angle) {
+        var rect = new [4];
+        var x;
+        var y;
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
+
+        //transform coordinates
+        for (var i = 0; i < 4; i++) {
+            x = (coords[i][0] * cos) - (coords[i][1] * sin) + 0.5;
+            y = (coords[i][0] * sin) + (coords[i][1] * cos) + 0.5;
+
+            rect[i] = [screenRadius + x, screenRadius + y];
+        }
+
+        return rect;
+    }
+
+    function computeTicks() {
+        var angle;
+        ticks = new [60];
+        for (var i = 0; i < 60; i++) {
+            angle = i * twoPI / 60.0;
+            if ((i % 15) == 0) { //quarter tick
+                if (ticks15MinWidth > 0) {
+                    ticks[i] = computeTickRectangle(angle, 20, ticks15MinWidth);
+                }
+            } else if ((i % 5) == 0) { //5-minute tick
+                if (ticks5MinWidth > 0) {
+                    ticks[i] = computeTickRectangle(angle, 20, ticks5MinWidth);
+                }
+            } else if (ticks1MinWidth > 0) { //1-minute tick
+                ticks[i] = computeTickRectangle(angle, 10, ticks1MinWidth);
+            }
+        }
+    }
+
 }
