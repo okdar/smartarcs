@@ -26,9 +26,11 @@ class SmartArcsView extends WatchUi.WatchFace {
     var dualTimeTimeY;
     var dualTimeAmPmY;
     var dualTimeOneLinerY;
+    var dualTimeOneLinerAmPmY;
     var eventNameY;
     var dateAt6Y;
     var ticks;
+    var showTicks;
 
     // user settings
     var bgColor;
@@ -56,6 +58,9 @@ class SmartArcsView extends WatchUi.WatchFace {
     var ticks1MinWidth;
     var ticks5MinWidth;
     var ticks15MinWidth;
+    var ticks1MinLength;
+    var ticks5MinLength;
+    var ticks15MinLength;
     var eventName;
     var eventDate;
     var dualTimeOffset;
@@ -89,7 +94,12 @@ class SmartArcsView extends WatchUi.WatchFace {
         screenWidth = dc.getWidth();
         screenRadius = screenWidth / 2;
 
-        computeTicks(); // array of ticks coordinates
+        showTicks = ((ticksColor == offSettingFlag) ||
+            (ticksColor != offSettingFlag && ticks1MinWidth == 0 && ticks5MinWidth == 0 && ticks15MinWidth == 0 &&
+            ticks1MinLength == 0 && ticks5MinLength == 0 && ticks15MinLength == 0)) ? false : true;
+        if (showTicks) {
+            computeTicks(); // array of ticks coordinates
+        }
 
         // Y coordinates of time infos
         var fontHeight = Graphics.getFontHeight(font);
@@ -98,12 +108,11 @@ class SmartArcsView extends WatchUi.WatchFace {
         dualTimeTimeY = screenWidth - (2 * fontHeight) - 30 + fontAscent;
         dualTimeAmPmY = screenWidth - fontHeight - 30 + fontAscent - Graphics.getFontHeight(Graphics.FONT_XTINY) - 1;
         dualTimeOneLinerY = screenWidth - fontHeight - 70;
+        dualTimeOneLinerAmPmY = screenWidth - 70 - Graphics.getFontHeight(Graphics.FONT_XTINY) - 1;
         eventNameY = 35 + fontAscent;
         dateAt6Y = screenWidth - fontHeight - 30;
 
-        if (arcsStyle == 1) {
-            arcPenWidth = 10;
-        } else {
+        if (arcsStyle == 2) {
             arcPenWidth = screenRadius;
         }
         arcRadius = screenRadius - (arcPenWidth / 2);
@@ -142,7 +151,9 @@ class SmartArcsView extends WatchUi.WatchFace {
             drawAlarms(dc);
         }
 
-        drawTicks(dc);
+        if (showTicks) {
+            drawTicks(dc);
+        }
 
         if (!handsOnTop) {
             drawHands(dc, System.getClockTime());
@@ -198,15 +209,26 @@ class SmartArcsView extends WatchUi.WatchFace {
             bluetoothColor = app.getProperty("bluetoothColor");
             dndColor = app.getProperty("dndColor");
             alarmColor = app.getProperty("alarmColor");
+            secondHandColor = app.getProperty("secondHandColor");
+        } else {
+            notificationColor = oneColor;
+            bluetoothColor = oneColor;
+            dndColor = oneColor;
+            alarmColor = oneColor;
+            secondHandColor = oneColor;
         }
         bgColor = app.getProperty("bgColor");
         ticksColor = app.getProperty("ticksColor");
-        ticks1MinWidth = app.getProperty("ticks1MinWidth");
-        ticks5MinWidth = app.getProperty("ticks5MinWidth");
-        ticks15MinWidth = app.getProperty("ticks15MinWidth");
+        if (ticksColor != offSettingFlag) {
+            ticks1MinWidth = app.getProperty("ticks1MinWidth");
+            ticks5MinWidth = app.getProperty("ticks5MinWidth");
+            ticks15MinWidth = app.getProperty("ticks15MinWidth");
+            ticks1MinLength = app.getProperty("ticks1MinLength");
+            ticks5MinLength = app.getProperty("ticks5MinLength");
+            ticks15MinLength = app.getProperty("ticks15MinLength");
+        }
         handsColor = app.getProperty("handsColor");
         handsOutlineColor = app.getProperty("handsOutlineColor");
-        secondHandColor = app.getProperty("secondHandColor");
         hourHandWidth = app.getProperty("hourHandWidth");
         minuteHandWidth = app.getProperty("minuteHandWidth");
         secondHandWidth = app.getProperty("secondHandWidth");
@@ -218,6 +240,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         dualTimeColor = app.getProperty("dualTimeColor");
         dateColor = app.getProperty("dateColor");
         arcsStyle = app.getProperty("arcsStyle");
+        arcPenWidth = app.getProperty("indicatorWidth");
 
         useBatterySecondHandColor = app.getProperty("useBatterySecondHandColor");
 
@@ -252,22 +275,9 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
     }
 
-    function getColor(indicatorColor) {
-        var color;
-        if (oneColor != offSettingFlag) {
-            color = oneColor;
-        } else {
-            color = indicatorColor;
-        }
-
-        return color;
-    }
-
     function getSecondHandColor() {
         var color;
-        if (oneColor != offSettingFlag) {
-            color = oneColor;
-        } else if (useBatterySecondHandColor) {
+        if (useBatterySecondHandColor) {
             var batStat = System.getSystemStats().battery;
             if (batStat > 30) {
                 color = battery100Color;
@@ -285,7 +295,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     function drawBluetooth(dc) {
         if (deviceSettings.phoneConnected == true) {
-            dc.setColor(getColor(bluetoothColor), Graphics.COLOR_TRANSPARENT);
+            dc.setColor(bluetoothColor, Graphics.COLOR_TRANSPARENT);
             dc.setPenWidth(arcPenWidth);
             dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 0, -30);
         }
@@ -293,7 +303,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     function drawDoNotDisturb(dc) {
         if (deviceSettings.doNotDisturb == true) {
-            dc.setColor(getColor(dndColor), Graphics.COLOR_TRANSPARENT);
+            dc.setColor(dndColor, Graphics.COLOR_TRANSPARENT);
             dc.setPenWidth(arcPenWidth);
             dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_COUNTER_CLOCKWISE, 270, -60);
         }
@@ -328,14 +338,14 @@ class SmartArcsView extends WatchUi.WatchFace {
     function drawAlarms(dc) {
         var alarms = deviceSettings.alarmCount;
         if (alarms > 0) {
-            drawItems(dc, alarms, 270, getColor(alarmColor));
+            drawItems(dc, alarms, 270, alarmColor);
         }
     }
 
     function drawNotifications(dc) {
         var notifications = deviceSettings.notificationCount;
         if (notifications > 0) {
-            drawItems(dc, notifications, 90, getColor(notificationColor));
+            drawItems(dc, notifications, 90, notificationColor);
         }
     }
 
@@ -396,15 +406,26 @@ class SmartArcsView extends WatchUi.WatchFace {
             }
         } else {
             if (deviceSettings.is24Hour) {
-                //24-hour format -> 6 charactes for location
+                //24-hour format -> 6 characters for location
                 location = location.substring(0, 6);
                 dualTime = Lang.format("$1$$2$:$3$ $4$", [dayPrefix, dualHour, clockTime.min.format("%02d"), location]);
+                dc.drawText(screenRadius, dualTimeOneLinerY, font, dualTime, Graphics.TEXT_JUSTIFY_CENTER);
             } else {
-                //12-hour format -> 3 charactes for location (because of AM/PM)
-                location = location.substring(0, 3);
-                dualTime = Lang.format("$1$$2$:$3$$4$ $5$", [dayPrefix, dualHour, clockTime.min.format("%02d"), suffix12Hour, location]);
+                //12-hour format -> AM/PM position fine-tuning
+                dualTime = Lang.format("$1$$2$:$3$", [dayPrefix, dualHour, clockTime.min.format("%02d")]);
+                var loc = location.substring(0, 4);
+                var xShift = 9;
+                if (dualHour < 10 && dayPrefix.equals("")) {
+                    xShift = 33;
+                    loc = location.substring(0, 6);
+                } else if ((dualHour >= 10 && dayPrefix.equals("")) || (dualHour < 10 && !dayPrefix.equals(""))) {
+                    xShift = 21;
+                    loc = location.substring(0, 5);
+                }
+                dc.drawText(43, dualTimeOneLinerY, font, dualTime, Graphics.TEXT_JUSTIFY_LEFT);
+                dc.drawText(screenRadius - xShift, dualTimeOneLinerAmPmY, Graphics.FONT_XTINY, suffix12Hour, Graphics.TEXT_JUSTIFY_LEFT);
+                dc.drawText(screenRadius + 77, dualTimeOneLinerY, font, loc, Graphics.TEXT_JUSTIFY_RIGHT);
             }
-            dc.drawText(screenRadius, dualTimeOneLinerY, font, dualTime, Graphics.TEXT_JUSTIFY_CENTER);
         }
     }
 
@@ -413,13 +434,13 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         var dateString;
         switch (dateFormat) {
-            case 1: dateString = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+            case 1: dateString = Lang.format("$1$ $2$", [info.day_of_week.substring(0, 3), info.day]);
                     break;
-            case 2: dateString = Lang.format("$1$ $2$", [info.day, info.day_of_week]);
+            case 2: dateString = Lang.format("$1$ $2$", [info.day, info.day_of_week.substring(0, 3)]);
                     break;
-            case 3: dateString = Lang.format("$1$ $2$", [info.day, info.month]);
+            case 3: dateString = Lang.format("$1$ $2$", [info.day, info.month.substring(0, 3)]);
                     break;
-            case 4: dateString = Lang.format("$1$ $2$", [info.month, info.day]);
+            case 4: dateString = Lang.format("$1$ $2$", [info.month.substring(0, 3), info.day]);
                     break;
         }
         dc.setColor(dateColor, Graphics.COLOR_TRANSPARENT);
@@ -527,15 +548,15 @@ class SmartArcsView extends WatchUi.WatchFace {
         for (var i = 0; i < 60; i++) {
             angle = i * twoPI / 60.0;
             if ((i % 15) == 0) { //quarter tick
-                if (ticks15MinWidth > 0) {
-                    ticks[i] = computeTickRectangle(angle, 20, ticks15MinWidth);
+                if (ticks15MinWidth > 0 && ticks15MinLength > 0) {
+                    ticks[i] = computeTickRectangle(angle, ticks15MinLength, ticks15MinWidth);
                 }
             } else if ((i % 5) == 0) { //5-minute tick
-                if (ticks5MinWidth > 0) {
-                    ticks[i] = computeTickRectangle(angle, 20, ticks5MinWidth);
+                if (ticks5MinWidth > 0 && ticks5MinLength > 0) {
+                    ticks[i] = computeTickRectangle(angle, ticks5MinLength, ticks5MinWidth);
                 }
-            } else if (ticks1MinWidth > 0) { //1-minute tick
-                ticks[i] = computeTickRectangle(angle, 10, ticks1MinWidth);
+            } else if (ticks1MinWidth > 0 && ticks1MinLength > 0) { //1-minute tick
+                ticks[i] = computeTickRectangle(angle, ticks1MinLength, ticks1MinWidth);
             }
         }
     }
