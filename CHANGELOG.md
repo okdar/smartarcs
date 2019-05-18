@@ -1,3 +1,8 @@
+# 1.2.1 (May 18, 2019)
+* under the hood optimization to minimize CPU utilization on screen update
+* adjustable length of ticks and width of arcs
+* smaller font for AM/PM indicators when dual time shown in one line for nicer look
+
 # 1.2.0 (May 8, 2019)
 * adjustable size of hands (width, length) and ticks (width)
 * hands can be outlined by a line of a different color (2 pixels width)
