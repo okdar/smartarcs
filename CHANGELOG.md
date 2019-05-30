@@ -1,4 +1,7 @@
-# 1.2.1 (May 18, 2019)
+# 1.2.3 (May 30, 2019)
+* event date fine-tuning
+
+# 1.2.2 (May 18, 2019)
 * under the hood optimization to minimize CPU utilization on screen update
 * adjustable length of ticks and width of arcs
 * smaller font for AM/PM indicators when dual time shown in one line for nicer look
