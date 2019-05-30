@@ -162,9 +162,15 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (eventColor != offSettingFlag) {
             // compute days to event
             var eventDateMoment = new Time.Moment(eventDate);
-            var daysToEvent = (eventDateMoment.value() - today.value()) / Gregorian.SECONDS_PER_DAY;
+            var daysToEvent = (eventDateMoment.value() - today.value()) / Gregorian.SECONDS_PER_DAY.toFloat();
 
-            drawEvent(dc, eventName, daysToEvent);
+            if (daysToEvent < 0) {
+                //hide event when it is over
+                eventColor = offSettingFlag;
+                Application.getApp().setProperty("eventColor", offSettingFlag);
+            } else {
+                drawEvent(dc, eventName, daysToEvent.toNumber());
+            }
         }
 
         if (dualTimeColor != offSettingFlag) {
@@ -455,9 +461,11 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawEvent(dc, eventName, daysToEvent) {
+        dc.setColor(eventColor, Graphics.COLOR_TRANSPARENT);
         if (daysToEvent > 0) {
-            dc.setColor(eventColor, Graphics.COLOR_TRANSPARENT);
             dc.drawText(screenRadius, 35, font, daysToEvent, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(screenRadius, eventNameY, font, eventName, Graphics.TEXT_JUSTIFY_CENTER);
+        } else {
             dc.drawText(screenRadius, eventNameY, font, eventName, Graphics.TEXT_JUSTIFY_CENTER);
         }
     }
