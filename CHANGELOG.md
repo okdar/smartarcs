@@ -1,3 +1,6 @@
+# 1.2.5 (June 16, 2019)
+* Settings adjustment
+
 # 1.2.4 (June 11, 2019)
 * Watch face available for new devices: MARQ™ series, Descent™ Mk1, fēnix® Chronos, Forerunner® 245 series, Forerunner® 945, vívolife
 

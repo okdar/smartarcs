@@ -51,7 +51,12 @@
     </properties>
 
     <strings>
-        <string id="bgColor">Background color</string>
+        <string id="bgColor">
+IMPORTANT NOTE: Because of a bug in Garmin Connect iOS application you have to ALWAYS SET 'event date' property; otherwise your settings will not be applied and default settings will be used instead.
+=================================
+HANDS AND TICKS
+=================================
+Background color</string>
         <string id="ticksColor">Ticks color (off or color)</string>
         <string id="ticks1MinWidth">1-minute ticks width</string>
         <string id="ticks5MinWidth">5-minute ticks width</string>
@@ -98,8 +103,12 @@
         <string id="alarmColor">Alarm indicator color (off or color)</string>
 
         <string id="eventName">Event name</string>
-        <string id="eventDate">Event date</string>
-        <string id="eventColor">Event color (off or color)</string>
+        <string id="eventDate">Event date (IMPORTANT NOTE: Because of a bug in Garmin Connect iOS application ALWAYS SET this property; otherwise your settings will not be applied and default settings will be used instead.)</string>
+        <string id="eventColor">
+=================================
+TIME INFOS
+=================================
+Event color (off or color)</string>
         <string id="eventNameError">Event name length: 13 characters</string>
 
         <string id="dualTimeOffset">Dual time offset</string>
@@ -118,6 +127,7 @@
         <string id="dateFormat2">Day DayOfWeek</string>
         <string id="dateFormat3">Day Month</string>
         <string id="dateFormat4">Month Day</string>
+        <string id="dateFormat0">Day</string>
 
         <string id="white">White</string>
         <string id="ltGray">Light gray</string>
@@ -136,7 +146,11 @@
 
         <string id="off">- Off -</string>
 
-        <string id="arcsStyle">Indicators style</string>
+        <string id="arcsStyle">
+=================================
+INDICATORS
+=================================
+Indicators style</string>
         <string id="arcsDecent">Classic</string>
         <string id="arcsExtravagant">Extravagant (experimental)</string>
     </strings>
@@ -534,6 +548,7 @@
         </setting>
         <setting propertyKey="@Properties.dateFormat" title="@Strings.dateFormat">
             <settingConfig type="list">
+                <listEntry value="0">@Strings.dateFormat0</listEntry>
                 <listEntry value="1">@Strings.dateFormat1</listEntry>
                 <listEntry value="2">@Strings.dateFormat2</listEntry>
                 <listEntry value="3">@Strings.dateFormat3</listEntry>
