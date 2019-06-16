@@ -440,6 +440,8 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         var dateString;
         switch (dateFormat) {
+            case 0: dateString = info.day;
+                    break;
             case 1: dateString = Lang.format("$1$ $2$", [info.day_of_week.substring(0, 3), info.day]);
                     break;
             case 2: dateString = Lang.format("$1$ $2$", [info.day, info.day_of_week.substring(0, 3)]);
