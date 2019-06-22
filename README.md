@@ -1,6 +1,8 @@
-# SmartArcs - Garmin Watch Face
+# SmartArcs Origin - Garmin Watch Face
 
-This watch face is designed to be a smart watch, it does not show any fitness statuses. Arc indicators around the screen display:
+This watch face is designed to be a smart watch, it does not show any fitness statuses.
+
+Arc indicators around the screen display:
 * battery status
 * number of phone notifications. First notification is displayed as five minutes arc, each other as one minute arc.
 * Bluetooth status
