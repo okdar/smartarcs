@@ -1,8 +1,12 @@
+# 1.2.6 (July 1, 2019)
+* watch face available for 'S' devices: D2™ Delta S, fēnix® 5S, fēnix® 5S Plus
+* watch face is designed for 240x240 screen resolution. For fēnix® 5S I recommend following hand length settings: second hand - 89, minute hand - 80, hour hand - 60
+
 # 1.2.5 (June 16, 2019)
-* Settings adjustment
+* settings adjustment
 
 # 1.2.4 (June 11, 2019)
-* Watch face available for new devices: MARQ™ series, Descent™ Mk1, fēnix® Chronos, Forerunner® 245 series, Forerunner® 945, vívolife
+* watch face available for new devices: MARQ™ series, Descent™ Mk1, fēnix® Chronos, Forerunner® 245 series, Forerunner® 945, vívolife
 
 # 1.2.3 (May 30, 2019)
 * event date fine-tuning
