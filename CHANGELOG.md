@@ -1,6 +1,10 @@
+# 1.3.0 (September 5, 2019)
+* always on second hand
+* simplified settings
+* bugfixes
+
 # 1.2.6 (July 1, 2019)
 * watch face available for 'S' devices: D2™ Delta S, fēnix® 5S, fēnix® 5S Plus
-* watch face is designed for 240x240 screen resolution. For fēnix® 5S I recommend following hand length settings: second hand - 89, minute hand - 80, hour hand - 60
 
 # 1.2.5 (June 16, 2019)
 * settings adjustment
