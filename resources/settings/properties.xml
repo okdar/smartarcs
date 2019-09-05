@@ -35,7 +35,6 @@
         <property id="showSecondHand" type="number">0</property>
 
         <property id="oneColor" type="number">-999</property>
-        <property id="indicatorWidth" type="number">10</property>
 
         <property id="showBatteryIndicator" type="boolean">true</property>
         <property id="battery100Color" type="number">0x00FF00</property>
@@ -63,12 +62,7 @@
     </properties>
 
     <strings>
-        <string id="bgColor">
-IMPORTANT NOTE: Because of a bug in Garmin Connect iOS application you have to ALWAYS SET 'event date' property; otherwise your settings will not be applied and default settings will be used instead.
-=================================
-HANDS AND TICKS
-=================================
-Background color</string>
+        <string id="bgColor">Background color</string>
         <string id="ticksColor">Ticks color (off or color)</string>
         <string id="ticks1MinWidth">1-minute ticks width</string>
         <string id="ticks5MinWidth">5-minute ticks width</string>
@@ -91,8 +85,6 @@ Background color</string>
         <string id="secondHandAlways">Always</string>
 
         <string id="oneColor">One color for all indicators (off or color; color overrides indicator color settings below)</string>
-        <string id="indicatorWidth">Indicators width (for Classic style)</string>
-        <string id="indicatorWidthError">Value range: 1 to 20</string>
 
         <string id="showBatteryIndicator">Show battery indicator</string>
         <string id="battery100Color">Battery 100%-30% color</string>
@@ -109,11 +101,7 @@ Background color</string>
 
         <string id="eventName">Event name</string>
         <string id="eventDate">Event date (IMPORTANT NOTE: Because of a bug in Garmin Connect iOS application ALWAYS SET this property; otherwise your settings will not be applied and default settings will be used instead.)</string>
-        <string id="eventColor">
-=================================
-TIME INFOS
-=================================
-Event color (off or color)</string>
+        <string id="eventColor">Event color (off or color)</string>
         <string id="eventNameError">Event name length: 13 characters</string>
 
         <string id="dualTimeOffset">Dual time offset</string>
@@ -151,11 +139,7 @@ Event color (off or color)</string>
 
         <string id="off">- Off -</string>
 
-        <string id="arcsStyle">
-=================================
-INDICATORS
-=================================
-Indicators style</string>
+        <string id="arcsStyle">Indicators style</string>
         <string id="arcsDecent">Classic</string>
         <string id="arcsExtravagant">Extravagant (experimental)</string>
     </strings>
@@ -293,9 +277,6 @@ Indicators style</string>
                 <listEntry value="1">@Strings.arcsDecent</listEntry>
                 <listEntry value="2">@Strings.arcsExtravagant</listEntry>
             </settingConfig>
-        </setting>
-        <setting propertyKey="@Properties.indicatorWidth" title="@Strings.indicatorWidth">
-            <settingConfig type="numeric" min="1" max="20" errorMessage="@Strings.indicatorWidthError"/>
         </setting>
 
         <setting propertyKey="@Properties.oneColor" title="@Strings.oneColor">

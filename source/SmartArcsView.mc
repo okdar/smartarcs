@@ -26,7 +26,6 @@ using Toybox.WatchUi;
 
 class SmartArcsView extends WatchUi.WatchFace {
 
-    var arcPenWidth = 10;
     var isAwake = false;
     var partialUpdatesAllowed = false;
     var curClip;
@@ -89,6 +88,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var datePosition;
     var dateFormat;
     var arcsStyle;
+    var arcPenWidth;
 
     function initialize() {
         loadUserSettings();
@@ -323,6 +323,8 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         if (arcsStyle == 2) {
             arcPenWidth = screenRadius;
+        } else {
+            arcPenWidth = 10;
         }
         arcRadius = screenRadius - (arcPenWidth / 2);
 
@@ -528,7 +530,9 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     function getSecondHandColor() {
         var color;
-        if (useBatterySecondHandColor) {
+        if (oneColor != offSettingFlag) {
+            color = oneColor;
+        } else if (useBatterySecondHandColor) {
             var batStat = System.getSystemStats().battery;
             if (batStat > 30) {
                 color = battery100Color;
