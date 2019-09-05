@@ -102,7 +102,7 @@
         <string id="eventName">Event name</string>
         <string id="eventDate">Event date (IMPORTANT NOTE: Because of a bug in Garmin Connect iOS application ALWAYS SET this property; otherwise your settings will not be applied and default settings will be used instead.)</string>
         <string id="eventColor">Event color (off or color)</string>
-        <string id="eventNameError">Event name length: 13 characters</string>
+        <string id="eventNameError">Event name length: 14 characters</string>
 
         <string id="dualTimeOffset">Dual time offset</string>
         <string id="dualTimeLocation">Dual time location</string>
@@ -459,7 +459,7 @@
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.eventName" title="@Strings.eventName">
-            <settingConfig type="alphaNumeric" maxLength="13" errorMessage="@Strings.eventNameError"/>
+            <settingConfig type="alphaNumeric" maxLength="14" errorMessage="@Strings.eventNameError"/>
         </setting>
         <setting propertyKey="@Properties.eventDate" title="@Strings.eventDate">
             <settingConfig type="date"/>
