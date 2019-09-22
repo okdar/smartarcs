@@ -1,5 +1,8 @@
+# 1.4.0 (September 22, 2019)
+* optional heart rate at position 9
+
 # 1.3.0 (September 5, 2019)
-* always on second hand
+* optional 'always on' second hand
 * simplified settings
 * bugfixes
 
