@@ -8,8 +8,10 @@ Arc indicators around the screen display:
 * Bluetooth status
 * do not disturb status
 * number of alarms. First alarm is displayed as five minutes arc, each other as one minute arc.
+* 'always on' second hand
 
 Text infos on the screen display:
+* heart rate
 * number of days to an event
 * dual time ('+' means there is already next day in the dual time location, '-' means previous day)
 * date
