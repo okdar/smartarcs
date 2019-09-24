@@ -298,7 +298,6 @@ class SmartArcsView extends WatchUi.WatchFace {
             if (datePosition == 9) {
                 datePosition = 3;
             }
-            dateFormat = app.getProperty("dateFormat");
         }
 
         handsOnTop = app.getProperty("handsOnTop");
@@ -427,7 +426,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawBluetooth(dc, phoneConnected) {
-        if (phoneConnected == true) {
+        if (phoneConnected) {
             dc.setColor(bluetoothColor, Graphics.COLOR_TRANSPARENT);
             dc.setPenWidth(arcPenWidth);
             dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 0, -30);
@@ -435,7 +434,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawDoNotDisturb(dc, doNotDisturb) {
-        if (doNotDisturb == true) {
+        if (doNotDisturb) {
             dc.setColor(dndColor, Graphics.COLOR_TRANSPARENT);
             dc.setPenWidth(arcPenWidth);
             dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_COUNTER_CLOCKWISE, 270, -60);
@@ -566,10 +565,12 @@ class SmartArcsView extends WatchUi.WatchFace {
         var clockSeconds = System.getClockTime().sec;
 
         //should be HR refreshed?
-        if (hrRefreshInterval == 1) {
-            refreshHR = true;
-        } else if (clockSeconds % hrRefreshInterval == 0) {
-            refreshHR = true;
+        if (hrColor != offSettingFlag) {
+            if (hrRefreshInterval == 1) {
+                refreshHR = true;
+            } else if (clockSeconds % hrRefreshInterval == 0) {
+                refreshHR = true;
+            }
         }
 
         //if we're not doing a full screen refresh we need to re-draw the background
