@@ -1,3 +1,6 @@
+# 1.4.1 (September 24, 2019)
+* hotfix ('always on' second hand didn't work correctly when HR info was disabled)
+
 # 1.4.0 (September 22, 2019)
 * optional heart rate at position 9
 
