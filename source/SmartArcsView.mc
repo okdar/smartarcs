@@ -47,6 +47,8 @@ class SmartArcsView extends WatchUi.WatchFace {
     var dualTimeAmPmY;
     var dualTimeOneLinerY;
     var dualTimeOneLinerAmPmY;
+    var dualTimeHourOffset;
+    var dualTimeMinOffset;
     var eventNameY;
     var dateAt6Y;
     var ticks;
@@ -83,6 +85,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var eventName;
     var eventDate;
     var dualTimeOffset;
+    var dualTimeUTC;
     var dualTimeLocation;
     var useBatterySecondHandColor;
     var oneColor;
@@ -194,7 +197,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (dualTimeColor != offSettingFlag) {
-            drawDualTime(targetDc, System.getClockTime(), dualTimeOffset, dualTimeLocation, deviceSettings.is24Hour);
+            drawDualTime(targetDc, System.getClockTime(), deviceSettings.is24Hour);
         }
 
         if (dateColor != offSettingFlag) {
@@ -286,6 +289,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (dualTimeColor != offSettingFlag) {
             dualTimeOffset = app.getProperty("dualTimeOffset");
             dualTimeLocation = app.getProperty("dualTimeLocation");
+            dualTimeUTC = app.getProperty("dualTimeUTCOffset");
         }
 
         if (dateColor != offSettingFlag) {
@@ -337,6 +341,36 @@ class SmartArcsView extends WatchUi.WatchFace {
         dualTimeOneLinerAmPmY = screenWidth - 70 - Graphics.getFontHeight(Graphics.FONT_XTINY) - 1;
         eventNameY = 35 + fontAscent;
         dateAt6Y = screenWidth - fontHeight - 30;
+
+        //dual time offsets
+        var semiColPos = dualTimeOffset.find(":");
+        if (semiColPos != null) {
+            dualTimeHourOffset = dualTimeOffset.toNumber();
+            if (dualTimeHourOffset == null) {
+                dualTimeHourOffset = 0;
+                dualTimeMinOffset = 0;
+            } else {
+                dualTimeMinOffset = dualTimeOffset.substring(semiColPos + 1, dualTimeOffset.length()).toNumber();
+                if (dualTimeHourOffset == null) {
+                    dualTimeMinOffset = 0;
+                }
+            }
+        } else {
+            dualTimeHourOffset = dualTimeOffset.toNumber();
+            if (dualTimeHourOffset == null) {
+                dualTimeHourOffset = 0;
+            }
+            dualTimeMinOffset = 0;
+        }
+        if (dualTimeHourOffset.abs() > 23) {
+            dualTimeHourOffset = dualTimeHourOffset % 24;
+        }
+        if (dualTimeMinOffset > 59) {
+            dualTimeMinOffset = dualTimeMinOffset % 60;
+        }
+        if (dualTimeHourOffset < 0) {
+            dualTimeMinOffset = dualTimeMinOffset * (-1);
+        }
 
         if (arcsStyle == 2) {
             arcPenWidth = screenRadius;
@@ -676,13 +710,28 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
     }
 
-    function drawDualTime(dc, clockTime, offset, location, is24Hour) {
+    function drawDualTime(dc, clockTime, is24Hour) {
         var dualTime;
         var suffix12Hour = "";
         var dayPrefix = "";
-        var dualHour = clockTime.hour + offset;
 
-        //compute dual hour
+        var dualHour = clockTime.hour + dualTimeHourOffset;
+        var dualMin = clockTime.min + dualTimeMinOffset;
+
+//        System.println(clockTime.dst);
+//        System.println(clockTime.timeZoneOffset);
+
+        System.println(dualTimeHourOffset);
+        System.println(dualTimeMinOffset);
+
+        //compute dual hour and min
+        if (dualMin > 59) {
+            dualMin = dualMin - 60;
+            dualHour++;
+        } else if (dualMin < 0) {
+            dualMin = dualMin + 60;
+            dualHour--;
+        }
         if (dualHour > 23) {
             dualHour = dualHour - 24;
             dayPrefix = "+";
@@ -706,8 +755,8 @@ class SmartArcsView extends WatchUi.WatchFace {
         dc.setColor(dualTimeColor, Graphics.COLOR_TRANSPARENT);
         if (datePosition != 6 || dateColor == offSettingFlag) {
             //draw dual time at 6 position
-            dc.drawText(screenRadius, dualTimeLocationY, font, location, Graphics.TEXT_JUSTIFY_CENTER);
-            dualTime = Lang.format("$1$$2$:$3$", [dayPrefix, dualHour, clockTime.min.format("%02d")]);
+            dc.drawText(screenRadius, dualTimeLocationY, font, dualTimeLocation, Graphics.TEXT_JUSTIFY_CENTER);
+            dualTime = Lang.format("$1$$2$:$3$", [dayPrefix, dualHour, dualMin.format("%02d")]);
             if (is24Hour) {
                 dc.drawText(screenRadius, dualTimeTimeY, font, dualTime, Graphics.TEXT_JUSTIFY_CENTER);
             } else {
@@ -724,20 +773,20 @@ class SmartArcsView extends WatchUi.WatchFace {
         } else {
             if (is24Hour) {
                 //24-hour format -> 6 characters for location
-                location = location.substring(0, 6);
-                dualTime = Lang.format("$1$$2$:$3$ $4$", [dayPrefix, dualHour, clockTime.min.format("%02d"), location]);
+                var location = dualTimeLocation.substring(0, 6);
+                dualTime = Lang.format("$1$$2$:$3$ $4$", [dayPrefix, dualHour, dualMin.format("%02d"), location]);
                 dc.drawText(screenRadius, dualTimeOneLinerY, font, dualTime, Graphics.TEXT_JUSTIFY_CENTER);
             } else {
                 //12-hour format -> AM/PM position fine-tuning
-                dualTime = Lang.format("$1$$2$:$3$", [dayPrefix, dualHour, clockTime.min.format("%02d")]);
-                var loc = location.substring(0, 4);
+                dualTime = Lang.format("$1$$2$:$3$", [dayPrefix, dualHour, dualMin.format("%02d")]);
+                var loc = dualTimeLocation.substring(0, 4);
                 var xShift = 9;
                 if (dualHour < 10 && dayPrefix.equals("")) {
                     xShift = 33;
-                    loc = location.substring(0, 6);
+                    loc = dualTimeLocation.substring(0, 6);
                 } else if ((dualHour >= 10 && dayPrefix.equals("")) || (dualHour < 10 && !dayPrefix.equals(""))) {
                     xShift = 21;
-                    loc = location.substring(0, 5);
+                    loc = dualTimeLocation.substring(0, 5);
                 }
                 dc.drawText(43, dualTimeOneLinerY, font, dualTime, Graphics.TEXT_JUSTIFY_LEFT);
                 dc.drawText(screenRadius - xShift, dualTimeOneLinerAmPmY, Graphics.FONT_XTINY, suffix12Hour, Graphics.TEXT_JUSTIFY_LEFT);
