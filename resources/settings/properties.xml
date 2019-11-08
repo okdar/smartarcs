@@ -47,7 +47,7 @@
         <property id="alarmColor" type="number">0xFFAA00</property>
 
         <property id="eventName" type="string"></property>
-        <property id="eventDate" type="number">1559347200</property>
+        <property id="eventDate" type="number">0</property>
         <property id="eventColor" type="number">-999</property>
 
         <property id="dualTimeOffset" type="string"></property>
@@ -80,7 +80,7 @@
         <string id="secondHandWidth">Second hand width</string>
         <string id="handWidthError">Value range: 1 to 10</string>
         <string id="secondHandWidthError">Value range: 0 to 10</string>
-        <string id="useBatterySecondHandColor">Use battery status colors for second hand (overrides battery color settings below)</string>
+        <string id="useBatterySecondHandColor">Use battery status colors for second hand (overrides second hand color setting below)</string>
         <string id="secondHandColor">Second hand color</string>
         <string id="handsOnTop">Draw hands on top of time infos</string>
         <string id="showSecondHand">Show second hand</string>
@@ -104,16 +104,16 @@
         <string id="alarmColor">Alarm indicator color (off or color)</string>
 
         <string id="eventName">Event name</string>
-        <string id="eventDate">Event date (IMPORTANT NOTE: Because of a bug in Garmin Connect iOS application ALWAYS SET this property; otherwise your settings will not be applied and default settings will be used instead.)</string>
+        <string id="eventDate">Event date</string>
         <string id="eventColor">Event color (off or color)</string>
         <string id="eventNameError">Event name length: 14 characters</string>
 
-        <string id="dualTimeOffset">Dual time offset</string>
+        <string id="dualTimeOffset">Dual time offset (hh:mm)</string>
         <string id="dualTimeLocation">Dual time location</string>
         <string id="dualTimeColor">Dual time color (off or color)</string>
         <string id="dualTimeOffsetError">Time offset format hh:mm</string>
         <string id="dualTimeLocationError">Location length: 13 characters</string>
-        <string id="dualTimeUTCOffset">Dual time offset from UTC instead of local time</string>
+        <string id="dualTimeUTCOffset">Offset from UTC instead of local time</string>
 
         <string id="dateColor">Date color (off or color)</string>
         <string id="dateShowAt">Show date at position</string>
@@ -498,7 +498,7 @@
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.dualTimeOffset" title="@Strings.dualTimeOffset">
-            <settingConfig type="alphaNumeric" maxLength="5" errorMessage="@Strings.dualTimeOffsetError"/>
+            <settingConfig type="alphaNumeric" maxLength="6" errorMessage="@Strings.dualTimeOffsetError"/>
         </setting>
         <setting propertyKey="@Properties.dualTimeUTCOffset" title="@Strings.dualTimeUTCOffset">
             <settingConfig type="boolean"/>

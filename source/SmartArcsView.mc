@@ -343,33 +343,35 @@ class SmartArcsView extends WatchUi.WatchFace {
         dateAt6Y = screenWidth - fontHeight - 30;
 
         //dual time offsets
-        var semiColPos = dualTimeOffset.find(":");
-        if (semiColPos != null) {
-            dualTimeHourOffset = dualTimeOffset.toNumber();
-            if (dualTimeHourOffset == null) {
-                dualTimeHourOffset = 0;
-                dualTimeMinOffset = 0;
-            } else {
-                dualTimeMinOffset = dualTimeOffset.substring(semiColPos + 1, dualTimeOffset.length()).toNumber();
+        if (dualTimeColor != offSettingFlag) {
+            var semiColPos = dualTimeOffset.find(":");
+            if (semiColPos != null) {
+                dualTimeHourOffset = dualTimeOffset.toNumber();
                 if (dualTimeHourOffset == null) {
+                    dualTimeHourOffset = 0;
                     dualTimeMinOffset = 0;
+                } else {
+                    dualTimeMinOffset = dualTimeOffset.substring(semiColPos + 1, dualTimeOffset.length()).toNumber();
+                    if (dualTimeHourOffset == null) {
+                        dualTimeMinOffset = 0;
+                    }
                 }
+            } else {
+                dualTimeHourOffset = dualTimeOffset.toNumber();
+                if (dualTimeHourOffset == null) {
+                    dualTimeHourOffset = 0;
+                }
+                dualTimeMinOffset = 0;
             }
-        } else {
-            dualTimeHourOffset = dualTimeOffset.toNumber();
-            if (dualTimeHourOffset == null) {
-                dualTimeHourOffset = 0;
+            if (dualTimeHourOffset.abs() > 23) {
+                dualTimeHourOffset = dualTimeHourOffset % 24;
             }
-            dualTimeMinOffset = 0;
-        }
-        if (dualTimeHourOffset.abs() > 23) {
-            dualTimeHourOffset = dualTimeHourOffset % 24;
-        }
-        if (dualTimeMinOffset > 59) {
-            dualTimeMinOffset = dualTimeMinOffset % 60;
-        }
-        if (dualTimeHourOffset < 0) {
-            dualTimeMinOffset = dualTimeMinOffset * (-1);
+            if (dualTimeMinOffset > 59) {
+                dualTimeMinOffset = dualTimeMinOffset % 60;
+            }
+            if (dualTimeHourOffset < 0) {
+                dualTimeMinOffset = dualTimeMinOffset * (-1);
+            }
         }
 
         if (arcsStyle == 2) {
@@ -714,15 +716,14 @@ class SmartArcsView extends WatchUi.WatchFace {
         var dualTime;
         var suffix12Hour = "";
         var dayPrefix = "";
+        var utcLocalOffset = 0;
 
-        var dualHour = clockTime.hour + dualTimeHourOffset;
+        if (dualTimeUTC) {
+            utcLocalOffset = clockTime.timeZoneOffset / 3600;
+        }
+
+        var dualHour = clockTime.hour + dualTimeHourOffset - utcLocalOffset;
         var dualMin = clockTime.min + dualTimeMinOffset;
-
-//        System.println(clockTime.dst);
-//        System.println(clockTime.timeZoneOffset);
-
-        System.println(dualTimeHourOffset);
-        System.println(dualTimeMinOffset);
 
         //compute dual hour and min
         if (dualMin > 59) {
