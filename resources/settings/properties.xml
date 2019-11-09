@@ -47,7 +47,7 @@
         <property id="alarmColor" type="number">0xFFAA00</property>
 
         <property id="eventName" type="string"></property>
-        <property id="eventDate" type="number">0</property>
+        <property id="eventDate" type="number">1573331777</property>
         <property id="eventColor" type="number">-999</property>
 
         <property id="dualTimeOffset" type="string"></property>

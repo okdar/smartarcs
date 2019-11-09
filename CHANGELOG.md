@@ -1,3 +1,6 @@
+# 1.4.3 (November 9, 2019)
+* dual time supports minutes offset (e.g. Newfoundland Standard Time, Nepal Standard Time, Indian Standard Time)
+
 # 1.4.1 (September 24, 2019)
 * hotfix ('always on' second hand didn't work correctly when HR info was disabled)
 

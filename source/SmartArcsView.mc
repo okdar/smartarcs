@@ -344,17 +344,19 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         //dual time offsets
         if (dualTimeColor != offSettingFlag) {
+            var minusPos = dualTimeOffset.find("-");
             var semiColPos = dualTimeOffset.find(":");
             if (semiColPos != null) {
                 dualTimeHourOffset = dualTimeOffset.toNumber();
                 if (dualTimeHourOffset == null) {
                     dualTimeHourOffset = 0;
+                }
+                dualTimeMinOffset = dualTimeOffset.substring(semiColPos + 1, dualTimeOffset.length()).toNumber();
+                if (dualTimeHourOffset == null) {
                     dualTimeMinOffset = 0;
-                } else {
-                    dualTimeMinOffset = dualTimeOffset.substring(semiColPos + 1, dualTimeOffset.length()).toNumber();
-                    if (dualTimeHourOffset == null) {
-                        dualTimeMinOffset = 0;
-                    }
+                }
+                if (minusPos == 0 && dualTimeHourOffset == 0) {
+                    dualTimeMinOffset = dualTimeMinOffset * (-1);
                 }
             } else {
                 dualTimeHourOffset = dualTimeOffset.toNumber();
