@@ -1,3 +1,7 @@
+# 1.4.4 (November 12, 2019)
+* watch face available for models: Captain Marvel, fēnix® 6s, fēnix® 6S Pro / 
+6S Sapphire, Venu™, vívoactive® 4S
+
 # 1.4.3 (November 9, 2019)
 * dual time supports minutes offset (e.g. Newfoundland Standard Time, Nepal Standard Time, Indian Standard Time)
 
