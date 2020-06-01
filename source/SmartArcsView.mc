@@ -36,6 +36,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var font = Graphics.FONT_TINY;
     var precompute;
     var lastMeasuredHR;
+    var powerSaverDrawn = false;
 
     //variables for pre-computation
     var screenWidth;
@@ -58,6 +59,8 @@ class SmartArcsView extends WatchUi.WatchFace {
     var secondHandLength;
     var handsTailLength;
     var fontHeight;
+    var startPowerSaverMin;
+    var endPowerSaverMin;
 
     //user settings
     var bgColor;
@@ -97,6 +100,10 @@ class SmartArcsView extends WatchUi.WatchFace {
     var arcPenWidth;
     var hrColor;
     var hrRefreshInterval;
+    var powerSaver;
+    var powerSaverBeginning;
+    var powerSaverEnd;
+    var powerSaverRefreshInterval;
 
     function initialize() {
         loadUserSettings();
@@ -131,6 +138,59 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //update the view
     function onUpdate(dc) {
+        if (powerSaver && !precompute) {
+	        //should be screen refreshed?
+	        var refreshScreen = false;
+            if (powerSaverRefreshInterval != -999 && (System.getClockTime().min % powerSaverRefreshInterval == 0)) {
+                refreshScreen = true;
+            }
+            if (shouldPowerSave() && !isAwake && !refreshScreen) {
+            	if (!powerSaverDrawn) {
+            		var resizeRatio = 1.0;
+            		if (powerSaverRefreshInterval != -999) {
+            			resizeRatio = 0.6;
+            		}
+            	
+	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+	                dc.fillCircle(screenRadius, screenRadius, 45 * resizeRatio);
+	                dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
+	                dc.fillCircle(screenRadius, screenRadius, 40 * resizeRatio);
+	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+					dc.fillRectangle(screenRadius - (13 * resizeRatio), screenRadius - (23 * resizeRatio), 26 * resizeRatio, 51 * resizeRatio);
+					dc.fillRectangle(screenRadius - (4 * resizeRatio), screenRadius - (27 * resizeRatio), 8 * resizeRatio, 5 * resizeRatio);
+					if (oneColor == offSettingFlag) {
+						if (powerSaverRefreshInterval != -999) {
+		                	dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+	                	} else {
+		                	dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+	                	}
+					} else {
+	                	dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
+					}
+					dc.fillRectangle(screenRadius - (10 * resizeRatio), screenRadius - (20 * resizeRatio), 20 * resizeRatio, 45 * resizeRatio);
+					powerSaverDrawn = true;							
+
+            	
+//	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+//	                dc.fillCircle(screenRadius, screenRadius, 45);
+//	                dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
+//	                dc.fillCircle(screenRadius, screenRadius, 40);
+//	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+//					dc.fillRectangle(screenRadius - 13, screenRadius - 23, 26, 51);
+//					dc.fillRectangle(screenRadius - 4, screenRadius - 27, 8, 5);
+//					if (oneColor == offSettingFlag) {
+//		                dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+//					} else {
+//	                	dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
+//					}
+//					dc.fillRectangle(screenRadius - 10, screenRadius - 20, 20, 45);
+//					powerSaverDrawn = true;							
+				}
+                return;
+            }
+        }
+        powerSaverDrawn = false;
+
         var deviceSettings = System.getDeviceSettings();
 
         //compute what does not need to be computed on each update
@@ -138,7 +198,7 @@ class SmartArcsView extends WatchUi.WatchFace {
             computeConstants(dc);
         }
 
-        var today = Time.today();
+		var today = Time.today();
 
         //we always want to refresh the full screen when we get a regular onUpdate call.
         fullScreenRefresh = true;
@@ -308,6 +368,22 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         showBatteryIndicator = app.getProperty("showBatteryIndicator");
 
+        var power = app.getProperty("powerSaver");
+        if (power == 1) {
+        	powerSaver = false;
+    	} else {
+    		powerSaver = true;
+		}
+		switch (power) {
+			case 2: powerSaverBeginning = app.getProperty("powerSaverBeginning");
+            		powerSaverEnd = app.getProperty("powerSaverEnd");
+            		break;
+    		case 3: powerSaverBeginning = "00:00";
+            		powerSaverEnd = "23:59";
+            		break;
+		}
+		powerSaverRefreshInterval = app.getProperty("powerSaverRefreshInterval");
+
         //ensure that constants will be pre-computed
         precompute = true;
     }
@@ -382,6 +458,33 @@ class SmartArcsView extends WatchUi.WatchFace {
             arcPenWidth = 10;
         }
         arcRadius = screenRadius - (arcPenWidth / 2);
+
+        if (powerSaver) {
+            var pos = powerSaverBeginning.find(":");
+            if (pos != null) {
+            	var hour = powerSaverBeginning.substring(0, pos).toNumber();
+            	var min = powerSaverBeginning.substring(pos + 1, powerSaverBeginning.length()).toNumber();
+            	if (hour != null && min != null) {
+                	startPowerSaverMin = (hour * 60) + min;
+            	} else {
+            		powerSaver = false;
+            	}
+            } else {
+                powerSaver = false;
+            }
+            pos = powerSaverEnd.find(":");
+            if (pos != null) {
+            	var hour = powerSaverEnd.substring(0, pos).toNumber();
+            	var min = powerSaverEnd.substring(pos + 1, powerSaverEnd.length()).toNumber();
+            	if (hour != null && min != null) {
+                	endPowerSaverMin = (hour * 60) + min;
+            	} else {
+            		powerSaver = false;
+            	}
+            } else {
+                powerSaver = false;
+            }
+        }
 
         //constants pre-computed, doesn't need to be computed again
         precompute = false;
@@ -599,6 +702,10 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //Handle the partial update event
     function onPartialUpdate(dc) {
+        if (powerSaver && shouldPowerSave() && !isAwake) {
+    		return;
+    	}
+    	
         var refreshHR = false;
         var clockSeconds = System.getClockTime().sec;
 
@@ -857,4 +964,21 @@ class SmartArcsView extends WatchUi.WatchFace {
         dc.drawText(hrTextDimension[0] + 30, screenRadius, font, hrText, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
+    function shouldPowerSave() {
+        var refreshDisplay = true;
+        var time = System.getClockTime();
+        var timeMinOfDay = (time.hour * 60) + time.min;
+        
+        if (startPowerSaverMin <= endPowerSaverMin) {
+        	if ((startPowerSaverMin <= timeMinOfDay) && (timeMinOfDay < endPowerSaverMin)) {
+        		refreshDisplay = false;
+        	}
+        } else {
+        	if ((startPowerSaverMin <= timeMinOfDay) || (timeMinOfDay < endPowerSaverMin)) {
+        		refreshDisplay = false;
+        	}        
+        }
+
+        return !refreshDisplay;
+    }
 }
