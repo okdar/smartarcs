@@ -41,6 +41,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var needComputeConstants;
     var lastMeasuredHR;
     var powerSaverDrawn = false;
+    var globalDc;
 
     //global variables for pre-computation
     var screenWidth;
@@ -136,6 +137,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //update the view
     function onUpdate(dc) {
+    	globalDc = dc;
         var clockTime = System.getClockTime();
 
         if (powerSaver && !needComputeConstants) { //power saver is enabled, constants are computed (=not the first run)
@@ -351,8 +353,6 @@ class SmartArcsView extends WatchUi.WatchFace {
                     powerSaver = false;
                 }
             }
-
-            parsePowerSaverTime(powerSaverBeginning, powerSaverEnd);
         }
 		powerSaverRefreshInterval = app.getProperty("powerSaverRefreshInterval");
 
@@ -662,6 +662,9 @@ class SmartArcsView extends WatchUi.WatchFace {
     //Handle the partial update event
     function onPartialUpdate(dc) {
         if (powerSaver && shouldPowerSave() && !isAwake) {
+//        	fullScreenRefresh = true;
+//        	requestUpdate();
+			drawBackground(dc);
             drawPowerSaverIcon(dc);
     		return;
     	}
@@ -739,8 +742,8 @@ class SmartArcsView extends WatchUi.WatchFace {
     //onPartialUpdate uses this to blank the second hand from the previous
     //second before outputing the new one.
     function drawBackground(dc) {
-        var width = dc.getWidth();
-        var height = dc.getHeight();
+//        var width = dc.getWidth();
+//        var height = dc.getHeight();
 
         //If we have an offscreen buffer that has been written to
         //draw it to the screen.
