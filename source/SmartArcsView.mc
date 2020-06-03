@@ -27,22 +27,25 @@ using Toybox.WatchUi;
 
 class SmartArcsView extends WatchUi.WatchFace {
 
+    //TRYING TO KEEP AS MUCH PRE-COMPUTED VALUES AS POSSIBLE IN MEMORY TO SAVE CPU UTILIZATION
+    //AND HOPEFULLY PROLONG BATTERY LIFE. PRE-COMPUTED VARIABLES DON'T NEED TO BE COMPUTED
+    //AGAIN AND AGAND ON EACH SCREEN UPDATE. THAT'S THE REASON FOR LONG LIST OF GLOBAL VARIABLES.
+
+    //global variables
     var isAwake = false;
-    var partialUpdatesAllowed = false;
     var curClip;
     var fullScreenRefresh;
     var offscreenBuffer;
     var offSettingFlag = -999;
     var font = Graphics.FONT_TINY;
-    var precompute;
+    var needComputeConstants;
     var lastMeasuredHR;
     var powerSaverDrawn = false;
 
-    //variables for pre-computation
+    //global variables for pre-computation
     var screenWidth;
     var screenRadius;
     var arcRadius;
-    var twoPI = Math.PI * 2;
     var dualTimeLocationY;
     var dualTimeTimeY;
     var dualTimeAmPmY;
@@ -52,8 +55,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var dualTimeMinOffset;
     var eventNameY;
     var dateAt6Y;
-    var ticks;
-    var showTicks;
+    var ticks = null;
     var hourHandLength;
     var minuteHandLength;
     var secondHandLength;
@@ -101,24 +103,20 @@ class SmartArcsView extends WatchUi.WatchFace {
     var hrColor;
     var hrRefreshInterval;
     var powerSaver;
-    var powerSaverBeginning;
-    var powerSaverEnd;
     var powerSaverRefreshInterval;
 
     function initialize() {
         loadUserSettings();
         WatchFace.initialize();
         fullScreenRefresh = true;
-        partialUpdatesAllowed = (Toybox.WatchUi.WatchFace has :onPartialUpdate);
     }
 
     //load resources here
     function onLayout(dc) {
         //if this device supports BufferedBitmap, allocate the buffers we use for drawing
         if (Toybox.Graphics has :BufferedBitmap) {
-            // Allocate a full screen size buffer with a palette of only 4 colors to draw
-            // the background image of the watchface.  This is used to facilitate blanking
-            // the second hand during partial updates of the display
+            //Allocate a full screen size buffer to draw the background image of the watchface.
+            //This is used to facilitate blanking the second hand during partial updates of the display
             offscreenBuffer = new Graphics.BufferedBitmap({
                 :width => dc.getWidth(),
                 :height => dc.getHeight()
@@ -138,54 +136,16 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //update the view
     function onUpdate(dc) {
-        if (powerSaver && !precompute) {
-	        //should be screen refreshed?
+        var clockTime = System.getClockTime();
+
+        if (powerSaver && !needComputeConstants) { //power saver is enabled, constants are computed (=not the first run)
+	        //should be screen refreshed in given intervals?
 	        var refreshScreen = false;
-            if (powerSaverRefreshInterval != -999 && (System.getClockTime().min % powerSaverRefreshInterval == 0)) {
+            if (powerSaverRefreshInterval != -999 && (clockTime.min % powerSaverRefreshInterval == 0)) {
                 refreshScreen = true;
             }
             if (shouldPowerSave() && !isAwake && !refreshScreen) {
-            	if (!powerSaverDrawn) {
-            		var resizeRatio = 1.0;
-            		if (powerSaverRefreshInterval != -999) {
-            			resizeRatio = 0.6;
-            		}
-            	
-	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-	                dc.fillCircle(screenRadius, screenRadius, 45 * resizeRatio);
-	                dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
-	                dc.fillCircle(screenRadius, screenRadius, 40 * resizeRatio);
-	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-					dc.fillRectangle(screenRadius - (13 * resizeRatio), screenRadius - (23 * resizeRatio), 26 * resizeRatio, 51 * resizeRatio);
-					dc.fillRectangle(screenRadius - (4 * resizeRatio), screenRadius - (27 * resizeRatio), 8 * resizeRatio, 5 * resizeRatio);
-					if (oneColor == offSettingFlag) {
-						if (powerSaverRefreshInterval != -999) {
-		                	dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-	                	} else {
-		                	dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-	                	}
-					} else {
-	                	dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
-					}
-					dc.fillRectangle(screenRadius - (10 * resizeRatio), screenRadius - (20 * resizeRatio), 20 * resizeRatio, 45 * resizeRatio);
-					powerSaverDrawn = true;							
-
-            	
-//	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-//	                dc.fillCircle(screenRadius, screenRadius, 45);
-//	                dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
-//	                dc.fillCircle(screenRadius, screenRadius, 40);
-//	                dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-//					dc.fillRectangle(screenRadius - 13, screenRadius - 23, 26, 51);
-//					dc.fillRectangle(screenRadius - 4, screenRadius - 27, 8, 5);
-//					if (oneColor == offSettingFlag) {
-//		                dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-//					} else {
-//	                	dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
-//					}
-//					dc.fillRectangle(screenRadius - 10, screenRadius - 20, 20, 45);
-//					powerSaverDrawn = true;							
-				}
+                drawPowerSaverIcon(dc);
                 return;
             }
         }
@@ -194,7 +154,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         var deviceSettings = System.getDeviceSettings();
 
         //compute what does not need to be computed on each update
-        if (precompute) {
+        if (needComputeConstants) {
             computeConstants(dc);
         }
 
@@ -234,12 +194,12 @@ class SmartArcsView extends WatchUi.WatchFace {
             drawAlarms(targetDc, deviceSettings.alarmCount);
         }
 
-        if (showTicks) {
+        if (ticks != null) {
             drawTicks(targetDc);
         }
 
         if (!handsOnTop) {
-            drawHands(targetDc, System.getClockTime());
+            drawHands(targetDc, clockTime);
         }
 
         if (eventColor != offSettingFlag) {
@@ -257,7 +217,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (dualTimeColor != offSettingFlag) {
-            drawDualTime(targetDc, System.getClockTime(), deviceSettings.is24Hour);
+            drawDualTime(targetDc, clockTime, deviceSettings.is24Hour);
         }
 
         if (dateColor != offSettingFlag) {
@@ -265,17 +225,17 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (handsOnTop) {
-            drawHands(targetDc, System.getClockTime());
+            drawHands(targetDc, clockTime);
         }
 
         if (isAwake && showSecondHand == 1) {
-            drawSecondHand(targetDc, System.getClockTime());
+            drawSecondHand(targetDc, clockTime);
         }
 
         //output the offscreen buffers to the main display if required.
         drawBackground(dc);
 
-        if (partialUpdatesAllowed && (hrColor != offSettingFlag || showSecondHand == 2)) {
+        if ((Toybox.WatchUi.WatchFace has :onPartialUpdate) && (hrColor != offSettingFlag || showSecondHand == 2)) {
             onPartialUpdate(dc);
         }
 
@@ -373,19 +333,31 @@ class SmartArcsView extends WatchUi.WatchFace {
         	powerSaver = false;
     	} else {
     		powerSaver = true;
-		}
-		switch (power) {
-			case 2: powerSaverBeginning = app.getProperty("powerSaverBeginning");
-            		powerSaverEnd = app.getProperty("powerSaverEnd");
-            		break;
-    		case 3: powerSaverBeginning = "00:00";
-            		powerSaverEnd = "23:59";
-            		break;
-		}
+            var powerSaverBeginning;
+            var powerSaverEnd;
+            if (power == 2) {
+                powerSaverBeginning = app.getProperty("powerSaverBeginning");
+                powerSaverEnd = app.getProperty("powerSaverEnd");
+            } else {
+                powerSaverBeginning = "00:00";
+                powerSaverEnd = "23:59";
+            }
+            startPowerSaverMin = parsePowerSaverTime(powerSaverBeginning);
+            if (startPowerSaverMin == -1) {
+                powerSaver = false;
+            } else {
+                endPowerSaverMin = parsePowerSaverTime(powerSaverEnd);
+                if (endPowerSaverMin == -1) {
+                    powerSaver = false;
+                }
+            }
+
+            parsePowerSaverTime(powerSaverBeginning, powerSaverEnd);
+        }
 		powerSaverRefreshInterval = app.getProperty("powerSaverRefreshInterval");
 
         //ensure that constants will be pre-computed
-        precompute = true;
+        needComputeConstants = true;
     }
 
     //pre-compute values which don't need to be computed on each update
@@ -400,9 +372,8 @@ class SmartArcsView extends WatchUi.WatchFace {
         secondHandLength = (100 * handLengthCorrection).toNumber();
         handsTailLength = (15 * handLengthCorrection).toNumber();
 
-        showTicks = ((ticksColor == offSettingFlag) ||
-            (ticksColor != offSettingFlag && ticks1MinWidth == 0 && ticks5MinWidth == 0 && ticks15MinWidth == 0)) ? false : true;
-        if (showTicks) {
+        if (!((ticksColor == offSettingFlag) ||
+            (ticksColor != offSettingFlag && ticks1MinWidth == 0 && ticks5MinWidth == 0 && ticks15MinWidth == 0))) {
             //array of ticks coordinates
             computeTicks();
         }
@@ -459,35 +430,23 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
         arcRadius = screenRadius - (arcPenWidth / 2);
 
-        if (powerSaver) {
-            var pos = powerSaverBeginning.find(":");
-            if (pos != null) {
-            	var hour = powerSaverBeginning.substring(0, pos).toNumber();
-            	var min = powerSaverBeginning.substring(pos + 1, powerSaverBeginning.length()).toNumber();
-            	if (hour != null && min != null) {
-                	startPowerSaverMin = (hour * 60) + min;
-            	} else {
-            		powerSaver = false;
-            	}
-            } else {
-                powerSaver = false;
-            }
-            pos = powerSaverEnd.find(":");
-            if (pos != null) {
-            	var hour = powerSaverEnd.substring(0, pos).toNumber();
-            	var min = powerSaverEnd.substring(pos + 1, powerSaverEnd.length()).toNumber();
-            	if (hour != null && min != null) {
-                	endPowerSaverMin = (hour * 60) + min;
-            	} else {
-            		powerSaver = false;
-            	}
-            } else {
-                powerSaver = false;
-            }
-        }
-
         //constants pre-computed, doesn't need to be computed again
-        precompute = false;
+        needComputeConstants = false;
+    }
+
+    function parsePowerSaverTime(time) {
+        var pos = time.find(":");
+        if (pos != null) {
+            var hour = time.substring(0, pos).toNumber();
+            var min = time.substring(pos + 1, time.length()).toNumber();
+            if (hour != null && min != null) {
+                return (hour * 60) + min;
+            } else {
+                return -1;
+            }
+        } else {
+            return -1;
+        }
     }
 
     function computeTicks() {
@@ -496,7 +455,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         //to save the memory compute only half of the ticks, second half will be mirrored.
         //I believe it will still save some CPU utilization
         for (var i = 0; i < 31; i++) {
-            angle = i * twoPI / 60.0;
+            angle = (i * Math.PI * 2) / 60.0;
             if ((i % 15) == 0) { //quarter tick
                 if (ticks15MinWidth > 0) {
                     ticks[i] = computeTickRectangle(angle, 20, ticks15MinWidth);
@@ -621,14 +580,14 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         //draw hour hand
         hourAngle = ((clockTime.hour % 12) * 60.0) + clockTime.min;
-        hourAngle = hourAngle / (12 * 60.0) * twoPI;
+        hourAngle = hourAngle / (12 * 60.0) * Math.PI * 2;
         if (handsOutlineColor != offSettingFlag) {
             drawHand(dc, handsOutlineColor, computeHandRectangle(hourAngle, hourHandLength + 2, handsTailLength + 2, hourHandWidth + 4));
         }
         drawHand(dc, handsColor, computeHandRectangle(hourAngle, hourHandLength, handsTailLength, hourHandWidth));
 
         //draw minute hand
-        minAngle = (clockTime.min / 60.0) * twoPI;
+        minAngle = (clockTime.min / 60.0) * Math.PI * 2;
         if (handsOutlineColor != offSettingFlag) {
             drawHand(dc, handsOutlineColor, computeHandRectangle(minAngle, minuteHandLength + 2, handsTailLength + 2, minuteHandWidth + 4));
         }
@@ -654,7 +613,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         var secondHandColor = getSecondHandColor();
 
         //if we are out of sleep mode, draw the second hand directly in the full update method.
-        secAngle = (clockTime.sec / 60.0) *  twoPI;
+        secAngle = (clockTime.sec / 60.0) * Math.PI * 2;
         if (handsOutlineColor != offSettingFlag) {
             drawHand(dc, handsOutlineColor, computeHandRectangle(secAngle, secondHandLength + 2, handsTailLength + 2, secondHandWidth + 4));
         }
@@ -703,8 +662,10 @@ class SmartArcsView extends WatchUi.WatchFace {
     //Handle the partial update event
     function onPartialUpdate(dc) {
         if (powerSaver && shouldPowerSave() && !isAwake) {
+            drawPowerSaverIcon(dc);
     		return;
     	}
+        powerSaverDrawn = false;
     	
         var refreshHR = false;
         var clockSeconds = System.getClockTime().sec;
@@ -980,5 +941,33 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         return !refreshDisplay;
+    }
+
+    function drawPowerSaverIcon(dc) {
+        if (!powerSaverDrawn) {
+            var resizeRatio = 1.0;
+            if (powerSaverRefreshInterval != -999) {
+                resizeRatio = 0.6;
+            }
+        
+            dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+            dc.fillCircle(screenRadius, screenRadius, 45 * resizeRatio);
+            dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
+            dc.fillCircle(screenRadius, screenRadius, 40 * resizeRatio);
+            dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+            dc.fillRectangle(screenRadius - (13 * resizeRatio), screenRadius - (23 * resizeRatio), 26 * resizeRatio, 51 * resizeRatio);
+            dc.fillRectangle(screenRadius - (4 * resizeRatio), screenRadius - (27 * resizeRatio), 8 * resizeRatio, 5 * resizeRatio);
+            if (oneColor == offSettingFlag) {
+                if (powerSaverRefreshInterval != -999) {
+                    dc.setColor(battery100Color, Graphics.COLOR_TRANSPARENT);
+                } else {
+                    dc.setColor(battery15Color, Graphics.COLOR_TRANSPARENT);
+                }
+            } else {
+                dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
+            }
+            dc.fillRectangle(screenRadius - (10 * resizeRatio), screenRadius - (20 * resizeRatio), 20 * resizeRatio, 45 * resizeRatio);
+            powerSaverDrawn = true;
+        }
     }
 }
