@@ -63,6 +63,8 @@ class SmartArcsView extends WatchUi.WatchFace {
     var fontHeight;
     var startPowerSaverMin;
     var endPowerSaverMin;
+    var screenResolutionRatio;
+    var powerSaverIconRatio;
 
     //user settings
     var bgColor;
@@ -104,6 +106,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var hrRefreshInterval;
     var powerSaver;
     var powerSaverRefreshInterval;
+    var powerSaverIconColor;
 
     function initialize() {
         loadUserSettings();
@@ -138,6 +141,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     function onUpdate(dc) {
         var clockTime = System.getClockTime();
 
+		//refresh whole screen before drawing power saver icon
         if (powerSaver && shouldPowerSave() && !isAwake && powerSaverDrawn) {
             //should be screen refreshed in given intervals?
             if (powerSaverRefreshInterval == -999 || !(clockTime.min % powerSaverRefreshInterval == 0)) {
@@ -354,9 +358,13 @@ class SmartArcsView extends WatchUi.WatchFace {
             }
         }
 		powerSaverRefreshInterval = app.getProperty("powerSaverRefreshInterval");
+		powerSaverIconColor = app.getProperty("powerSaverIconColor");
 
         //ensure that constants will be pre-computed
         needComputeConstants = true;
+        
+        //ensure that screen will be refreshed when settings are changed 
+    	powerSaverDrawn = false;   	
     }
 
     //pre-compute values which don't need to be computed on each update
@@ -365,11 +373,16 @@ class SmartArcsView extends WatchUi.WatchFace {
         screenRadius = screenWidth / 2;
 
         //computes hand lenght for watches with different screen resolution than 240x240
-        var handLengthCorrection = screenWidth / 240.0;
-        hourHandLength = (60 * handLengthCorrection).toNumber();
-        minuteHandLength = (90 * handLengthCorrection).toNumber();
-        secondHandLength = (100 * handLengthCorrection).toNumber();
-        handsTailLength = (15 * handLengthCorrection).toNumber();
+        var screenResolutionRatio = screenWidth / 240.0;
+        hourHandLength = (60 * screenResolutionRatio).toNumber();
+        minuteHandLength = (90 * screenResolutionRatio).toNumber();
+        secondHandLength = (100 * screenResolutionRatio).toNumber();
+        handsTailLength = (15 * screenResolutionRatio).toNumber();
+        
+        powerSaverIconRatio = 1.0 * screenResolutionRatio; //big icon
+        if (powerSaverRefreshInterval != -999) {
+            powerSaverIconRatio = 0.6 * screenResolutionRatio; //small icon
+        }
 
         if (!((ticksColor == offSettingFlag) ||
             (ticksColor != offSettingFlag && ticks1MinWidth == 0 && ticks5MinWidth == 0 && ticks15MinWidth == 0))) {
@@ -660,6 +673,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //Handle the partial update event
     function onPartialUpdate(dc) {
+		//refresh whole screen before drawing power saver icon
         if (powerSaver && shouldPowerSave() && !isAwake && powerSaverDrawn) {
     		return;
     	}
@@ -944,28 +958,19 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawPowerSaverIcon(dc) {
-        var resizeRatio = 1.0;
-        if (powerSaverRefreshInterval != -999) {
-            resizeRatio = 0.6;
-        }
-    
         dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(screenRadius, screenRadius, 45 * resizeRatio);
+        dc.fillCircle(screenRadius, screenRadius, 45 * powerSaverIconRatio);
         dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(screenRadius, screenRadius, 40 * resizeRatio);
+        dc.fillCircle(screenRadius, screenRadius, 40 * powerSaverIconRatio);
         dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-        dc.fillRectangle(screenRadius - (13 * resizeRatio), screenRadius - (23 * resizeRatio), 26 * resizeRatio, 51 * resizeRatio);
-        dc.fillRectangle(screenRadius - (4 * resizeRatio), screenRadius - (27 * resizeRatio), 8 * resizeRatio, 5 * resizeRatio);
+        dc.fillRectangle(screenRadius - (13 * powerSaverIconRatio), screenRadius - (23 * powerSaverIconRatio), 26 * powerSaverIconRatio, 51 * powerSaverIconRatio);
+        dc.fillRectangle(screenRadius - (4 * powerSaverIconRatio), screenRadius - (27 * powerSaverIconRatio), 8 * powerSaverIconRatio, 5 * powerSaverIconRatio);
         if (oneColor == offSettingFlag) {
-            if (powerSaverRefreshInterval != -999) {
-                dc.setColor(battery100Color, Graphics.COLOR_TRANSPARENT);
-            } else {
-                dc.setColor(battery15Color, Graphics.COLOR_TRANSPARENT);
-            }
+            dc.setColor(powerSaverIconColor, Graphics.COLOR_TRANSPARENT);
         } else {
             dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
         }
-        dc.fillRectangle(screenRadius - (10 * resizeRatio), screenRadius - (20 * resizeRatio), 20 * resizeRatio, 45 * resizeRatio);
+        dc.fillRectangle(screenRadius - (10 * powerSaverIconRatio), screenRadius - (20 * powerSaverIconRatio), 20 * powerSaverIconRatio, 45 * powerSaverIconRatio);
 
         powerSaverDrawn = true;
     }

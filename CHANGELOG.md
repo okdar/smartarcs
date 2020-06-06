@@ -1,3 +1,6 @@
+# 1.5.0 (June 6, 2020)
+* power saver
+
 # 1.4.4 (November 12, 2019)
 * watch face available for models: Captain Marvel, fēnix® 6s, fēnix® 6S Pro / 
 6S Sapphire, Venu™, vívoactive® 4S

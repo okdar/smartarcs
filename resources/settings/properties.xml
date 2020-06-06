@@ -68,6 +68,7 @@
         <property id="powerSaverBeginning" type="string">22:00</property>
         <property id="powerSaverEnd" type="string">6:00</property>
         <property id="powerSaverRefreshInterval" type="number">5</property>
+        <property id="powerSaverIconColor" type="number">0x00FF00</property>
     </properties>
 
     <strings>
@@ -172,6 +173,7 @@
         <string id="powerSaver5">5</string>
         <string id="powerSaver10">10</string>
         <string id="powerSaver15">15</string>
+        <string id="powerSaverIconColor">Power saver icon color</string>
     </strings>
 
     <settings>
@@ -610,6 +612,24 @@
 	            <listEntry value="15">@Strings.powerSaver15</listEntry>
 	        </settingConfig>
 	    </setting>
+	    <setting propertyKey="@Properties.powerSaverIconColor" title="@Strings.powerSaverIconColor">
+            <settingConfig type="list">
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
     </settings>
 
 </resources>
