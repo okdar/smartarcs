@@ -41,7 +41,6 @@ class SmartArcsView extends WatchUi.WatchFace {
     var needComputeConstants;
     var lastMeasuredHR;
     var powerSaverDrawn = false;
-    var globalDc;
 
     //global variables for pre-computation
     var screenWidth;
@@ -137,20 +136,15 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //update the view
     function onUpdate(dc) {
-    	globalDc = dc;
         var clockTime = System.getClockTime();
 
-        if (powerSaver && !needComputeConstants) { //power saver is enabled, constants are computed (=not the first run)
-	        //should be screen refreshed in given intervals?
-	        var refreshScreen = false;
-            if (powerSaverRefreshInterval != -999 && (clockTime.min % powerSaverRefreshInterval == 0)) {
-                refreshScreen = true;
-            }
-            if (shouldPowerSave() && !isAwake && !refreshScreen) {
-                drawPowerSaverIcon(dc);
+        if (powerSaver && shouldPowerSave() && !isAwake && powerSaverDrawn) {
+            //should be screen refreshed in given intervals?
+            if (powerSaverRefreshInterval == -999 || !(clockTime.min % powerSaverRefreshInterval == 0)) {
                 return;
             }
         }
+
         powerSaverDrawn = false;
 
         var deviceSettings = System.getDeviceSettings();
@@ -236,6 +230,11 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         //output the offscreen buffers to the main display if required.
         drawBackground(dc);
+
+        if (powerSaver && shouldPowerSave() && !isAwake) {
+            drawPowerSaverIcon(dc);
+            return;
+        }
 
         if ((Toybox.WatchUi.WatchFace has :onPartialUpdate) && (hrColor != offSettingFlag || showSecondHand == 2)) {
             onPartialUpdate(dc);
@@ -661,15 +660,12 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //Handle the partial update event
     function onPartialUpdate(dc) {
-        if (powerSaver && shouldPowerSave() && !isAwake) {
-//        	fullScreenRefresh = true;
-//        	requestUpdate();
-			drawBackground(dc);
-            drawPowerSaverIcon(dc);
+        if (powerSaver && shouldPowerSave() && !isAwake && powerSaverDrawn) {
     		return;
     	}
+
         powerSaverDrawn = false;
-    	
+
         var refreshHR = false;
         var clockSeconds = System.getClockTime().sec;
 
@@ -734,6 +730,10 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (hrColor != offSettingFlag && showSecondHand != 2) {
             drawHR(dc, refreshHR);
         }
+
+        if (powerSaver && shouldPowerSave() && !isAwake) {
+            requestUpdate();
+        }
     }
 
     //Draw the watch face background
@@ -742,9 +742,6 @@ class SmartArcsView extends WatchUi.WatchFace {
     //onPartialUpdate uses this to blank the second hand from the previous
     //second before outputing the new one.
     function drawBackground(dc) {
-//        var width = dc.getWidth();
-//        var height = dc.getHeight();
-
         //If we have an offscreen buffer that has been written to
         //draw it to the screen.
         if( null != offscreenBuffer ) {
@@ -947,30 +944,29 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawPowerSaverIcon(dc) {
-        if (!powerSaverDrawn) {
-            var resizeRatio = 1.0;
-            if (powerSaverRefreshInterval != -999) {
-                resizeRatio = 0.6;
-            }
-        
-            dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-            dc.fillCircle(screenRadius, screenRadius, 45 * resizeRatio);
-            dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
-            dc.fillCircle(screenRadius, screenRadius, 40 * resizeRatio);
-            dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
-            dc.fillRectangle(screenRadius - (13 * resizeRatio), screenRadius - (23 * resizeRatio), 26 * resizeRatio, 51 * resizeRatio);
-            dc.fillRectangle(screenRadius - (4 * resizeRatio), screenRadius - (27 * resizeRatio), 8 * resizeRatio, 5 * resizeRatio);
-            if (oneColor == offSettingFlag) {
-                if (powerSaverRefreshInterval != -999) {
-                    dc.setColor(battery100Color, Graphics.COLOR_TRANSPARENT);
-                } else {
-                    dc.setColor(battery15Color, Graphics.COLOR_TRANSPARENT);
-                }
-            } else {
-                dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
-            }
-            dc.fillRectangle(screenRadius - (10 * resizeRatio), screenRadius - (20 * resizeRatio), 20 * resizeRatio, 45 * resizeRatio);
-            powerSaverDrawn = true;
+        var resizeRatio = 1.0;
+        if (powerSaverRefreshInterval != -999) {
+            resizeRatio = 0.6;
         }
+    
+        dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(screenRadius, screenRadius, 45 * resizeRatio);
+        dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(screenRadius, screenRadius, 40 * resizeRatio);
+        dc.setColor(handsColor, Graphics.COLOR_TRANSPARENT);
+        dc.fillRectangle(screenRadius - (13 * resizeRatio), screenRadius - (23 * resizeRatio), 26 * resizeRatio, 51 * resizeRatio);
+        dc.fillRectangle(screenRadius - (4 * resizeRatio), screenRadius - (27 * resizeRatio), 8 * resizeRatio, 5 * resizeRatio);
+        if (oneColor == offSettingFlag) {
+            if (powerSaverRefreshInterval != -999) {
+                dc.setColor(battery100Color, Graphics.COLOR_TRANSPARENT);
+            } else {
+                dc.setColor(battery15Color, Graphics.COLOR_TRANSPARENT);
+            }
+        } else {
+            dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
+        }
+        dc.fillRectangle(screenRadius - (10 * resizeRatio), screenRadius - (20 * resizeRatio), 20 * resizeRatio, 45 * resizeRatio);
+
+        powerSaverDrawn = true;
     }
 }
