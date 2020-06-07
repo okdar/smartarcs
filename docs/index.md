@@ -15,7 +15,7 @@ SmartArcs is a suite of Garmin watchfaces. They were designed to be clean, minim
 * **SmartArcs Trip** - shows useful trip data in two configurable data fields and two graphs ([download](https://apps.garmin.com/en-US/apps/a1bfdf21-bde7-4d63-925f-a6a04cb84aff))
 
 ## Description
-SmartArcs name comes from a common functionality to all three watchfaces. Colored arc indicators around the screen display watch statuses:
+SmartArcs name comes from a common functionality to all three watchfaces - colored arc indicators around the screen to display watch statuses:
 * **battery status**
 * **number of phone notifications**. First notification is displayed as five minutes arc, each other as one minute arc.
 * **Bluetooth status**
