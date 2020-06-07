@@ -18,11 +18,11 @@ SmartArcs is a suite of Garmin watchfaces. They were designed to be clean, minim
 SmartArcs name comes from a common functionality to all three watchfaces - colored arc indicators around the screen to display watch statuses:
 * **battery status**
 * **number of phone notifications**. First notification is displayed as five minutes arc, each other as one minute arc.
-* **Bluetooth status**
+* **Bluetooth connection status**
 * **do not disturb status**
 * **number of alarms**. First alarm is displayed as five minutes arc, each other as one minute arc.
 
-Watchfaces are updated once each minute. Some watches support updating the watchface every second. On those watches SmartArcs can display also:
+Watchfaces are updated once each minute. Some watches support updating the screen every second. On those watches SmartArcs can display also:
 * **'always on' second hand**
 * **heart rate**
 
