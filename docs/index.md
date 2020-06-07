@@ -55,7 +55,7 @@ Power saver can be configured in a few ways. It can be enabled:
 * **in defined time window** - only in specified time period
 * **always** - whole 24 hours
 
-When power saver is enabled the watch screen can be refreshed:
+When power saver is enabled the watch screen can be updated:
 * **never** - the screen is never updated, you cannot rely on what is displayed. It is indicated by *big* icon.
 * **5, 10 or 15 minutes** - the screen is regularly updated in defined intervals. You can somehow rely on displayed time. It is indicated by *small* icon.
 
