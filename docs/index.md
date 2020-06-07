@@ -42,13 +42,13 @@ This watchface gives an overview of your daily activity:
 ### SmartArcs Trip
 This watchface shows useful trip data in two configurable data fields and two graphs.
 
-**Data fields options:**
+#### Data fields options
 * daily walked distance
 * elevation
 * pressure
 * temperature
 
-**Graph options:**
+#### Graph options
 * elevation
 * pressure
 * heart rate
