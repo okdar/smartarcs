@@ -1,5 +1,13 @@
 # SmartArcs Documentation
 
+1. [Description](#description)
+    1. [SmartArcs Origin](#smartarcs-origin)
+    2. [SmartArcs Active](#smartarcs-active)
+    3. [SmartArcs Trip](#smartarcs-trip)
+    4. [Settings](#settings)
+    5. [Power Saver](#power-saver)
+2. [Donation](#donation)
+
 SmartArcs is a suite of Garmin watch faces. They were designed to be clean, minimalist and highly configurable. The suite consists of three watch faces:
 * **SmartArcs Origin** - simply focuses on time, nothing else ([SmartArcs Origin Garmin page](https://apps.garmin.com/en-US/apps/3f5e481a-5f9e-4764-b2d5-5e9b174e2a98))
 * **SmartArcs Active** - gives an overview of your daily activity (steps and floors) ([SmartArcs Origin Garmin page](https://apps.garmin.com/en-US/apps/073e2cbc-f25e-44b9-ab59-4966fa5abbd6))
@@ -13,6 +21,16 @@ SmartArcs name comes from a common functionality to all three watch faces. Color
 * Bluetooth status
 * do not disturb status
 * number of alarms. First alarm is displayed as five minutes arc, each other as one minute arc.
+
+### SmartArcs Origin
+
+### SmartArcs Active
+
+### SmartArcs Trip
+
+### Settings
+
+### PowerSaver
 
 ## Donation
 
