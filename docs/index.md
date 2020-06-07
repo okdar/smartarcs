@@ -44,6 +44,7 @@ This watchface focuses on time. It can display:
 
 ### Power Saver
 There is no need to update watch screen whole day, e.g. when you sleep. SmartArcs watchfaces (*currently only Origin, it will come to Active and Trip soon*) come with a unique feature, you can set up a period of time when the watch screen is not updated. It can save up to 20% of battery life (measured on *vívoactive 3*). Please note that this function saves battery life only when watchface is active (shown on the screen), it has no impact on any other application.
+
 Garmin does not allow any input (screen touch, button press) in watchfaces. That's why you cannot invoke screen refresh by user input then in power sver mode. The only way how to refresh the screen exists for watches which support low power mode.
 
 #### Power Saver Settings
