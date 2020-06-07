@@ -1,4 +1,3 @@
-# SmartArcs Documentation
 * [Description](#description)
   * [SmartArcs Origin](#smartarcs-origin)
   * [SmartArcs Active](#smartarcs-active)
@@ -8,8 +7,8 @@
 * [Donation](#donation)
 
 SmartArcs is a suite of Garmin watch faces. They were designed to be clean, minimalist and highly configurable. The suite consists of three watch faces:
-* **SmartArcs Origin** - simply focuses on time, nothing else ([SmartArcs Origin Garmin page](https://apps.garmin.com/en-US/apps/3f5e481a-5f9e-4764-b2d5-5e9b174e2a98))
-* **SmartArcs Active** - gives an overview of your daily activity (steps and floors) ([SmartArcs Origin Garmin page](https://apps.garmin.com/en-US/apps/073e2cbc-f25e-44b9-ab59-4966fa5abbd6))
+* **SmartArcs Origin** - simply focuses on time, nothing else ([SmartArcs Origin Garmin page](https://apps.garmin.com/en-US/apps/073e2cbc-f25e-44b9-ab59-4966fa5abbd6))
+* **SmartArcs Active** - gives an overview of your daily activity (steps and floors) ([SmartArcs Origin Garmin page](https://apps.garmin.com/en-US/apps/3f5e481a-5f9e-4764-b2d5-5e9b174e2a98))
 * **SmartArcs Trip** - shows useful trip data in two configurable data fields and two graphs ([SmartArcs Origin Garmin page](https://apps.garmin.com/en-US/apps/a1bfdf21-bde7-4d63-925f-a6a04cb84aff))
 
 ## Description
