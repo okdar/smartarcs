@@ -4,7 +4,9 @@
   * [SmartArcs Trip](#smartarcs-trip)
   * [Settings](#settings)
   * [Power Saver](#power-saver)
+    * [Power Saver Settings](#power-saver-settings)
 * [Donation](#donation)
+* [Credits](#credits)
 
 SmartArcs is a suite of Garmin watchfaces. They were designed to be clean, minimalist and highly configurable. The suite consists of three watchfaces:
 * **SmartArcs Origin** - simply focuses on time, nothing else ([download page](https://apps.garmin.com/en-US/apps/073e2cbc-f25e-44b9-ab59-4966fa5abbd6))
@@ -18,25 +20,36 @@ SmartArcs name comes from a common functionality to all three watchfaces. Colore
 * **Bluetooth status**
 * **do not disturb status**
 * **number of alarms**. First alarm is displayed as five minutes arc, each other as one minute arc.
+
 Watchfaces are updated once each minute. Some watches support updating the watchface every second. On those watches SmartArcs can display also:
 * **'always on' second hand**
 * **heart rate**
-*Note: SmartArcs currently does not support every second screen update on watches with AMOLED screen (Venu)*
+
+*Note: SmartArcs currently does not support every second screen update on watches with AMOLED screen (Venu).*
 
 ### SmartArcs Origin
-a
+This watchface focuses on time. It can display:
+* **number of days to an event**, e.g. number of remaining days to your vacation or next marathon
+* **dual time** ('+' means there is already next day in the dual time location, '-' means previous day)
+* **date**
 
 ### SmartArcs Active
-b
+... in progress
 
 ### SmartArcs Trip
-c
+... in progress
 
 ### Settings
-d
+... in progress
 
 ### PowerSaver
-e
+There is no need to update watch screen whole day, e.g. when you sleep. SmartArcs watchfaces (*currently only Origin, it will come to Active and Trip soon*) come with a unique feature, you can set up a period of time when the watch screen is not updated. It can save up to 20% of battery life (measured on *vívoactive 3*). Please note that this function saves battery life only when watchface is active (shown on the screen), it has no impact on any other application.
+
+#### Power Saver Settings
+x
 
 ## Donation
 If you like any of SmartArcs watchfaces please consider a donation for a good cause. I send all donations to non-profit organizations, mainly Kiva, Médecins Sans Frontières and ShareTheMeal. Thank you: https://paypal.me/RadkoNajman
+
+## Credits
+The idea of arc indicators was inspired by **Activity Classic Watch Face** and **ManniAT Face**.
