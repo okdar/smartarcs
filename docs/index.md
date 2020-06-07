@@ -51,7 +51,7 @@ There is no need to update watch screen whole day, e.g. when you sleep. SmartArc
 Garmin does not allow any input (screen touch, button press) in watchfaces. That's why you cannot invoke screen update by user input in the power saver mode. The only way to refresh the screen is to look at your watch. When you raise the watch to look at it, the watch exits sleep power mode and the screen is updated. An attempt to workaround missing watchface input methods is to update the screen in user defined intervals - see next chapter for details.
 
 #### Power Saver Settings
-Power saver can we configured in a few ways. It can be enabled:
+Power saver can be configured in a few ways. It can be enabled:
 * **in defined time window** - only in specified time period
 * **always** - whole 24 hours
 
