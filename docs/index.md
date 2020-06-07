@@ -1,10 +1,10 @@
 # SmartArcs Documentation
 * [Description](#description)
-** [SmartArcs Origin](#smartarcs-origin)
-** [SmartArcs Active](#smartarcs-active)
-** [SmartArcs Trip](#smartarcs-trip)
-** [Settings](#settings)
-** [Power Saver](#power-saver)
+  * [SmartArcs Origin](#smartarcs-origin)
+  * [SmartArcs Active](#smartarcs-active)
+  * [SmartArcs Trip](#smartarcs-trip)
+  * [Settings](#settings)
+  * [Power Saver](#power-saver)
 * [Donation](#donation)
 
 SmartArcs is a suite of Garmin watch faces. They were designed to be clean, minimalist and highly configurable. The suite consists of three watch faces:
