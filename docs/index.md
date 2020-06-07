@@ -35,13 +35,27 @@ This watchface focuses on time. It can display:
 * **date**
 
 ### SmartArcs Active
-... in progress
+This watchface gives an overview of your daily activity:
+* **steps/distance** on the left side. First line displays daily steps, second line walked distance (in kilometers or miles depending on systems settings). Arc shows how you fulfill daily steps goal.
+* **floors** on the right side. First line displays climbed floors, second line descended floors. Arc shows how you fulfill daily climbed floors goal.
 
 ### SmartArcs Trip
-... in progress
+This watchface shows useful trip data in two configurable data fields and two graphs.
+
+**Data fields options:**
+* daily walked distance
+* elevation
+* pressure
+* temperature
+
+**Graph options:**
+* elevation
+* pressure
+* heart rate
+* temperature
 
 ### Settings
-... in progress
+... documentation in progress
 
 ### Power Saver
 There is no need to update watch screen whole day, e.g. when you sleep. SmartArcs watchfaces (*currently only Origin, it will come to Active and Trip soon*) come with a unique feature, you can set up a period of time when the watch screen is not updated. It can save up to 20% of battery life (measured on *vívoactive 3*).
