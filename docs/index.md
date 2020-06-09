@@ -34,12 +34,14 @@ This watchface focuses on time. It can display:
 * **dual time** ('+' means there is already next day in the dual time location, '-' means previous day)
 * **date**
 
-![](../connect_iq_store/full_desc.png)
+![](smartarcs_origin.png)
 
 ### SmartArcs Active
 This watchface gives an overview of your daily activity:
 * **steps/distance** on the left side. First line displays daily steps, second line walked distance (in kilometers or miles depending on systems settings). Arc shows how you fulfill daily steps goal.
 * **floors** on the right side. First line displays climbed floors, second line descended floors. Arc shows how you fulfill daily climbed floors goal.
+
+![](smartarcs_active.png)
 
 ### SmartArcs Trip
 This watchface shows useful trip data in two configurable data fields and two graphs.
@@ -55,6 +57,8 @@ This watchface shows useful trip data in two configurable data fields and two gr
 * pressure
 * heart rate
 * temperature
+
+![](smartarcs_trip.png)
 
 ### Settings
 ... documentation in progress
