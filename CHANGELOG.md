@@ -1,3 +1,6 @@
+# 1.5.1 (August 17, 2020)
+* watch face available for models: 
+
 # 1.5.0 (June 6, 2020)
 * power saver
 
