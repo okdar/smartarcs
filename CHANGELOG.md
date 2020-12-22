@@ -1,5 +1,5 @@
 # 1.5.2 (December 22, 2020)
-* watch face available for models: D2™ Air, Descent™ Mk2 / Descent™ Mk2i, Forerunner® 745, Venu® Sq
+* watch face available for models: D2™ Air, Descent™ Mk2 / Descent™ Mk2i, Forerunner® 745, Venu® Sq. Music Edition
 
 # 1.5.1 (August 17, 2020)
 * watch face available for models: Approach® S62, Darth Vader™, First Avenger, MARQ™ Adventurer, MARQ™ Commander, MARQ™ Golfer, Mercedes-Benz Venu®, Rey™, fēnix® 6, fēnix® 6 Pro, fēnix® 6 Sapphire, quatix® 6, fēnix® 6X Pro, fēnix® 6X Sapphire, fēnix® 6X Pro Solar, tactix® Delta Sapphire, quatix® 6X, vívoactive® 4
