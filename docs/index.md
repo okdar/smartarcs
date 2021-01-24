@@ -83,6 +83,9 @@ When power saver is enabled the watch screen can be updated:
 * **5, 10 or 15 minutes** - the screen is regularly updated in defined intervals. You can somehow rely on displayed time. It is indicated by *small* battery icon.
 
 ![](power_saver_big.png?style=centerme)
+<p align="center" width="100%">
+    <img src="power_saver_big.png"> 
+</p>
 
 ## Donation
 SmartArcs watchfaces offer **premium features for free**, e.g. power saver or graphs. I don't plan to make paid or trial watchfaces. If you like SmartArcs watchfaces please consider a [donation](https://paypal.me/RadkoNajman). It is an appreciation of my work and all [donations](https://paypal.me/RadkoNajman) are for a good cause. I resend all [donations](https://paypal.me/RadkoNajman) to non-profit organizations, mainly:
