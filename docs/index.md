@@ -77,8 +77,11 @@ Power saver can be configured in a few ways. It can be enabled:
 
 When power saver is enabled the watch screen can be updated:
 * **never** - the screen is never updated, you cannot rely on what is displayed. It is indicated by *big* battery icon.
+
 ![](power_saver_small.png)
+
 * **5, 10 or 15 minutes** - the screen is regularly updated in defined intervals. You can somehow rely on displayed time. It is indicated by *small* battery icon.
+
 ![](power_saver_big.png)
 
 ## Donation
