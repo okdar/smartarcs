@@ -64,7 +64,7 @@ This watchface shows useful trip data in two configurable data fields and two gr
 ... documentation in progress
 
 ### Power Saver
-There is no need to update watch screen whole day, e.g. when you sleep. SmartArcs watchfaces (*currently only Origin, it will come to Active and Trip soon*) come with a unique feature, you can set up a period of time when the watch screen is not updated. It can save up to 15% of battery life (depending on power saver confuguration, measured on *vívoactive 3*).
+There is no need to update watch screen whole day, e.g. when you sleep. SmartArcs watchfaces (*currently only Origin and Active, it will come to Trip soon*) come with a unique feature, you can set up a period of time when the watch screen is not updated. It can save up to 15% of battery life (depending on power saver confuguration, measured on *vívoactive 3*).
 
 *Please note that this function saves battery life only when SmartArcs watchface is active (shown on the screen), it has no impact in any other application.*
 
