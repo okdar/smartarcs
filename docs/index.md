@@ -1,6 +1,7 @@
 <p align="center" width="100%">
     <img src="suite.png"> 
 </p>
+
 * [Description](#description)
   * [SmartArcs Origin](#smartarcs-origin)
   * [SmartArcs Active](#smartarcs-active)
