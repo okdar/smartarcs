@@ -26,22 +26,24 @@ Watchfaces are updated once each minute. Some watches support updating the scree
 * **'always on' second hand**
 * **heart rate**
 
-*Note: SmartArcs currently does not support every second screen update on watches with AMOLED screen (Venu).*
+*Note: SmartArcs currently does not support every second screen update on watches with AMOLED screen (Venu® models and D2™ Air)*
 
 ### SmartArcs Origin
 This watchface focuses on time. It can display:
 * **number of days to an event**, e.g. number of remaining days to your vacation or next marathon
 * **dual time** ('+' means there is already next day in the dual time location, '-' means previous day)
 * **date**
-
-![](smartarcs_origin.png)
+<p align="center" width="100%">
+    <img src="smartarcs_origin.png"> 
+</p>
 
 ### SmartArcs Active
 This watchface gives an overview of your daily activity:
 * **steps/distance** on the left side. First line displays daily steps, second line walked distance (in kilometers or miles depending on systems settings). Arc shows how you fulfill daily steps goal.
 * **floors** on the right side. First line displays climbed floors, second line descended floors. Arc shows how you fulfill daily climbed floors goal.
-
-![](smartarcs_active.png)
+<p align="center" width="100%">
+    <img src="smartarcs_active.png"> 
+</p>
 
 ### SmartArcs Trip
 This watchface shows useful trip data in two configurable data fields and two graphs.
@@ -57,8 +59,9 @@ This watchface shows useful trip data in two configurable data fields and two gr
 * pressure
 * heart rate
 * temperature
-
-![](smartarcs_trip.png)
+<p align="center" width="100%">
+    <img src="smartarcs_trip.png"> 
+</p>
 
 ### Settings
 ... documentation in progress
