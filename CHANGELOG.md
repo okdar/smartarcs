@@ -1,3 +1,6 @@
+# 1.5.3 (April 9, 2021)
+* watch face available Enduro™
+
 # 1.5.2 (December 22, 2020)
 * watch face available for models: D2™ Air, Descent™ Mk2 / Descent™ Mk2i, Forerunner® 745, Venu® Sq. Music Edition
 
