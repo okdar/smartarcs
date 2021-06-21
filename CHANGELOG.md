@@ -1,3 +1,6 @@
+# 1.5.4 (Jun 21, 2021)
+* watch face available for Descent™ Mk2 S, Forerunner® 55, Forerunner® 945 LTE
+
 # 1.5.3 (April 9, 2021)
 * watch face available for Enduro™
 
