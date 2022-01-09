@@ -1,3 +1,6 @@
+# 1.6.0 (Jan 8, 2022)
+* added sunrise, sunset and civil twilights (powered by https://github.com/haraldh/SunCalc library)
+
 # 1.5.4 (Jun 21, 2021)
 * watch face available for Descent™ Mk2 S, Forerunner® 55, Forerunner® 945 LTE
 

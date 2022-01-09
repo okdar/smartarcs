@@ -46,6 +46,9 @@
         <property id="dndColor" type="number">0xAA00FF</property>
         <property id="alarmColor" type="number">0xFFAA00</property>
 
+        <property id="sunriseColor" type="number">0xAA0000</property>
+        <property id="sunsetColor" type="number">0x0000FF</property>
+
         <property id="eventName" type="string"></property>
         <property id="eventDate" type="number">1573331777</property>
         <property id="eventColor" type="number">-999</property>
@@ -108,6 +111,9 @@
         <string id="dndColor">Do not disturb indicator color (off or color)</string>
 
         <string id="alarmColor">Alarm indicator color (off or color)</string>
+
+        <string id="sunriseColor">Sunrise indicator color (off or color)</string>
+        <string id="sunsetColor">Sunset indicator color (off or color)</string>
 
         <string id="eventName">Event name</string>
         <string id="eventDate">Event date</string>
@@ -452,6 +458,46 @@
         </setting>
 
         <setting propertyKey="@Properties.alarmColor" title="@Strings.alarmColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.sunriseColor" title="@Strings.sunriseColor">
+            <settingConfig type="list">
+                <listEntry value="-999">@Strings.off</listEntry>
+                <listEntry value="0xFFFFFF">@Strings.white</listEntry>
+                <listEntry value="0xAAAAAA">@Strings.ltGray</listEntry>
+                <listEntry value="0x555555">@Strings.dkGray</listEntry>
+                <listEntry value="0x000000">@Strings.black</listEntry>
+                <listEntry value="0xFF0000">@Strings.red</listEntry>
+                <listEntry value="0xAA0000">@Strings.dkRed</listEntry>
+                <listEntry value="0xFF5500">@Strings.orange</listEntry>
+                <listEntry value="0xFFAA00">@Strings.yellow</listEntry>
+                <listEntry value="0x00FF00">@Strings.green</listEntry>
+                <listEntry value="0x00AA00">@Strings.dkGreen</listEntry>
+                <listEntry value="0x00AAFF">@Strings.blue</listEntry>
+                <listEntry value="0x0000FF">@Strings.dkBlue</listEntry>
+                <listEntry value="0xAA00FF">@Strings.purple</listEntry>
+                <listEntry value="0xFF00FF">@Strings.pink</listEntry>
+            </settingConfig>
+        </setting>
+
+        <setting propertyKey="@Properties.sunsetColor" title="@Strings.sunsetColor">
             <settingConfig type="list">
                 <listEntry value="-999">@Strings.off</listEntry>
                 <listEntry value="0xFFFFFF">@Strings.white</listEntry>

@@ -8,7 +8,7 @@ Arc indicators around the screen display:
 * Bluetooth status
 * do not disturb status
 * number of alarms. First alarm is displayed as five minutes arc, each other as one minute arc.
-* 'always on' second hand
+* sunrise, sunset and civil twilights
 
 Text infos on the screen display:
 * heart rate
@@ -17,3 +17,7 @@ Text infos on the screen display:
 * date
 
 SmartArcs watch face was inspired by Activity Classic Watch Face (https://apps.garmin.com/en-US/apps/8432711c-837b-41bc-a9b1-370037d60ef1) and ManniAT Face (https://apps.garmin.com/en-US/apps/b9f63114-cebb-4da0-b7ae-dd021ed00016).
+
+'Always on' second hand
+
+Power saver
