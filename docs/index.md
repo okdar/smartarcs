@@ -6,6 +6,7 @@
   * [SmartArcs Origin](#smartarcs-origin)
   * [SmartArcs Active](#smartarcs-active)
   * [SmartArcs Trip](#smartarcs-trip)
+  * [Civil Twilights](#civil-twilights)
   * [Settings](#settings)
   * [Power Saver](#power-saver)
     * [Power Saver Settings](#power-saver-settings)
@@ -69,7 +70,7 @@ This watchface shows useful trip data in two configurable data fields and two gr
 </p>
 
 ### Civil Twilights
-SmartArcs watchfaces display also morning and evening twilights. The arc represents the twilight period.
+SmartArcs watchfaces display also morning and evening twilights. The arcs represent the twilight periods with sunrise/sunset and dawn/dusk as beginnings or ends of the arcs.
 <p align="center" width="100%">
     <img src="sun.png"> 
 </p>
@@ -117,3 +118,4 @@ If you have any comments to SmartArcs watchfaces feel free to [send me a message
 
 ## Credits
 The idea of arc indicators was inspired by **Activity Classic Watch Face** and **ManniAT Face**.
+Twilights calculation is powered by **[SunCalc](https://github.com/haraldh/SunCalc)** library.
