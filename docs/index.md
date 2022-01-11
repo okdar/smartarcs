@@ -118,4 +118,5 @@ If you have any comments to SmartArcs watchfaces feel free to [send me a message
 
 ## Credits
 The idea of arc indicators was inspired by **Activity Classic Watch Face** and **ManniAT Face**.
+
 Twilights calculation is powered by **[SunCalc](https://github.com/haraldh/SunCalc)** library.
