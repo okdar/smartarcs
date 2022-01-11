@@ -70,7 +70,7 @@ This watchface shows useful trip data in two configurable data fields and two gr
 </p>
 
 ### Civil Twilights
-SmartArcs watchfaces display also morning and evening [civil twilights](https://en.wikipedia.org/wiki/Twilight#Civil_twilight). The arcs represent the civil twilight periods with sunrise/sunset and dawn/dusk as beginnings or ends of the arcs.
+SmartArcs watchfaces display also morning and evening [civil twilights](https://en.wikipedia.org/wiki/Twilight#Civil_twilight). The arcs represent the civil twilight periods with sunrise/sunset and civil dawn/dusk as beginnings or ends of the arcs.
 <p align="center" width="100%">
     <img src="sun.png"> 
 </p>
