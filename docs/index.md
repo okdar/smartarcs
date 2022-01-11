@@ -70,7 +70,7 @@ This watchface shows useful trip data in two configurable data fields and two gr
 
 ### Civil Twilights
 SmartArcs watchfaces display also morning and evening twilights. The arc represents the twilight period. Beginning if the arc is 
-<p align="center" width="100%">
+<p align="center" height="70%">
     <img src="sun.png"> 
 </p>
 
