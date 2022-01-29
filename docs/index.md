@@ -7,7 +7,6 @@
   * [SmartArcs Active](#smartarcs-active)
   * [SmartArcs Trip](#smartarcs-trip)
   * [Civil Twilights](#civil-twilights)
-  * [Settings](#settings)
   * [Power Saver](#power-saver)
     * [Power Saver Settings](#power-saver-settings)
 * [Donation](#donation)
@@ -74,9 +73,6 @@ SmartArcs watchfaces display also morning and evening [civil twilights](https://
 <p align="center" width="100%">
     <img src="sun.png"> 
 </p>
-
-### Settings
-... documentation in progress
 
 ### Power Saver
 There is no need to update watch screen whole day, e.g. when you sleep. SmartArcs watchfaces come with a unique feature, you can set up a period of time when the watch screen is not updated. It can save up to 15% of battery life (depending on power saver confuguration, measured on *vívoactive 3*).
