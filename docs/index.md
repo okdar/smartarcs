@@ -1,4 +1,7 @@
 <p align="center" width="100%">
+    <img src="ukraine.png">
+</p>
+<p align="center" width="100%">
     <img src="suite.png"> 
 </p>
 
@@ -97,11 +100,19 @@ When power saver is enabled the watch screen can be updated:
 </p>
 
 ## Donation
-SmartArcs watchfaces offer **premium features for free**, e.g. power saver or graphs. I don't plan to make paid or trial watchfaces. If you like SmartArcs watchfaces please consider a [donation](https://paypal.me/RadkoNajman). It is an appreciation of my work and all [donations](https://paypal.me/RadkoNajman) are for a good cause. I resend all [donations](https://paypal.me/RadkoNajman) to non-profit organizations, mainly:
+SmartArcs watchfaces offer **premium features for free**, e.g. power saver or graphs. I don't plan to make paid or trial watchfaces. If you like SmartArcs watchfaces please consider a [donation](https://paypal.me/RadkoNajman). It is an appreciation of my work and all [donations](https://paypal.me/RadkoNajman) are for a good cause.
+
+**Currently all donations go to UKRAINE!**
+<p align="center" width="100%">
+    <img src="ukraine.png">
+</p>
+
+<!--I resend all [donations](https://paypal.me/RadkoNajman) to non-profit organizations, mainly:
 
 <p align="center" width="100%">
     <a href="https://www.kiva.org/"><img src="/smartarcs/kiva_logo.png" alt="" /></a> <a href="https://sharethemeal.org/"><img src="/smartarcs/sharethemeal_logo.png" alt="" /></a> <a href="https://www.msf.org/"><img src="/smartarcs/msf_logo.png" alt="" /></a>
 </p>
+-->
 
 **Thank you!**
 
