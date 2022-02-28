@@ -102,7 +102,7 @@ When power saver is enabled the watch screen can be updated:
 ## Donation
 SmartArcs watchfaces offer **premium features for free**, e.g. power saver or graphs. I don't plan to make paid or trial watchfaces. If you like SmartArcs watchfaces please consider a [donation](https://paypal.me/RadkoNajman). It is an appreciation of my work and all [donations](https://paypal.me/RadkoNajman) are for a good cause.
 
-**Currently all donations go to UKRAINE!**
+**Currently all donations go to support UKRAINE!**
 <p align="center" width="100%">
     <img src="ukraine.png">
 </p>
