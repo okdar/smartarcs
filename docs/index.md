@@ -1,5 +1,5 @@
 <p align="center" width="100%">
-    <img src="ukraine.png">
+    <img src="stand_with_ukraine.png">
 </p>
 <p align="center" width="100%">
     <img src="suite.png"> 
