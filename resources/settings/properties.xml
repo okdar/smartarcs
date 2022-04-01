@@ -48,6 +48,8 @@
 
         <property id="sunriseColor" type="number">0xAA0000</property>
         <property id="sunsetColor" type="number">0x0000FF</property>
+        <property id="locationLatitude" type="number">-999</property>
+        <property id="locationLongitude" type="number">-999</property>
 
         <property id="eventName" type="string"></property>
         <property id="eventDate" type="number">1573331777</property>
