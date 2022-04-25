@@ -12,6 +12,7 @@
   * [Civil Twilights](#civil-twilights)
   * [Power Saver](#power-saver)
     * [Power Saver Settings](#power-saver-settings)
+  * [Colors](#colors)
 * [Donation](#donation)
 * [Feedback](#feedback)
 * [Credits](#credits)
