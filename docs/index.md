@@ -105,8 +105,7 @@ When power saver is enabled the watch screen can be updated:
 </p>
 
 ### Colors
-https://developer.garmin.com/connect-iq/reference-guides/devices-reference
-https://www.color-name.com
+SmartArcs watchfaces use 64 colors palette on watches which support it. See [Reference Guide](https://developer.garmin.com/connect-iq/reference-guides/devices-reference) for details about your watch.
 
 <table class="palette">
 <tbody><tr>
@@ -183,6 +182,8 @@ https://www.color-name.com
  <td style="background-color: #ffffff; color:black">White (Garmin)</td>
 </tr>
 </tbody></table>
+
+color names were taken from [color-name](https://www.color-name.com) webpage.
 
 ## Donation
 SmartArcs watchfaces offer **premium features for free**, e.g. power saver or graphs. I don't plan to make paid or trial watchfaces. If you like SmartArcs watchfaces please consider a [donation](https://paypal.me/RadkoNajman). It is an appreciation of my work and all [donations](https://paypal.me/RadkoNajman) are for a good cause.
