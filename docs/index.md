@@ -107,14 +107,14 @@ When power saver is enabled the watch screen can be updated:
 
 <table class="palette">
 <tbody><tr>
- <td style="background-color: #000000; color:white">Black&#10;0x000000</td>
- <td style="background-color: #000055; color:white">Cetacean Blue&#10;0x000055</td>
- <td style="background-color: #0000aa; color:black">Duke Blue&#10;0x0000aa</td>
- <td style="background-color: #0000ff; color:black">&#10;0x0000ff</td>
- <td style="background-color: #005500; color:white">Dark Green (X11)&#10;0x005500</td>
- <td style="background-color: #005555; color:white">Midnight Green (Eagle Green)&#10;0x005555</td>
- <td style="background-color: #0055aa; color:black">Cobalt Blue&#10;0x0055aa</td>
- <td style="background-color: #0055ff; color:black">Blue (RYB)&#10;0x0055ff</td>
+ <td style="background-color: #000000; color:white">Black</td>
+ <td style="background-color: #000055; color:white">Cetacean Blue</td>
+ <td style="background-color: #0000aa; color:white">Duke Blue</td>
+ <td style="background-color: #0000ff; color:white">Dark Blue</td>
+ <td style="background-color: #005500; color:white">Dark Green (X11)</td>
+ <td style="background-color: #005555; color:white">Midnight Green (Eagle Green)</td>
+ <td style="background-color: #0055aa; color:white">Cobalt Blue</td>
+ <td style="background-color: #0055ff; color:white">Blue (RYB)</td>
 </tr><tr>
  <td style="background-color: #00aa00; color:black">0x00aa00</td>
  <td style="background-color: #00aa55; color:black">0x00aa55</td>
