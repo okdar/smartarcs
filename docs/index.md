@@ -108,7 +108,7 @@ When power saver is enabled the watch screen can be updated:
 <table class="palette">
 <tbody><tr>
  <td style="background-color: #000000; color:white">0x000000</td>
- <td style="background-color: #000055; color:white">Cetacean Blue</br>0x000055</td>
+ <td style="background-color: #000055; color:white">Cetacean Blue&#10;0x000055</td>
  <td style="background-color: #0000aa; color:black">0x0000aa</td>
  <td style="background-color: #0000ff; color:black">0x0000ff</td>
  <td style="background-color: #005500; color:white">0x005500</td>
