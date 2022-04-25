@@ -128,57 +128,57 @@ When power saver is enabled the watch screen can be updated:
 </tr><tr>
  <td style="background-color: #550000; color:white">Dark Chocolate</td>
  <td style="background-color: #550055; color:white">Imperial Purple</td>
- <td style="background-color: #5500aa; color:black">Metallic Violet</td>
- <td style="background-color: #5500ff; color:black">Electric Ultramarine</td>
+ <td style="background-color: #5500aa; color:white">Metallic Violet</td>
+ <td style="background-color: #5500ff; color:white">Electric Ultramarine</td>
  <td style="background-color: #555500; color:white">Dark Bronze (Coin)</td>
  <td style="background-color: #555555; color:white">Dark Gray (Garmin)</td>
- <td style="background-color: #5555aa; color:black">Liberty</td>
- <td style="background-color: #5555ff; color:black">Very Light Blue</td>
+ <td style="background-color: #5555aa; color:white">Liberty</td>
+ <td style="background-color: #5555ff; color:white">Very Light Blue</td>
 </tr><tr>
  <td style="background-color: #55aa00; color:black">Kelly Green</td>
  <td style="background-color: #55aa55; color:black">Apple</td>
  <td style="background-color: #55aaaa; color:black">Cadet Blue</td>
  <td style="background-color: #55aaff; color:black">Blue Jeans</td>
  <td style="background-color: #55ff00; color:black">Chlorophyll Green</td>
- <td style="background-color: #55ff55; color:black">Screamin Green</td>
+ <td style="background-color: #55ff55; color:black">Screamin' Green</td>
  <td style="background-color: #55ffaa; color:black">Medium Aquamarine</td>
  <td style="background-color: #55ffff; color:black">Electric Blue</td>
-</tr><tr>    
- <td style="background-color: #aa0000; color:black">0xaa0000</td>
- <td style="background-color: #aa0055; color:black">0xaa0055</td>
- <td style="background-color: #aa00aa; color:black">0xaa00aa</td>
- <td style="background-color: #aa00ff; color:black">0xaa00ff</td>
- <td style="background-color: #aa5500; color:black">0xaa5500</td>
- <td style="background-color: #aa5555; color:black">0xaa5555</td>
- <td style="background-color: #aa55aa; color:black">0xaa55aa</td>
- <td style="background-color: #aa55ff; color:black">0xaa55ff</td>
 </tr><tr>
- <td style="background-color: #aaaa00; color:black">0xaaaa00</td>
- <td style="background-color: #aaaa55; color:black">0xaaaa55</td>
- <td style="background-color: #aaaaaa; color:black">0xaaaaaa</td>
- <td style="background-color: #aaaaff; color:black">0xaaaaff</td>
- <td style="background-color: #aaff00; color:black">0xaaff00</td>
- <td style="background-color: #aaff55; color:black">0xaaff55</td>
- <td style="background-color: #aaffaa; color:black">0xaaffaa</td>
- <td style="background-color: #aaffff; color:black">0xaaffff</td>
+ <td style="background-color: #aa0000; color:black">Dark Red (Garmin)</td>
+ <td style="background-color: #aa0055; color:black">Jazzberry Jam</td>
+ <td style="background-color: #aa00aa; color:black">Heliotrope Magenta</td>
+ <td style="background-color: #aa00ff; color:black">Purple (Garmin)</td>
+ <td style="background-color: #aa5500; color:black">Windsor Tan</td>
+ <td style="background-color: #aa5555; color:black">Middle Red Purple</td>
+ <td style="background-color: #aa55aa; color:black">Purpureus</td>
+ <td style="background-color: #aa55ff; color:black">Lavender Indigo</td>
 </tr><tr>
- <td style="background-color: #ff0000; color:black">0xff0000</td>
- <td style="background-color: #ff0055; color:black">0xff0055</td>
- <td style="background-color: #ff00aa; color:black">0xff00aa</td>
- <td style="background-color: #ff00ff; color:black">0xff00ff</td>
- <td style="background-color: #ff5500; color:black">0xff5500</td>
- <td style="background-color: #ff5555; color:black">0xff5555</td>
- <td style="background-color: #ff55aa; color:black">0xff55aa</td>
- <td style="background-color: #ff55ff; color:black">0xff55ff</td>
+ <td style="background-color: #aaaa00; color:black">Light Gold</td>
+ <td style="background-color: #aaaa55; color:black">Olive Green</td>
+ <td style="background-color: #aaaaaa; color:black">Light Gray (Garmin)</td>
+ <td style="background-color: #aaaaff; color:black">Maximum Blue Purple</td>
+ <td style="background-color: #aaff00; color:black">Spring Bud</td>
+ <td style="background-color: #aaff55; color:black">Inchworm</td>
+ <td style="background-color: #aaffaa; color:black">Menthol</td>
+ <td style="background-color: #aaffff; color:black">Celeste</td>
 </tr><tr>
- <td style="background-color: #ffaa00; color:black">0xffaa00</td>
- <td style="background-color: #ffaa55; color:black">0xffaa55</td>
- <td style="background-color: #ffaaaa; color:black">0xffaaaa</td>
- <td style="background-color: #ffaaff; color:black">0xffaaff</td>
- <td style="background-color: #ffff00; color:black">0xffff00</td>
- <td style="background-color: #ffff55; color:black">0xffff55</td>
- <td style="background-color: #ffffaa; color:black">0xffffaa</td>
- <td style="background-color: #ffffff; color:black">0xffffff</td>
+ <td style="background-color: #ff0000; color:black">Red (Garmin)</td>
+ <td style="background-color: #ff0055; color:black">Folly</td>
+ <td style="background-color: #ff00aa; color:black">Fashion Fuchsia</td>
+ <td style="background-color: #ff00ff; color:black">Pink (Garmin)</td>
+ <td style="background-color: #ff5500; color:black">Orange (Garmin)</td>
+ <td style="background-color: #ff5555; color:black">Sunset Orange</td>
+ <td style="background-color: #ff55aa; color:black">Brilliant Rose</td>
+ <td style="background-color: #ff55ff; color:black">Shocking Pink (Crayola)</td>
+</tr><tr>
+ <td style="background-color: #ffaa00; color:black">Yellow (Garmin)</td>
+ <td style="background-color: #ffaa55; color:black">Rajah</td>
+ <td style="background-color: #ffaaaa; color:black">Melon</td>
+ <td style="background-color: #ffaaff; color:black">Rich Brilliant Lavender</td>
+ <td style="background-color: #ffff00; color:black">True Yellow</td>
+ <td style="background-color: #ffff55; color:black">Dodie Yellow</td>
+ <td style="background-color: #ffffaa; color:black">Calamansi</td>
+ <td style="background-color: #ffffff; color:black">White (Garmin)</td>
 </tr>
 </tbody></table>
 
