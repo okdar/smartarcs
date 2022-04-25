@@ -144,14 +144,14 @@ When power saver is enabled the watch screen can be updated:
  <td style="background-color: #55ffaa; color:black">Medium Aquamarine</td>
  <td style="background-color: #55ffff; color:black">Electric Blue</td>
 </tr><tr>
- <td style="background-color: #aa0000; color:black">Dark Red (Garmin)</td>
- <td style="background-color: #aa0055; color:black">Jazzberry Jam</td>
- <td style="background-color: #aa00aa; color:black">Heliotrope Magenta</td>
- <td style="background-color: #aa00ff; color:black">Purple (Garmin)</td>
- <td style="background-color: #aa5500; color:black">Windsor Tan</td>
- <td style="background-color: #aa5555; color:black">Middle Red Purple</td>
- <td style="background-color: #aa55aa; color:black">Purpureus</td>
- <td style="background-color: #aa55ff; color:black">Lavender Indigo</td>
+ <td style="background-color: #aa0000; color:white">Dark Red (Garmin)</td>
+ <td style="background-color: #aa0055; color:white">Jazzberry Jam</td>
+ <td style="background-color: #aa00aa; color:white">Heliotrope Magenta</td>
+ <td style="background-color: #aa00ff; color:white">Purple (Garmin)</td>
+ <td style="background-color: #aa5500; color:white">Windsor Tan</td>
+ <td style="background-color: #aa5555; color:white">Middle Red Purple</td>
+ <td style="background-color: #aa55aa; color:white">Purpureus</td>
+ <td style="background-color: #aa55ff; color:white">Lavender Indigo</td>
 </tr><tr>
  <td style="background-color: #aaaa00; color:black">Light Gold</td>
  <td style="background-color: #aaaa55; color:black">Olive Green</td>
@@ -162,14 +162,14 @@ When power saver is enabled the watch screen can be updated:
  <td style="background-color: #aaffaa; color:black">Menthol</td>
  <td style="background-color: #aaffff; color:black">Celeste</td>
 </tr><tr>
- <td style="background-color: #ff0000; color:black">Red (Garmin)</td>
- <td style="background-color: #ff0055; color:black">Folly</td>
- <td style="background-color: #ff00aa; color:black">Fashion Fuchsia</td>
- <td style="background-color: #ff00ff; color:black">Pink (Garmin)</td>
- <td style="background-color: #ff5500; color:black">Orange (Garmin)</td>
- <td style="background-color: #ff5555; color:black">Sunset Orange</td>
- <td style="background-color: #ff55aa; color:black">Brilliant Rose</td>
- <td style="background-color: #ff55ff; color:black">Shocking Pink (Crayola)</td>
+ <td style="background-color: #ff0000; color:white">Red (Garmin)</td>
+ <td style="background-color: #ff0055; color:white">Folly</td>
+ <td style="background-color: #ff00aa; color:white">Fashion Fuchsia</td>
+ <td style="background-color: #ff00ff; color:white">Pink (Garmin)</td>
+ <td style="background-color: #ff5500; color:white">Orange (Garmin)</td>
+ <td style="background-color: #ff5555; color:white">Sunset Orange</td>
+ <td style="background-color: #ff55aa; color:white">Brilliant Rose</td>
+ <td style="background-color: #ff55ff; color:white">Shocking Pink (Crayola)</td>
 </tr><tr>
  <td style="background-color: #ffaa00; color:black">Yellow (Garmin)</td>
  <td style="background-color: #ffaa55; color:black">Rajah</td>
