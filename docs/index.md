@@ -108,7 +108,6 @@ When power saver is enabled the watch screen can be updated:
 
 <table class="palette">
 <tbody><tr>
-<tbody><tr>
  <td style="background-color: #000000; color:white">Black (Garmin)</td>
  <td style="background-color: #000055; color:white">Cetacean Blue</td>
  <td style="background-color: #0000aa; color:white">Duke Blue</td>
@@ -141,7 +140,7 @@ When power saver is enabled the watch screen can be updated:
  <td style="background-color: #55aaaa; color:black">Cadet Blue</td>
  <td style="background-color: #55aaff; color:black">Blue Jeans</td>
  <td style="background-color: #55ff00; color:black">Chlorophyll Green</td>
- <td style="background-color: #55ff55; color:black">Screamin' Green</td>
+ <td style="background-color: #55ff55; color:black">Screamin Green</td>
  <td style="background-color: #55ffaa; color:black">Medium Aquamarine</td>
  <td style="background-color: #55ffff; color:black">Electric Blue</td>
 </tr><tr>    
