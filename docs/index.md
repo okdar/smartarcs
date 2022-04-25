@@ -105,7 +105,8 @@ When power saver is enabled the watch screen can be updated:
 </p>
 
 ### Colors
-https://www.color-name.com/
+https://developer.garmin.com/connect-iq/reference-guides/devices-reference
+https://www.color-name.com
 
 <table class="palette">
 <tbody><tr>
