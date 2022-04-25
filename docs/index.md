@@ -107,42 +107,43 @@ When power saver is enabled the watch screen can be updated:
 
 <table class="palette">
 <tbody><tr>
- <td style="background-color: #000000; color:white">Black</td>
+<tbody><tr>
+ <td style="background-color: #000000; color:white">Black (Garmin)</td>
  <td style="background-color: #000055; color:white">Cetacean Blue</td>
  <td style="background-color: #0000aa; color:white">Duke Blue</td>
- <td style="background-color: #0000ff; color:white">Dark Blue</td>
+ <td style="background-color: #0000ff; color:white">Dark Blue (Garmin)</td>
  <td style="background-color: #005500; color:white">Dark Green (X11)</td>
  <td style="background-color: #005555; color:white">Midnight Green (Eagle Green)</td>
  <td style="background-color: #0055aa; color:white">Cobalt Blue</td>
  <td style="background-color: #0055ff; color:white">Blue (RYB)</td>
 </tr><tr>
- <td style="background-color: #00aa00; color:black">0x00aa00</td>
- <td style="background-color: #00aa55; color:black">0x00aa55</td>
- <td style="background-color: #00aaaa; color:black">0x00aaaa</td>
- <td style="background-color: #00aaff; color:black">0x00aaff</td>
- <td style="background-color: #00ff00; color:black">0x00ff00</td>
- <td style="background-color: #00ff55; color:black">0x00ff55</td>
- <td style="background-color: #00ffaa; color:black">0x00ffaa</td>
- <td style="background-color: #00ffff; color:black">0x00ffff</td>
+ <td style="background-color: #00aa00; color:black">Dark Green (Garmin)</td>
+ <td style="background-color: #00aa55; color:black">Green (Pigment)</td>
+ <td style="background-color: #00aaaa; color:black">Tiffany Blue</td>
+ <td style="background-color: #00aaff; color:black">Blue (Garmin)</td>
+ <td style="background-color: #00ff00; color:black">Green (Garmin)</td>
+ <td style="background-color: #00ff55; color:black">Malachite</td>
+ <td style="background-color: #00ffaa; color:black">Medium Spring Green</td>
+ <td style="background-color: #00ffff; color:black">Aqua</td>
 </tr><tr>
- <td style="background-color: #550000; color:white">0x550000</td>
- <td style="background-color: #550055; color:white">0x550055</td>
- <td style="background-color: #5500aa; color:black">0x5500aa</td>
- <td style="background-color: #5500ff; color:black">0x5500ff</td>
- <td style="background-color: #555500; color:white">0x555500</td>
- <td style="background-color: #555555; color:white">0x555555</td>
- <td style="background-color: #5555aa; color:black">0x5555aa</td>
- <td style="background-color: #5555ff; color:black">0x5555ff</td>
+ <td style="background-color: #550000; color:white">Dark Chocolate</td>
+ <td style="background-color: #550055; color:white">Imperial Purple</td>
+ <td style="background-color: #5500aa; color:black">Metallic Violet</td>
+ <td style="background-color: #5500ff; color:black">Electric Ultramarine</td>
+ <td style="background-color: #555500; color:white">Dark Bronze (Coin)</td>
+ <td style="background-color: #555555; color:white">Dark Gray (Garmin)</td>
+ <td style="background-color: #5555aa; color:black">Liberty</td>
+ <td style="background-color: #5555ff; color:black">Very Light Blue</td>
 </tr><tr>
- <td style="background-color: #55aa00; color:black">0x55aa00</td>
- <td style="background-color: #55aa55; color:black">0x55aa55</td>
- <td style="background-color: #55aaaa; color:black">0x55aaaa</td>
- <td style="background-color: #55aaff; color:black">0x55aaff</td>
- <td style="background-color: #55ff00; color:black">0x55ff00</td>
- <td style="background-color: #55ff55; color:black">0x55ff55</td>
- <td style="background-color: #55ffaa; color:black">0x55ffaa</td>
- <td style="background-color: #55ffff; color:black">0x55ffff</td>
-</tr><tr>
+ <td style="background-color: #55aa00; color:black">Kelly Green</td>
+ <td style="background-color: #55aa55; color:black">Apple</td>
+ <td style="background-color: #55aaaa; color:black">Cadet Blue</td>
+ <td style="background-color: #55aaff; color:black">Blue Jeans</td>
+ <td style="background-color: #55ff00; color:black">Chlorophyll Green</td>
+ <td style="background-color: #55ff55; color:black">Screamin' Green</td>
+ <td style="background-color: #55ffaa; color:black">Medium Aquamarine</td>
+ <td style="background-color: #55ffff; color:black">Electric Blue</td>
+</tr><tr>    
  <td style="background-color: #aa0000; color:black">0xaa0000</td>
  <td style="background-color: #aa0055; color:black">0xaa0055</td>
  <td style="background-color: #aa00aa; color:black">0xaa00aa</td>
