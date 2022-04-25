@@ -183,7 +183,7 @@ SmartArcs watchfaces use 64 colors palette on watches which support it. See [Ref
 </tr>
 </tbody></table>
 
-Color names were taken from [color-name](https://www.color-name.com) webpage.
+Color names were taken from [color-name](https://www.color-name.com) webpage. Colors named  with (Garmin) suffix belongs to default Garmin 14 colors palette.
 
 ## Donation
 SmartArcs watchfaces offer **premium features for free**, e.g. power saver or graphs. I don't plan to make paid or trial watchfaces. If you like SmartArcs watchfaces please consider a [donation](https://paypal.me/RadkoNajman). It is an appreciation of my work and all [donations](https://paypal.me/RadkoNajman) are for a good cause.
