@@ -105,6 +105,7 @@ When power saver is enabled the watch screen can be updated:
 </p>
 
 ### Colors
+https://www.color-name.com/
 
 <table class="palette">
 <tbody><tr>
