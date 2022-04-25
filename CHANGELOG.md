@@ -1,3 +1,6 @@
+# 1.7.0 (April 25, 2022)
+* 64 colors support
+
 # 1.6.2 (April 1, 2022)
 * twilights indicator fix - hide indicator if position is not available
 
