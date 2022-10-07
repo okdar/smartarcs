@@ -30,7 +30,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //TRYING TO KEEP AS MUCH PRE-COMPUTED VALUES AS POSSIBLE IN MEMORY TO SAVE CPU UTILIZATION
     //AND HOPEFULLY PROLONG BATTERY LIFE. PRE-COMPUTED VARIABLES DON'T NEED TO BE COMPUTED
-    //AGAIN AND AGAND ON EACH SCREEN UPDATE. THAT'S THE REASON FOR LONG LIST OF GLOBAL VARIABLES.
+    //AGAIN AND AGAIN ON EACH SCREEN UPDATE. THAT'S THE REASON FOR LONG LIST OF GLOBAL VARIABLES.
 
     //global variables
     var isAwake = false;
@@ -42,12 +42,11 @@ class SmartArcsView extends WatchUi.WatchFace {
     var needComputeConstants;
     var lastMeasuredHR;
     var powerSaverDrawn = false;
+    var sunArcsOffset;
 
     //global variables for pre-computation
     var screenWidth;
     var screenRadius;
-    var arcRadius;
-    var twoPI = Math.PI * 2;
     var dualTimeLocationY;
     var dualTimeTimeY;
     var dualTimeAmPmY;
@@ -65,7 +64,6 @@ class SmartArcsView extends WatchUi.WatchFace {
     var fontHeight;
     var startPowerSaverMin;
     var endPowerSaverMin;
-    var screenResolutionRatio;
     var powerSaverIconRatio;
 	var sunriseStartAngle = 0;
 	var sunriseEndAngle = 0;
@@ -108,8 +106,6 @@ class SmartArcsView extends WatchUi.WatchFace {
     var showBatteryIndicator;
     var datePosition;
     var dateFormat;
-    var arcsStyle;
-    var arcPenWidth;
     var hrColor;
     var hrRefreshInterval;
     var powerSaver;
@@ -152,9 +148,9 @@ class SmartArcsView extends WatchUi.WatchFace {
         var clockTime = System.getClockTime();
 
 		//refresh whole screen before drawing power saver icon
-        if (powerSaver && shouldPowerSave() && !isAwake && powerSaverDrawn) {
+        if (powerSaverDrawn && shouldPowerSave()) {
             //should be screen refreshed in given intervals?
-            if (powerSaverRefreshInterval == -999 || !(clockTime.min % powerSaverRefreshInterval == 0)) {
+            if (powerSaverRefreshInterval == offSettingFlag || !(clockTime.min % powerSaverRefreshInterval == 0)) {
                 return;
             }
         }
@@ -194,19 +190,47 @@ class SmartArcsView extends WatchUi.WatchFace {
         targetDc.fillCircle(screenRadius, screenRadius, screenRadius + 2);
 
         if (showBatteryIndicator) {
-            drawBattery(targetDc);
+            var batStat = System.getSystemStats().battery;
+            if (oneColor != offSettingFlag) {
+                drawSmartArc(targetDc, oneColor, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+            } else {
+                if (batStat > 30) {
+                    drawSmartArc(targetDc, battery100Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+                    drawSmartArc(targetDc, battery30Color, Graphics.ARC_CLOCKWISE, 180, 153);
+                    drawSmartArc(targetDc, battery15Color, Graphics.ARC_CLOCKWISE, 180, 166.5);
+                } else if (batStat <= 30 && batStat > 15) {
+                    drawSmartArc(targetDc, battery30Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+                    drawSmartArc(targetDc, battery15Color, Graphics.ARC_CLOCKWISE, 180, 166.5);
+                } else {
+                    drawSmartArc(targetDc, battery15Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+                }
+            }
         }
-        if (notificationColor != offSettingFlag) {
-            drawNotifications(targetDc, deviceSettings.notificationCount);
+
+        var itemCount = deviceSettings.notificationCount;
+        if (notificationColor != offSettingFlag && itemCount > 0) {
+            if (itemCount < 11) {
+                drawSmartArc(targetDc, notificationColor, Graphics.ARC_CLOCKWISE, 90, 90 - 30 - ((itemCount - 1) * 6));
+            } else {
+                drawSmartArc(targetDc, notificationColor, Graphics.ARC_CLOCKWISE, 90, 0);
+            }
         }
-        if (bluetoothColor != offSettingFlag) {
-            drawBluetooth(targetDc, deviceSettings.phoneConnected);
+
+        if (bluetoothColor != offSettingFlag && deviceSettings.phoneConnected) {
+            drawSmartArc(targetDc, bluetoothColor, Graphics.ARC_CLOCKWISE, 0, -30);
         }
-        if (dndColor != offSettingFlag) {
-            drawDoNotDisturb(targetDc, deviceSettings.doNotDisturb);
+
+        if (dndColor != offSettingFlag && deviceSettings.doNotDisturb) {
+            drawSmartArc(targetDc, dndColor, Graphics.ARC_COUNTER_CLOCKWISE, 270, -60);
         }
-        if (alarmColor != offSettingFlag) {
-            drawAlarms(targetDc, deviceSettings.alarmCount);
+
+        itemCount = deviceSettings.alarmCount;
+        if (alarmColor != offSettingFlag && itemCount > 0) {
+            if (itemCount < 11) {
+                drawSmartArc(targetDc, alarmColor, Graphics.ARC_CLOCKWISE, 270, 270 - 30 - ((itemCount - 1) * 6));
+            } else {
+                drawSmartArc(targetDc, alarmColor, Graphics.ARC_CLOCKWISE, 270, 0);
+            }
         }
 
     	drawSun(targetDc);
@@ -252,7 +276,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         //output the offscreen buffers to the main display if required.
         drawBackground(dc);
 
-        if (powerSaver && shouldPowerSave() && !isAwake) {
+        if (shouldPowerSave()) {
             drawPowerSaverIcon(dc);
             return;
         }
@@ -323,7 +347,6 @@ class SmartArcsView extends WatchUi.WatchFace {
         dualTimeColor = app.getProperty("dualTimeColor");
         dateColor = app.getProperty("dateColor");
         hrColor = app.getProperty("hrColor");
-        arcsStyle = app.getProperty("arcsStyle");
 
         useBatterySecondHandColor = app.getProperty("useBatterySecondHandColor");
 
@@ -403,8 +426,8 @@ class SmartArcsView extends WatchUi.WatchFace {
         secondHandLength = (100 * screenResolutionRatio).toNumber();
         handsTailLength = (15 * screenResolutionRatio).toNumber();
         
-        powerSaverIconRatio = 1.0 * screenResolutionRatio; //big icon
-        if (powerSaverRefreshInterval != -999) {
+        powerSaverIconRatio = screenResolutionRatio; //big icon
+        if (powerSaverRefreshInterval != offSettingFlag) {
             powerSaverIconRatio = 0.6 * screenResolutionRatio; //small icon
         }
 
@@ -459,13 +482,6 @@ class SmartArcsView extends WatchUi.WatchFace {
             }
         }
 
-        if (arcsStyle == 2) {
-            arcPenWidth = screenRadius;
-        } else {
-            arcPenWidth = 10;
-        }
-        arcRadius = screenRadius - (arcPenWidth / 2);
-
 		computeSunConstants();
 
         //constants pre-computed, doesn't need to be computed again
@@ -493,7 +509,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         //to save the memory compute only a quarter of the ticks, the rest will be mirrored.
         //I believe it will still save some CPU utilization
         for (var i = 0; i < 16; i++) {
-            angle = i * twoPI / 60.0;
+            angle = i * Math.PI * 2 / 60.0;
             if ((i % 15) == 0) { //quarter tick
                 if (ticks15MinWidth > 0) {
                     ticks[i] = computeTickRectangle(angle, 20, ticks15MinWidth);
@@ -531,68 +547,10 @@ class SmartArcsView extends WatchUi.WatchFace {
         return rect;
     }
 
-    function drawBattery(dc) {
-        var batStat = System.getSystemStats().battery;
-        dc.setPenWidth(arcPenWidth);
-        if (oneColor != offSettingFlag) {
-            dc.setColor(oneColor, Graphics.COLOR_TRANSPARENT);
-            dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
-        } else {
-            if (batStat > 30) {
-                dc.setColor(battery100Color, Graphics.COLOR_TRANSPARENT);
-                dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
-                dc.setColor(battery30Color, Graphics.COLOR_TRANSPARENT);
-                dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 180, 153);
-                dc.setColor(battery15Color, Graphics.COLOR_TRANSPARENT);
-                dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 180, 166.5);
-            } else if (batStat <= 30 && batStat > 15){
-                dc.setColor(battery30Color, Graphics.COLOR_TRANSPARENT);
-                dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
-                dc.setColor(battery15Color, Graphics.COLOR_TRANSPARENT);
-                dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 180, 166.5);
-            } else {
-                dc.setColor(battery15Color, Graphics.COLOR_TRANSPARENT);
-                dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
-            }
-        }
-    }
-
-    function drawNotifications(dc, notifications) {
-        if (notifications > 0) {
-            drawItems(dc, notifications, 90, notificationColor);
-        }
-    }
-
-    function drawBluetooth(dc, phoneConnected) {
-        if (phoneConnected) {
-            dc.setColor(bluetoothColor, Graphics.COLOR_TRANSPARENT);
-            dc.setPenWidth(arcPenWidth);
-            dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, 0, -30);
-        }
-    }
-
-    function drawDoNotDisturb(dc, doNotDisturb) {
-        if (doNotDisturb) {
-            dc.setColor(dndColor, Graphics.COLOR_TRANSPARENT);
-            dc.setPenWidth(arcPenWidth);
-            dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_COUNTER_CLOCKWISE, 270, -60);
-        }
-    }
-
-    function drawAlarms(dc, alarms) {
-        if (alarms > 0) {
-            drawItems(dc, alarms, 270, alarmColor);
-        }
-    }
-
-    function drawItems(dc, count, angle, color) {
+    function drawSmartArc(dc, color, arcDirection, startAngle, endAngle) {
+        dc.setPenWidth(10);
         dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        dc.setPenWidth(arcPenWidth);
-        if (count < 11) {
-            dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, angle, angle - 30 - ((count - 1) * 6));
-        } else {
-            dc.drawArc(screenRadius, screenRadius, arcRadius, Graphics.ARC_CLOCKWISE, angle, angle - 90);
-        }
+        dc.drawArc(screenRadius, screenRadius, screenRadius - 5, arcDirection, startAngle, endAngle);
     }
 
     function drawTicks(dc) {
@@ -714,7 +672,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     //Handle the partial update event
     function onPartialUpdate(dc) {
 		//refresh whole screen before drawing power saver icon
-        if (powerSaver && shouldPowerSave() && !isAwake && powerSaverDrawn) {
+        if (powerSaverDrawn && shouldPowerSave()) {
     		return;
     	}
 
@@ -785,7 +743,7 @@ class SmartArcsView extends WatchUi.WatchFace {
             drawHR(dc, refreshHR);
         }
 
-        if (powerSaver && shouldPowerSave() && !isAwake) {
+        if (shouldPowerSave()) {
             requestUpdate();
         }
     }
@@ -980,21 +938,24 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function shouldPowerSave() {
-        var refreshDisplay = true;
-        var time = System.getClockTime();
-        var timeMinOfDay = (time.hour * 60) + time.min;
-        
-        if (startPowerSaverMin <= endPowerSaverMin) {
-        	if ((startPowerSaverMin <= timeMinOfDay) && (timeMinOfDay < endPowerSaverMin)) {
-        		refreshDisplay = false;
-        	}
-        } else {
-        	if ((startPowerSaverMin <= timeMinOfDay) || (timeMinOfDay < endPowerSaverMin)) {
-        		refreshDisplay = false;
-        	}        
-        }
+        if (powerSaver && !isAwake) {
+            var refreshDisplay = true;
+            var time = System.getClockTime();
+            var timeMinOfDay = (time.hour * 60) + time.min;
 
-        return !refreshDisplay;
+            if (startPowerSaverMin <= endPowerSaverMin) {
+                if ((startPowerSaverMin <= timeMinOfDay) && (timeMinOfDay < endPowerSaverMin)) {
+                    refreshDisplay = false;
+                }
+            } else {
+                if ((startPowerSaverMin <= timeMinOfDay) || (timeMinOfDay < endPowerSaverMin)) {
+                    refreshDisplay = false;
+                }
+        	}
+             return !refreshDisplay;
+        } else {
+            return false;
+        }
     }
 
     function drawPowerSaverIcon(dc) {
@@ -1023,7 +984,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 	    	var loc = posInfo.position.toRadians();
     		var hasLocation = (loc[0].format("%.2f").equals("3.14") && loc[1].format("%.2f").equals("3.14")) || (loc[0] == 0 && loc[1] == 0) ? false : true;
 	    	
-	    	if (!hasLocation && locationLatitude != -999) {
+	    	if (!hasLocation && locationLatitude != offSettingFlag) {
 	    		loc[0] = locationLatitude;
 	    		loc[1] = locationLongitude;
 	    	}
@@ -1039,13 +1000,22 @@ class SmartArcsView extends WatchUi.WatchFace {
 	        sunriseEndAngle = computeSunAngle(sc.calculate(time_now, loc, SunCalc.SUNRISE));
 	        sunsetStartAngle = computeSunAngle(sc.calculate(time_now, loc, SunCalc.SUNSET));
 	        sunsetEndAngle = computeSunAngle(sc.calculate(time_now, loc, SunCalc.DUSK));
+
+            if (((sunriseStartAngle < sunsetStartAngle) && (sunriseStartAngle > sunsetEndAngle)) ||
+                    ((sunriseEndAngle < sunsetStartAngle) && (sunriseEndAngle > sunsetEndAngle)) ||
+                    ((sunsetStartAngle < sunriseStartAngle) && (sunsetStartAngle > sunriseEndAngle)) ||
+                    ((sunsetEndAngle < sunriseStartAngle) && (sunsetEndAngle > sunriseEndAngle))) {
+                sunArcsOffset = 13;
+            } else {
+                sunArcsOffset = 17;
+            }
         }
 	}
 
 	function computeSunAngle(time) {
         var timeInfo = Time.Gregorian.info(time, Time.FORMAT_SHORT);       
         var angle = ((timeInfo.hour % 12) * 60.0) + timeInfo.min;
-        angle = angle / (12 * 60.0) * twoPI;
+        angle = angle / (12 * 60.0) * Math.PI * 2;
         return -(angle - Math.PI/2) * 180 / Math.PI;	
 	}
 
@@ -1053,7 +1023,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         dc.setPenWidth(7);
 
         //draw sunrise
-        if (sunriseColor != offSettingFlag && locationLatitude != -999) {
+        if (sunriseColor != offSettingFlag && locationLatitude != offSettingFlag) {
 	        dc.setColor(sunriseColor, Graphics.COLOR_TRANSPARENT);
 	        if (sunriseStartAngle > sunriseEndAngle) {
 				dc.drawArc(screenRadius, screenRadius, screenRadius - 17, Graphics.ARC_CLOCKWISE, sunriseStartAngle, sunriseEndAngle);
@@ -1063,12 +1033,12 @@ class SmartArcsView extends WatchUi.WatchFace {
 		}
 
         //draw sunset
-        if (sunsetColor != offSettingFlag && locationLatitude != -999) {
+        if (sunsetColor != offSettingFlag && locationLatitude != offSettingFlag) {
 	        dc.setColor(sunsetColor, Graphics.COLOR_TRANSPARENT);
 	        if (sunsetStartAngle > sunsetEndAngle) {
-				dc.drawArc(screenRadius, screenRadius, screenRadius - 13, Graphics.ARC_CLOCKWISE, sunsetStartAngle, sunsetEndAngle);
+				dc.drawArc(screenRadius, screenRadius, screenRadius - sunArcsOffset, Graphics.ARC_CLOCKWISE, sunsetStartAngle, sunsetEndAngle);
 			} else {
-				dc.drawArc(screenRadius, screenRadius, screenRadius - 13, Graphics.ARC_COUNTER_CLOCKWISE, sunsetStartAngle, sunsetEndAngle);
+				dc.drawArc(screenRadius, screenRadius, screenRadius - sunArcsOffset, Graphics.ARC_COUNTER_CLOCKWISE, sunsetStartAngle, sunsetEndAngle);
 			}
 		}
 	}
