@@ -97,6 +97,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var ticks15MinWidth;
     var eventName;
     var eventDate;
+    var daysToEvent;
     var dualTimeOffset;
     var dualTimeUTC;
     var dualTimeLocation;
@@ -168,8 +169,6 @@ class SmartArcsView extends WatchUi.WatchFace {
 		if (clockTime.min == 0) {
 			computeSunConstants();
 		}
-
-		var today = Time.today();
 
         //we always want to refresh the full screen when we get a regular onUpdate call.
         fullScreenRefresh = true;
@@ -244,10 +243,11 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (eventColor != offSettingFlag) {
-            //compute days to event
-            var eventDateMoment = new Time.Moment(eventDate);
-            var daysToEvent = (eventDateMoment.value() - today.value()) / Gregorian.SECONDS_PER_DAY.toFloat();
-
+           if (clockTime.hour == 0 && clockTime.min == 0) {
+                //compute days to event
+                var eventDateMoment = new Time.Moment(eventDate);
+                daysToEvent = (eventDateMoment.value() - Time.today().value()) / Gregorian.SECONDS_PER_DAY.toFloat();
+           }
             if (daysToEvent < 0) {
                 //hide event when it is over
                 eventColor = offSettingFlag;
@@ -262,7 +262,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (dateColor != offSettingFlag) {
-            drawDate(targetDc, today);
+            drawDate(targetDc, Time.today());
         }
 
         if (handsOnTop) {
@@ -353,6 +353,10 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (eventColor != offSettingFlag) {
             eventName = app.getProperty("eventName");
             eventDate = app.getProperty("eventDate");
+
+            //compute days to event
+            var eventDateMoment = new Time.Moment(eventDate);
+            daysToEvent = (eventDateMoment.value() - Time.today().value()) / Gregorian.SECONDS_PER_DAY.toFloat();
         }
 
         if (dualTimeColor != offSettingFlag) {

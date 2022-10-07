@@ -52,7 +52,7 @@
         <property id="locationLongitude" type="number">-999</property>
 
         <property id="eventName" type="string"></property>
-        <property id="eventDate" type="number">1573331777</property>
+        <property id="eventDate" type="number">1665387621</property>
         <property id="eventColor" type="number">-999</property>
 
         <property id="dualTimeOffset" type="string"></property>
