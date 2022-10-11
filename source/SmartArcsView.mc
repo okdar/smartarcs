@@ -71,6 +71,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 	var sunsetEndAngle = 0;
 	var locationLatitude;
 	var locationLongitude;
+    var dateInfo;
 	
     //user settings
     var bgColor;
@@ -168,6 +169,8 @@ class SmartArcsView extends WatchUi.WatchFace {
 		//recompute sunrise/sunset constants every hour - to address new location when traveling
 		if (clockTime.min == 0) {
 			computeSunConstants();
+            //not needed to get date on every refresh event
+            dateInfo = Gregorian.info(Time.today(), Time.FORMAT_MEDIUM);
 		}
 
         //we always want to refresh the full screen when we get a regular onUpdate call.
@@ -243,11 +246,11 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (eventColor != offSettingFlag) {
-           if (clockTime.hour == 0 && clockTime.min == 0) {
+            if (clockTime.hour == 0 && clockTime.min == 0) {
                 //compute days to event
                 var eventDateMoment = new Time.Moment(eventDate);
                 daysToEvent = (eventDateMoment.value() - Time.today().value()) / Gregorian.SECONDS_PER_DAY.toFloat();
-           }
+            }
             if (daysToEvent < 0) {
                 //hide event when it is over
                 eventColor = offSettingFlag;
@@ -262,7 +265,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (dateColor != offSettingFlag) {
-            drawDate(targetDc, Time.today());
+            drawDate(targetDc);
         }
 
         if (handsOnTop) {
@@ -485,6 +488,8 @@ class SmartArcsView extends WatchUi.WatchFace {
                 dualTimeMinOffset = dualTimeMinOffset * (-1);
             }
         }
+
+        dateInfo = Gregorian.info(Time.today(), Time.FORMAT_MEDIUM);
 
 		computeSunConstants();
 
@@ -882,20 +887,18 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
     }
 
-    function drawDate(dc, today) {
-        var info = Gregorian.info(today, Time.FORMAT_MEDIUM);
-
+    function drawDate(dc) {
         var dateString;
         switch (dateFormat) {
-            case 0: dateString = info.day;
+            case 0: dateString = dateInfo.day;
                     break;
-            case 1: dateString = Lang.format("$1$ $2$", [info.day_of_week.substring(0, 3), info.day]);
+            case 1: dateString = Lang.format("$1$ $2$", [dateInfo.day_of_week.substring(0, 3), dateInfo.day]);
                     break;
-            case 2: dateString = Lang.format("$1$ $2$", [info.day, info.day_of_week.substring(0, 3)]);
+            case 2: dateString = Lang.format("$1$ $2$", [dateInfo.day, dateInfo.day_of_week.substring(0, 3)]);
                     break;
-            case 3: dateString = Lang.format("$1$ $2$", [info.day, info.month.substring(0, 3)]);
+            case 3: dateString = Lang.format("$1$ $2$", [dateInfo.day, dateInfo.month.substring(0, 3)]);
                     break;
-            case 4: dateString = Lang.format("$1$ $2$", [info.month.substring(0, 3), info.day]);
+            case 4: dateString = Lang.format("$1$ $2$", [dateInfo.month.substring(0, 3), dateInfo.day]);
                     break;
         }
         dc.setColor(dateColor, Graphics.COLOR_TRANSPARENT);
