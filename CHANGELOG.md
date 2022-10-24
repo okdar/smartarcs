@@ -1,3 +1,6 @@
+# 1.7.1 (October 24, 2022)
+* code optimization
+
 # 1.7.0 (April 25, 2022)
 * 64 colors support
 
