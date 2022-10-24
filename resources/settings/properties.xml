@@ -64,8 +64,6 @@
         <property id="dateFormat" type="number">1</property>
         <property id="dateColor" type="number">0xAAAAAA</property>
 
-        <property id="arcsStyle" type="number">1</property>
-
         <property id="hrColor" type="number">-999</property>
         <property id="hrRefreshInterval" type="number">3</property>
         
@@ -207,10 +205,6 @@
 		<string id="c_ffffaa">Calamansi</string>
 
         <string id="off">- Off -</string>
-
-        <string id="arcsStyle">Indicators style</string>
-        <string id="arcsDecent">Classic</string>
-        <string id="arcsExtravagant">Extravagant (experimental)</string>
 
         <string id="hrColor">Heart rate color (off or color)</string>
         <string id="hrRefreshInterval">Heart rate refresh interval (seconds)</string>
@@ -609,13 +603,6 @@
 				<listEntry value="0xffff00">@Strings.c_ffff00</listEntry>
 				<listEntry value="0xffff55">@Strings.c_ffff55</listEntry>
 				<listEntry value="0xffffaa">@Strings.c_ffffaa</listEntry>
-            </settingConfig>
-        </setting>
-
-        <setting propertyKey="@Properties.arcsStyle" title="@Strings.arcsStyle">
-            <settingConfig type="list">
-                <listEntry value="1">@Strings.arcsDecent</listEntry>
-                <listEntry value="2">@Strings.arcsExtravagant</listEntry>
             </settingConfig>
         </setting>
 

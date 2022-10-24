@@ -34,12 +34,12 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //global variables
     var isAwake = false;
+    var partialUpdatesAllowed = false;
     var curClip;
     var fullScreenRefresh;
     var offscreenBuffer;
     var offSettingFlag = -999;
     var font = Graphics.FONT_TINY;
-    var needComputeConstants;
     var lastMeasuredHR;
     var powerSaverDrawn = false;
     var sunArcsOffset;
@@ -117,9 +117,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     var sunsetColor;
 
     function initialize() {
-        loadUserSettings();
         WatchFace.initialize();
-        fullScreenRefresh = true;
     }
 
     //load resources here
@@ -135,6 +133,12 @@ class SmartArcsView extends WatchUi.WatchFace {
         } else {
             offscreenBuffer = null;
         }
+
+        partialUpdatesAllowed = (Toybox.WatchUi.WatchFace has :onPartialUpdate);
+        loadUserSettings();
+        computeConstants(dc);
+		computeSunConstants();
+        fullScreenRefresh = true;
 
         curClip = null;
     }
@@ -161,13 +165,8 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         var deviceSettings = System.getDeviceSettings();
 
-        //compute what does not need to be computed on each update
-        if (needComputeConstants) {
-            computeConstants(dc);
-        }
-
-		//recompute sunrise/sunset constants every hour - to address new location when traveling
 		if (clockTime.min == 0) {
+    		//recompute sunrise/sunset constants every hour - to address new location when traveling
 			computeSunConstants();
             //not needed to get date on every refresh event
             dateInfo = Gregorian.info(Time.today(), Time.FORMAT_MEDIUM);
@@ -235,7 +234,9 @@ class SmartArcsView extends WatchUi.WatchFace {
             }
         }
 
-    	drawSun(targetDc);
+        if (locationLatitude != offSettingFlag) {
+    	    drawSun(targetDc);
+        }
 
         if (ticks != null) {
             drawTicks(targetDc);
@@ -284,7 +285,7 @@ class SmartArcsView extends WatchUi.WatchFace {
             return;
         }
 
-        if ((Toybox.WatchUi.WatchFace has :onPartialUpdate) && (hrColor != offSettingFlag || showSecondHand == 2)) {
+        if (partialUpdatesAllowed && (hrColor != offSettingFlag || showSecondHand == 2)) {
             onPartialUpdate(dc);
         }
 
@@ -414,9 +415,6 @@ class SmartArcsView extends WatchUi.WatchFace {
 		locationLatitude = app.getProperty("locationLatitude");
 		locationLongitude = app.getProperty("locationLongitude");
         
-        //ensure that constants will be pre-computed
-        needComputeConstants = true;
-        
         //ensure that screen will be refreshed when settings are changed 
     	powerSaverDrawn = false;   	
     }
@@ -490,11 +488,6 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         dateInfo = Gregorian.info(Time.today(), Time.FORMAT_MEDIUM);
-
-		computeSunConstants();
-
-        //constants pre-computed, doesn't need to be computed again
-        needComputeConstants = false;
     }
 
     function parsePowerSaverTime(time) {
@@ -1030,7 +1023,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         dc.setPenWidth(7);
 
         //draw sunrise
-        if (sunriseColor != offSettingFlag && locationLatitude != offSettingFlag) {
+        if (sunriseColor != offSettingFlag) {
 	        dc.setColor(sunriseColor, Graphics.COLOR_TRANSPARENT);
 	        if (sunriseStartAngle > sunriseEndAngle) {
 				dc.drawArc(screenRadius, screenRadius, screenRadius - 17, Graphics.ARC_CLOCKWISE, sunriseStartAngle, sunriseEndAngle);
@@ -1040,7 +1033,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 		}
 
         //draw sunset
-        if (sunsetColor != offSettingFlag && locationLatitude != offSettingFlag) {
+        if (sunsetColor != offSettingFlag) {
 	        dc.setColor(sunsetColor, Graphics.COLOR_TRANSPARENT);
 	        if (sunsetStartAngle > sunsetEndAngle) {
 				dc.drawArc(screenRadius, screenRadius, screenRadius - sunArcsOffset, Graphics.ARC_CLOCKWISE, sunsetStartAngle, sunsetEndAngle);
