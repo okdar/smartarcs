@@ -1,3 +1,6 @@
+# 1.7.2 (June 23, 2023)
+* twilights indicator redesign
+
 # 1.7.1 (October 24, 2022)
 * code optimization
 
