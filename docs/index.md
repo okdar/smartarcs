@@ -2,17 +2,20 @@
     <img src="suite.png"> 
 </p>
 
-* [Description](#description)
-  * [SmartArcs Origin](#smartarcs-origin)
-  * [SmartArcs Active](#smartarcs-active)
-  * [SmartArcs Trip](#smartarcs-trip)
-  * [Civil Twilights](#civil-twilights)
-  * [Power Saver](#power-saver)
-    * [Power Saver Settings](#power-saver-settings)
-  * [Colors](#colors)
-* [Donation](#donation)
-* [Feedback](#feedback)
-* [Credits](#credits)
+- [Description](#description)
+  - [SmartArcs Origin](#smartarcs-origin)
+  - [SmartArcs Active](#smartarcs-active)
+  - [SmartArcs Trip](#smartarcs-trip)
+    - [Data fields options](#data-fields-options)
+    - [Graph options](#graph-options)
+  - [SmartArcs HR](#smartarcs-hr)
+  - [Civil Twilights](#civil-twilights)
+  - [Power Saver](#power-saver)
+  - [Lost and Found](#lost-and-found)
+  - [Colors](#colors)
+- [Donation](#donation)
+- [Feedback](#feedback)
+- [Credits](#credits)
 
 SmartArcs is a suite of Garmin watchfaces. They were designed to be clean, minimalist and highly configurable. The suite consists of three watchfaces:
 * **SmartArcs Origin** - simply focuses on time, nothing else ([download](https://apps.garmin.com/en-US/apps/073e2cbc-f25e-44b9-ab59-4966fa5abbd6))
@@ -69,6 +72,16 @@ This watchface shows useful trip data in two configurable data fields and two gr
     <img src="smartarcs_trip.png"> 
 </p>
 
+### SmartArcs HR
+This watchface is designed to display a heart rate graph in a colorful manner, scaled in increments of 10 beats.
+
+*Note: More details will come shortly.*
+
+<p align="center" width="100%">
+    <img src="smartarcs_hr.png"> 
+</p>
+
+
 ### Civil Twilights
 SmartArcs watchfaces display also morn
 ing and evening [civil twilights](https://en.wikipedia.org/wiki/Twilight#Civil_twilight). The arcs represent the civil twilight periods with sunrise/sunset and civil dawn/dusk as beginnings or ends of the arcs.
@@ -84,22 +97,20 @@ There is no need to update watch screen whole day, e.g. when you sleep. SmartArc
 
 *Please note that this function saves battery life only when SmartArcs watchface is active (shown on the screen), it has no impact in any other application.*
 
-Garmin does not allow any input method (screen touch, button press) in watchfaces. That's why you cannot invoke screen update by user input in the power saver mode. The only way to refresh the screen is to look at your watch. When you raise the watch to look at it, the watch exits sleep mode and the screen is updated. An attempt to workaround missing watchface input methods is to update the screen in user defined intervals when the watchface is in power saver mode - see next chapter for details.
+Garmin does not allow any input method (screen touch, button press) in watchfaces. That's why you cannot invoke screen update by user input in the power saver mode. The only way to refresh the screen is to look at your watch. When you raise the watch to look at it, the watch exits sleep mode and the screen is updated. An attempt to workaround missing watchface input methods is to update the screen in user defined intervals when the watchface is in power saver mode. When power saver is enabled the watch screen can be updated in **5, 10 or 15 minutes intervals** so you can somehow rely on displayed time.
 
-#### Power Saver Settings
-Power saver can be configured in a few ways. It can be enabled:
-* **in defined time window** - only in specified time period
-* **always** - whole 24 hours
+<p align="center" width="100%">
+    <img src="power_saver.png"> 
+</p>
 
-When power saver is enabled the watch screen can be updated:
-* **5, 10 or 15 minutes** - the screen is regularly updated in defined intervals. You can somehow rely on displayed time. It is indicated by *small* battery icon.
+
+### Lost and Found
+Have you misplaced or forgotten your Garmin watch? If so, don't worry - there is an opportunity to retrieve it. This helpful watchface feature provides your contact information, enabling the finder to connect with you and ensure the safe return of your watch. If your watch is not connected to your phone for a certain time, screen with your contact information is displayed.
+
 <p align="center" width="100%">
-    <img src="power_saver_small.png"> 
+    <img src="lostandfound.png"> 
 </p>
-* **never** - the screen is never updated, you cannot rely on what is displayed. It is indicated by *big* battery icon.
-<p align="center" width="100%">
-    <img src="power_saver_big.png"> 
-</p>
+
 
 ### Colors
 SmartArcs watchfaces use 64 colors palette on watches which support it. See [Reference Guide](https://developer.garmin.com/connect-iq/reference-guides/devices-reference) for details about your watch.
