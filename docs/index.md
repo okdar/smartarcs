@@ -17,10 +17,11 @@
 - [Feedback](#feedback)
 - [Credits](#credits)
 
-SmartArcs is a suite of Garmin watchfaces. They were designed to be clean, minimalist and highly configurable. The suite consists of three watchfaces:
+SmartArcs is a suite of Garmin watchfaces. They were designed to be clean, minimalist and highly configurable. The suite consists of four watchfaces:
 * **SmartArcs Origin** - simply focuses on time, nothing else ([download](https://apps.garmin.com/en-US/apps/073e2cbc-f25e-44b9-ab59-4966fa5abbd6))
 * **SmartArcs Active** - gives an overview of your daily activity (steps and floors) ([download](https://apps.garmin.com/en-US/apps/3f5e481a-5f9e-4764-b2d5-5e9b174e2a98))
 * **SmartArcs Trip** - shows useful trip data in two configurable data fields and two graphs ([download](https://apps.garmin.com/en-US/apps/a1bfdf21-bde7-4d63-925f-a6a04cb84aff))
+* **SmartArcs HR** - shows heart rate graph in a colorful manner, scaled in increments of 10 beats ([download](https://apps.garmin.com/en-US/apps/7fa66b8d-6b99-4eb6-a12f-f14c82215fa9))
 
 ## Description
 SmartArcs name comes from a common functionality to all three watchfaces - colored arc indicators around the screen to display:
@@ -35,7 +36,7 @@ Watchfaces are updated once each minute. Some watches support updating the scree
 * **'always on' second hand**
 * **heart rate**
 
-*Note: SmartArcs currently does not support every second screen update on watches with AMOLED screen (Venu® models and D2™ Air)*
+*Note: SmartArcs currently does not support every second screen update on watches with AMOLED screen.*
 
 ### SmartArcs Origin
 This watchface focuses on time. It can display:
@@ -216,6 +217,7 @@ If you have any comments to SmartArcs watchfaces feel free to [send me a message
 * **SmartArcs Origin** ([review](https://apps.garmin.com/en-US/apps/073e2cbc-f25e-44b9-ab59-4966fa5abbd6#reviews))
 * **SmartArcs Active** - ([review](https://apps.garmin.com/en-US/apps/3f5e481a-5f9e-4764-b2d5-5e9b174e2a98#reviews))
 * **SmartArcs Trip** - ([review](https://apps.garmin.com/en-US/apps/a1bfdf21-bde7-4d63-925f-a6a04cb84aff#reviews))
+* **SmartArcs HR** - ([review](https://apps.garmin.com/en-US/apps/7fa66b8d-6b99-4eb6-a12f-f14c82215fa9#reviews))
 
 
 ## Credits
