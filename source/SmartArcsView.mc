@@ -624,28 +624,27 @@ class SmartArcsView extends WatchUi.WatchFace {
         var coord = new [4];
         dc.setColor(ticksColor, Graphics.COLOR_TRANSPARENT);
         for (var i = 0; i < 16; i++) {
-        	//30-45 ticks
-            if (ticks[i] != null) {
-                dc.fillPolygon(ticks[i]);
-            }
+            var tick = ticks[i];
+            if (tick != null) {
+                //30-45 ticks
+                dc.fillPolygon(tick);
 
-            //mirror pre-computed ticks
-            if (i >= 0 && i <= 15 && ticks[i] != null) {
+                //mirror pre-computed ticks
             	//15-30 ticks
                 for (var j = 0; j < 4; j++) {
-                    coord[j] = [screenWidth - ticks[i][j][0], ticks[i][j][1]];
+                    coord[j] = [screenWidth - tick[j][0], tick[j][1]];
                 }
                 dc.fillPolygon(coord);
 
 				//45-60 ticks
                 for (var j = 0; j < 4; j++) {
-                    coord[j] = [ticks[i][j][0], screenWidth - ticks[i][j][1]];
+                    coord[j] = [tick[j][0], screenWidth - tick[j][1]];
                 }
                 dc.fillPolygon(coord);
 
 				//0-15 ticks
                 for (var j = 0; j < 4; j++) {
-                    coord[j] = [screenWidth - ticks[i][j][0], screenWidth - ticks[i][j][1]];
+                    coord[j] = [screenWidth - tick[j][0], screenWidth - tick[j][1]];
                 }
                 dc.fillPolygon(coord);
             }
