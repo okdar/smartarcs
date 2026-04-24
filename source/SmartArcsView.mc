@@ -648,9 +648,10 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     function drawTicks(dc) {
         var coord = new [4];
+        var tick;
         dc.setColor(ticksColor, Graphics.COLOR_TRANSPARENT);
         for (var i = 0; i < 16; i++) {
-            var tick = ticks[i];
+            tick = ticks[i];
             if (tick != null) {
                 //30-45 ticks
                 dc.fillPolygon(tick);
