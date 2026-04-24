@@ -75,6 +75,7 @@ class SmartArcsView extends WatchUi.WatchFace {
 	var locationLongitude;
 	var bulletRadius;
 	var fontHalfHeight;
+	var hrTextDimension;
 	var rc2;
 	var rc4;
 	var rc5;
@@ -162,6 +163,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         partialUpdatesAllowed = (Toybox.WatchUi.WatchFace has :onPartialUpdate);
         screenWidth = dc.getWidth();
         loadUserSettings();
+        hrTextDimension = dc.getTextDimensions("888", font);
         fullScreenRefresh = true;
 
         curClip = null;
@@ -767,10 +769,11 @@ class SmartArcsView extends WatchUi.WatchFace {
     //Handle the partial update event
     function onPartialUpdate(dc) {
         var clockTime = System.getClockTime();
+        var isPowerSave = shouldPowerSave(clockTime);
 
         if ((showLostAndFound != offSettingFlag && 
                 (lastPhoneConnectedTime == null || Time.now().subtract(lastPhoneConnectedTime).value() > showLostAndFound)) ||
-                (powerSaverDrawn && shouldPowerSave(clockTime))) {
+                (powerSaverDrawn && isPowerSave)) {
             return;
         }
 
@@ -840,7 +843,7 @@ class SmartArcsView extends WatchUi.WatchFace {
             drawHR(dc, refreshHR);
         }
 
-        if (shouldPowerSave(clockTime)) {
+        if (isPowerSave) {
             requestUpdate();
         }
     }
@@ -1004,7 +1007,6 @@ class SmartArcsView extends WatchUi.WatchFace {
         var hr = 0;
         var hrText;
         var activityInfo;
-        var hrTextDimension = dc.getTextDimensions("888", font); //to compute correct clip boundaries
 
         if (refreshHR) {
             activityInfo = Activity.getActivityInfo();
