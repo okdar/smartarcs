@@ -514,7 +514,7 @@ class SmartArcsView extends WatchUi.WatchFace {
             font = Graphics.FONT_SMALL;
         }
 
-        //computes hand lenght for watches with different screen resolution than 260x260
+        //computes hand length for watches with different screen resolution than 260x260
         screenResolutionRatio = screenRadius / 130.0; //130.0 = half of vivoactive4 resolution; used for coordinates recalculation
         rc2 = recalculateCoordinate(2);
         rc4 = recalculateCoordinate(4);
@@ -562,7 +562,7 @@ class SmartArcsView extends WatchUi.WatchFace {
                     dualTimeHourOffset = 0;
                 }
                 dualTimeMinOffset = dualTimeOffset.substring(semiColPos + 1, dualTimeOffset.length()).toNumber();
-                if (dualTimeHourOffset == null) {
+                if (dualTimeMinOffset == null) {
                     dualTimeMinOffset = 0;
                 }
                 if (minusPos == 0 && dualTimeHourOffset == 0) {
@@ -802,7 +802,7 @@ class SmartArcsView extends WatchUi.WatchFace {
             var secAngle = (clockSeconds / 60.0) * Math.PI * 2;
             var secondHandPoints = computeHandRectangle(secAngle, secondHandLength, handsTailLength, secondHandWidth);
 
-            //update the cliping rectangle to the new location of the second hand.
+            //update the clipping rectangle to the new location of the second hand.
             curClip = getBoundingBox(secondHandPoints);
 
             var bboxWidth = curClip[1][0] - curClip[0][0] + 1;
@@ -852,7 +852,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     //onUpdate uses this method to transfer newly rendered Buffered Bitmaps
     //to the main display.
     //onPartialUpdate uses this to blank the second hand from the previous
-    //second before outputing the new one.
+    //second before outputting the new one.
     function drawBackground(dc) {
         //If we have an offscreen buffer that has been written to
         //draw it to the screen.
@@ -1062,19 +1062,19 @@ class SmartArcsView extends WatchUi.WatchFace {
         drawMessage(dc, "Thank you!", screenRadius, recalculateCoordinate(195), recalculateCoordinate(220));
     }
 
-    function drawMessage(dc, msg, screenRadius, posY, width) {
-        var font = Graphics.FONT_SMALL;
-        var textDimension = dc.getTextDimensions(msg, font);
+    function drawMessage(dc, msg, centerX, posY, width) {
+        var msgFont = Graphics.FONT_SMALL;
+        var textDimension = dc.getTextDimensions(msg, msgFont);
 
         if (textDimension[0] > width) {
-            font = Graphics.FONT_TINY;
-            textDimension = dc.getTextDimensions(msg, font);
+            msgFont = Graphics.FONT_TINY;
+            textDimension = dc.getTextDimensions(msg, msgFont);
             if (textDimension[0] > width) {
-                font = Graphics.FONT_XTINY;
+                msgFont = Graphics.FONT_XTINY;
             }
         }
 
-        dc.drawText(screenRadius, posY, font, msg, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(centerX, posY, msgFont, msg, Graphics.TEXT_JUSTIFY_CENTER);
     }
     
 	function computeSunConstants() {
