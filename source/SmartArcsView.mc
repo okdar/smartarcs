@@ -156,6 +156,9 @@ class SmartArcsView extends WatchUi.WatchFace {
     //the state of this View and prepare it to be shown. This includes
     //loading resources into memory.
     function onShow() {
+        isAwake = true;
+        powerSaverDrawn = false;
+        requestUpdate();
     }
 
     //update the view
