@@ -73,6 +73,19 @@ class SmartArcsView extends WatchUi.WatchFace {
 	var sunsetEndAngle = 0;
 	var locationLatitude;
 	var locationLongitude;
+	var rc2;
+	var rc4;
+	var rc5;
+	var rc7;
+	var rc9;
+	var rc10;
+	var rc12;
+	var rc17;
+	var rc20;
+	var rc30;
+	var rc35;
+	var rc45;
+	var rc55;
 	
     //user settings
     var bgColor;
@@ -499,6 +512,19 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         //computes hand lenght for watches with different screen resolution than 260x260
         screenResolutionRatio = screenRadius / 130.0; //130.0 = half of vivoactive4 resolution; used for coordinates recalculation
+        rc2 = recalculateCoordinate(2);
+        rc4 = recalculateCoordinate(4);
+        rc5 = recalculateCoordinate(5);
+        rc7 = recalculateCoordinate(7);
+        rc9 = recalculateCoordinate(9);
+        rc10 = recalculateCoordinate(10);
+        rc12 = recalculateCoordinate(12);
+        rc17 = recalculateCoordinate(17);
+        rc20 = recalculateCoordinate(20);
+        rc30 = recalculateCoordinate(30);
+        rc35 = recalculateCoordinate(35);
+        rc45 = recalculateCoordinate(45);
+        rc55 = recalculateCoordinate(55);
         hourHandLength = recalculateCoordinate(60);
         minuteHandLength = recalculateCoordinate(90);
         secondHandLength = recalculateCoordinate(105);
@@ -512,13 +538,13 @@ class SmartArcsView extends WatchUi.WatchFace {
 
         //Y coordinates of time infos
         fontHeight = Graphics.getFontHeight(font);
-        dualTimeLocationY = screenWidth - (2 * fontHeight) - recalculateCoordinate(35);
-        dualTimeTimeY = screenWidth - fontHeight - recalculateCoordinate(35);
+        dualTimeLocationY = screenWidth - (2 * fontHeight) - rc35;
+        dualTimeTimeY = screenWidth - fontHeight - rc35;
         dualTimeAmPmY = screenWidth - Graphics.getFontHeight(Graphics.FONT_XTINY) - recalculateCoordinate(37);
         dualTimeOneLinerY = screenWidth - fontHeight - recalculateCoordinate(75);
         dualTimeOneLinerAmPmY = screenWidth - recalculateCoordinate(77) - Graphics.getFontHeight(Graphics.FONT_XTINY);
-        eventNameY = recalculateCoordinate(35) + fontHeight;
-        dateAt6Y = screenWidth - fontHeight - recalculateCoordinate(35);
+        eventNameY = rc35 + fontHeight;
+        dateAt6Y = screenWidth - fontHeight - rc35;
 
         //dual time offsets
         if (dualTimeColor != offSettingFlag) {
@@ -579,14 +605,14 @@ class SmartArcsView extends WatchUi.WatchFace {
             angle = i * Math.PI * 2 / 60.0;
             if ((i % 15) == 0) { //quarter tick
                 if (ticks15MinWidth > 0) {
-                    ticks[i] = computeTickRectangle(angle, recalculateCoordinate(20), ticks15MinWidth);
+                    ticks[i] = computeTickRectangle(angle, rc20, ticks15MinWidth);
                 }
             } else if ((i % 5) == 0) { //5-minute tick
                 if (ticks5MinWidth > 0) {
-                    ticks[i] = computeTickRectangle(angle, recalculateCoordinate(20), ticks5MinWidth);
+                    ticks[i] = computeTickRectangle(angle, rc20, ticks5MinWidth);
                 }
             } else if (ticks1MinWidth > 0) { //1-minute tick
-                ticks[i] = computeTickRectangle(angle, recalculateCoordinate(10), ticks1MinWidth);
+                ticks[i] = computeTickRectangle(angle, rc10, ticks1MinWidth);
             }
         }
     }
@@ -615,9 +641,9 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawSmartArc(dc, color, arcDirection, startAngle, endAngle) {
-        dc.setPenWidth(recalculateCoordinate(10));
+        dc.setPenWidth(rc10);
         dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        dc.drawArc(screenRadius, screenRadius, screenRadius - recalculateCoordinate(5), arcDirection, startAngle, endAngle);
+        dc.drawArc(screenRadius, screenRadius, screenRadius - rc5, arcDirection, startAngle, endAngle);
     }
 
     function drawTicks(dc) {
@@ -658,14 +684,14 @@ class SmartArcsView extends WatchUi.WatchFace {
         hourAngle = ((clockTime.hour % 12) * 60.0) + clockTime.min;
         hourAngle = hourAngle / (12 * 60.0) * Math.PI * 2;
         if (handsOutlineColor != offSettingFlag) {
-            drawHand(dc, handsOutlineColor, computeHandRectangle(hourAngle, hourHandLength + recalculateCoordinate(2), handsTailLength + recalculateCoordinate(2), hourHandWidth + recalculateCoordinate(4)));
+            drawHand(dc, handsOutlineColor, computeHandRectangle(hourAngle, hourHandLength + rc2, handsTailLength + rc2, hourHandWidth + rc4));
         }
         drawHand(dc, handsColor, computeHandRectangle(hourAngle, hourHandLength, handsTailLength, hourHandWidth));
 
         //draw minute hand
         minAngle = (clockTime.min / 60.0) * Math.PI * 2;
         if (handsOutlineColor != offSettingFlag) {
-            drawHand(dc, handsOutlineColor, computeHandRectangle(minAngle, minuteHandLength + recalculateCoordinate(2), handsTailLength + recalculateCoordinate(2), minuteHandWidth + recalculateCoordinate(4)));
+            drawHand(dc, handsOutlineColor, computeHandRectangle(minAngle, minuteHandLength + rc2, handsTailLength + rc2, minuteHandWidth + rc4));
         }
         drawHand(dc, handsColor, computeHandRectangle(minAngle, minuteHandLength, handsTailLength, minuteHandWidth));
 
@@ -676,11 +702,11 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (showSecondHand == 2) {
             dc.setPenWidth(secondHandWidth);
             dc.setColor(getSecondHandColor(), Graphics.COLOR_TRANSPARENT);
-            dc.drawCircle(screenRadius, screenRadius, bulletRadius + recalculateCoordinate(2));
+            dc.drawCircle(screenRadius, screenRadius, bulletRadius + rc2);
         } else {
             dc.setPenWidth(bulletRadius);
             dc.setColor(handsColor,Graphics.COLOR_TRANSPARENT);
-            dc.drawCircle(screenRadius, screenRadius, bulletRadius + recalculateCoordinate(2));
+            dc.drawCircle(screenRadius, screenRadius, bulletRadius + rc2);
         }
     }
 
@@ -691,7 +717,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         //if we are out of sleep mode, draw the second hand directly in the full update method.
         secAngle = (clockTime.sec / 60.0) * Math.PI * 2;
         if (handsOutlineColor != offSettingFlag) {
-            drawHand(dc, handsOutlineColor, computeHandRectangle(secAngle, secondHandLength + recalculateCoordinate(2), handsTailLength + recalculateCoordinate(2), secondHandWidth + recalculateCoordinate(2)));
+            drawHand(dc, handsOutlineColor, computeHandRectangle(secAngle, secondHandLength + rc2, handsTailLength + rc2, secondHandWidth + rc2));
         }
         drawHand(dc, secondHandColor, computeHandRectangle(secAngle, secondHandLength, handsTailLength, secondHandWidth));
 
@@ -701,7 +727,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         dc.fillCircle(screenRadius, screenRadius, bulletRadius + 1);
         dc.setPenWidth(secondHandWidth);
         dc.setColor(secondHandColor, Graphics.COLOR_TRANSPARENT);
-        dc.drawCircle(screenRadius, screenRadius, bulletRadius + recalculateCoordinate(2));
+        dc.drawCircle(screenRadius, screenRadius, bulletRadius + rc2);
     }
 
     function drawHand(dc, color, coords) {
@@ -776,8 +802,8 @@ class SmartArcsView extends WatchUi.WatchFace {
             //merge clip boundaries with HR area
             if (hrColor != offSettingFlag) {
                 if (curClip[0][0] > 30) {
-                    bboxWidth = (curClip[0][0] - recalculateCoordinate(30)) + bboxWidth;
-                    curClip[0][0] = recalculateCoordinate(30);
+                    bboxWidth = (curClip[0][0] - rc30) + bboxWidth;
+                    curClip[0][0] = rc30;
                 }
                 if (curClip[0][1] > (screenRadius - (fontHeight / 2))) {
                     curClip[0][1] = screenRadius - (fontHeight / 2);
@@ -854,7 +880,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     function drawEvent(dc, eventName, daysToEvent) {
         dc.setColor(eventColor, Graphics.COLOR_TRANSPARENT);
         if (daysToEvent > 0) {
-            dc.drawText(screenRadius, recalculateCoordinate(35), font, daysToEvent, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(screenRadius, rc35, font, daysToEvent, Graphics.TEXT_JUSTIFY_CENTER);
             dc.drawText(screenRadius, eventNameY, font, eventName, Graphics.TEXT_JUSTIFY_CENTER);
         } else {
             dc.drawText(screenRadius, eventNameY, font, eventName, Graphics.TEXT_JUSTIFY_CENTER);
@@ -931,9 +957,9 @@ class SmartArcsView extends WatchUi.WatchFace {
                 }
                 var dualTimeWidth = dc.getTextDimensions(dualTime, font)[0];
                 var amPmWidth = dc.getTextDimensions(suffix12Hour, Graphics.FONT_XTINY)[0];
-                dc.drawText(recalculateCoordinate(45), dualTimeOneLinerY, font, dualTime, Graphics.TEXT_JUSTIFY_LEFT);
-                dc.drawText(recalculateCoordinate(45) + dualTimeWidth, dualTimeOneLinerAmPmY, Graphics.FONT_XTINY, suffix12Hour, Graphics.TEXT_JUSTIFY_LEFT);
-                dc.drawText(recalculateCoordinate(45 + 10) + dualTimeWidth + amPmWidth, dualTimeOneLinerY, font, loc, Graphics.TEXT_JUSTIFY_LEFT);
+                dc.drawText(rc45, dualTimeOneLinerY, font, dualTime, Graphics.TEXT_JUSTIFY_LEFT);
+                dc.drawText(rc45 + dualTimeWidth, dualTimeOneLinerAmPmY, Graphics.FONT_XTINY, suffix12Hour, Graphics.TEXT_JUSTIFY_LEFT);
+                dc.drawText(rc55 + dualTimeWidth + amPmWidth, dualTimeOneLinerY, font, loc, Graphics.TEXT_JUSTIFY_LEFT);
             }
         }
     }
@@ -955,11 +981,11 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
         dc.setColor(dateColor, Graphics.COLOR_TRANSPARENT);
         switch (datePosition) {
-            case 3: dc.drawText(screenWidth - recalculateCoordinate(30), screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
+            case 3: dc.drawText(screenWidth - rc30, screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
                     break;
             case 6: dc.drawText(screenRadius, dateAt6Y, font, dateString, Graphics.TEXT_JUSTIFY_CENTER);
                     break;
-            case 9: dc.drawText(recalculateCoordinate(30), screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
+            case 9: dc.drawText(rc30, screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
                     break;
         }
     }
@@ -993,13 +1019,13 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (showSecondHand != 2) {
-            dc.setClip(recalculateCoordinate(30), screenRadius - (hrTextDimension[1] / 2), hrTextDimension[0], hrTextDimension[1]);
+            dc.setClip(rc30, screenRadius - (hrTextDimension[1] / 2), hrTextDimension[0], hrTextDimension[1]);
         }
 
         dc.setColor(hrColor, Graphics.COLOR_TRANSPARENT);
         //debug rectangle
         //dc.drawRectangle(30, screenRadius - (hrTextDimension[1] / 2), hrTextDimension[0], hrTextDimension[1]);
-        dc.drawText(hrTextDimension[0] + recalculateCoordinate(30), screenRadius, font, hrText, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(hrTextDimension[0] + rc30, screenRadius, font, hrText, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
     function shouldPowerSave() {
@@ -1025,7 +1051,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         dc.fillCircle(screenRadius, screenRadius, screenRadius + 2);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        drawMessage(dc, "If found, contact:", screenRadius, recalculateCoordinate(45), recalculateCoordinate(230));
+        drawMessage(dc, "If found, contact:", screenRadius, rc45, recalculateCoordinate(230));
         drawMessage(dc, phone, screenRadius, recalculateCoordinate(105), recalculateCoordinate(260));
         drawMessage(dc, email, screenRadius, recalculateCoordinate(138), recalculateCoordinate(260));
         drawMessage(dc, "Thank you!", screenRadius, recalculateCoordinate(195), recalculateCoordinate(220));
@@ -1075,9 +1101,9 @@ class SmartArcsView extends WatchUi.WatchFace {
                     ((sunriseEndAngle < sunsetStartAngle) && (sunriseEndAngle > sunsetEndAngle)) ||
                     ((sunsetStartAngle < sunriseStartAngle) && (sunsetStartAngle > sunriseEndAngle)) ||
                     ((sunsetEndAngle < sunriseStartAngle) && (sunsetEndAngle > sunriseEndAngle))) {
-                sunArcsOffset = recalculateCoordinate(10);
+                sunArcsOffset = rc10;
             } else {
-                sunArcsOffset = recalculateCoordinate(12);
+                sunArcsOffset = rc12;
             }
         }
 	}
@@ -1092,9 +1118,9 @@ class SmartArcsView extends WatchUi.WatchFace {
 	function drawSun(dc) {
         dc.setPenWidth(1);
 
-        var arcWidth = recalculateCoordinate(9);
-        if (sunArcsOffset == recalculateCoordinate(10)) {
-            arcWidth = recalculateCoordinate(7);
+        var arcWidth = rc9;
+        if (sunArcsOffset == rc10) {
+            arcWidth = rc7;
         }
 
         //draw sunrise
@@ -1103,15 +1129,15 @@ class SmartArcsView extends WatchUi.WatchFace {
     	        dc.setColor(sunriseColor, Graphics.COLOR_TRANSPARENT);
                 var step = (sunriseStartAngle - sunriseEndAngle) / arcWidth;
                 for (var i = 0; i < arcWidth; i++) {
-                    if (sunArcsOffset == recalculateCoordinate(10)) {
-				        dc.drawArc(screenRadius, screenRadius, screenRadius - recalculateCoordinate(20) + i, Graphics.ARC_CLOCKWISE, sunriseStartAngle - (step * i), sunriseEndAngle);
+                    if (sunArcsOffset == rc10) {
+				        dc.drawArc(screenRadius, screenRadius, screenRadius - rc20 + i, Graphics.ARC_CLOCKWISE, sunriseStartAngle - (step * i), sunriseEndAngle);
                     } else {
-				        dc.drawArc(screenRadius, screenRadius, screenRadius - recalculateCoordinate(12) - i, Graphics.ARC_CLOCKWISE, sunriseStartAngle - (step * i), sunriseEndAngle);
+				        dc.drawArc(screenRadius, screenRadius, screenRadius - rc12 - i, Graphics.ARC_CLOCKWISE, sunriseStartAngle - (step * i), sunriseEndAngle);
                     }
                 }
 			} else {
 		        dc.setColor(sunriseColor, Graphics.COLOR_TRANSPARENT);
-    			dc.drawArc(screenRadius, screenRadius, screenRadius - recalculateCoordinate(17), Graphics.ARC_COUNTER_CLOCKWISE, sunriseStartAngle, sunriseEndAngle);
+    			dc.drawArc(screenRadius, screenRadius, screenRadius - rc17, Graphics.ARC_COUNTER_CLOCKWISE, sunriseStartAngle, sunriseEndAngle);
 			}
 		}
 
