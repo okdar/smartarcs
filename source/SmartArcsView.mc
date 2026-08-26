@@ -370,7 +370,9 @@ class SmartArcsView extends WatchUi.WatchFace {
         drawBackground(dc);
 
         if (partialUpdatesAllowed && (hrColor != offSettingFlag || showSecondHand == 2)) {
-            onPartialUpdate(dc);
+            //reuse the clockTime already read above; re-reading the clock here could
+            //advance the second after a slow full update, skipping a second-hand frame
+            doPartialUpdate(dc, clockTime);
         }
 
         fullScreenRefresh = false;
@@ -776,13 +778,18 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //Handle the partial update event
     function onPartialUpdate(dc) {
+        doPartialUpdate(dc, System.getClockTime());
+    }
+
+    //shared partial-update logic; onUpdate passes the clockTime it already read so a
+    //slow full update crossing a second boundary can't skip a second-hand frame
+    function doPartialUpdate(dc, clockTime) {
         //nothing is refreshed per-second unless HR or the always-on second hand is enabled;
         //skip the 1Hz full-buffer blit entirely in that case
         if (hrColor == offSettingFlag && showSecondHand != 2) {
             return;
         }
 
-        var clockTime = System.getClockTime();
         var isPowerSave = shouldPowerSave(clockTime);
 
         if ((showLostAndFound != offSettingFlag && 
