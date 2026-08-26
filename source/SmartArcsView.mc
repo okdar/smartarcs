@@ -44,6 +44,9 @@ class SmartArcsView extends WatchUi.WatchFace {
     var powerSaverDrawn = false;
     var sunArcsOffset;
     var lastPhoneConnectedTime;
+    var batteryLevel; //cached once per minute in onUpdate to avoid per-second reads
+    var cachedDateString;
+    var cachedDateValue = -1; //Time.today().value() the cached date string was built for
 
 
     //global variables for pre-computation
@@ -186,7 +189,7 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (deviceSettings.phoneConnected) {
             lastPhoneConnectedTime = Time.now();
             if (clockTime.min % 10 == 0) {
-                Application.getApp().setProperty("lastPhoneConnectedTime", lastPhoneConnectedTime.value());
+                Application.Properties.setValue("lastPhoneConnectedTime", lastPhoneConnectedTime.value());
             }
         } else if (showLostAndFound != offSettingFlag &&
                     (lastPhoneConnectedTime == null || Time.now().subtract(lastPhoneConnectedTime).value() > showLostAndFound)) {
@@ -248,6 +251,9 @@ class SmartArcsView extends WatchUi.WatchFace {
         //regular update path
         powerSaverDrawn = false;
 
+        //refresh battery once per minute; reused by the battery arc and the second hand color
+        batteryLevel = System.getSystemStats().battery;
+
 		if (clockTime.min == 0) {
             //recompute sunrise/sunset constants every hour - to address new location when traveling	
 			computeSunConstants();
@@ -272,19 +278,18 @@ class SmartArcsView extends WatchUi.WatchFace {
         targetDc.fillCircle(screenRadius, screenRadius, screenRadius + 2);
 
         if (showBatteryIndicator) {
-            var batStat = System.getSystemStats().battery;
             if (oneColor != offSettingFlag) {
-                drawSmartArc(targetDc, oneColor, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+                drawSmartArc(targetDc, oneColor, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batteryLevel);
             } else {
-                if (batStat > 30) {
-                    drawSmartArc(targetDc, battery100Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+                if (batteryLevel > 30) {
+                    drawSmartArc(targetDc, battery100Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batteryLevel);
                     drawSmartArc(targetDc, battery30Color, Graphics.ARC_CLOCKWISE, 180, 153);
                     drawSmartArc(targetDc, battery15Color, Graphics.ARC_CLOCKWISE, 180, 166.5);
-                } else if (batStat <= 30 && batStat > 15) {
-                    drawSmartArc(targetDc, battery30Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+                } else if (batteryLevel <= 30 && batteryLevel > 15) {
+                    drawSmartArc(targetDc, battery30Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batteryLevel);
                     drawSmartArc(targetDc, battery15Color, Graphics.ARC_CLOCKWISE, 180, 166.5);
                 } else {
-                    drawSmartArc(targetDc, battery15Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batStat);
+                    drawSmartArc(targetDc, battery15Color, Graphics.ARC_CLOCKWISE, 180, 180 - 0.9 * batteryLevel);
                 }
             }
         }
@@ -336,7 +341,7 @@ class SmartArcsView extends WatchUi.WatchFace {
             if (daysToEvent < 0) {
                 //hide event when it is over
                 eventColor = offSettingFlag;
-                Application.getApp().setProperty("eventColor", offSettingFlag);
+                Application.Properties.setValue("eventColor", offSettingFlag);
             } else {
                 drawEvent(targetDc, eventName, daysToEvent.toNumber());
             }
@@ -386,20 +391,18 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function loadUserSettings() {
-        var app = Application.getApp();
-
-        oneColor = app.getProperty("oneColor");
+        oneColor = Application.Properties.getValue("oneColor");
         if (oneColor == offSettingFlag) {
-            battery100Color = app.getProperty("battery100Color");
-            battery30Color = app.getProperty("battery30Color");
-            battery15Color = app.getProperty("battery15Color");
-            notificationColor = app.getProperty("notificationColor");
-            bluetoothColor = app.getProperty("bluetoothColor");
-            dndColor = app.getProperty("dndColor");
-            alarmColor = app.getProperty("alarmColor");
-            secondHandColor = app.getProperty("secondHandColor");
-    		sunriseColor = app.getProperty("sunriseColor");
-			sunsetColor = app.getProperty("sunsetColor");
+            battery100Color = Application.Properties.getValue("battery100Color");
+            battery30Color = Application.Properties.getValue("battery30Color");
+            battery15Color = Application.Properties.getValue("battery15Color");
+            notificationColor = Application.Properties.getValue("notificationColor");
+            bluetoothColor = Application.Properties.getValue("bluetoothColor");
+            dndColor = Application.Properties.getValue("dndColor");
+            alarmColor = Application.Properties.getValue("alarmColor");
+            secondHandColor = Application.Properties.getValue("secondHandColor");
+    		sunriseColor = Application.Properties.getValue("sunriseColor");
+			sunsetColor = Application.Properties.getValue("sunsetColor");
         } else {
             notificationColor = oneColor;
             bluetoothColor = oneColor;
@@ -409,31 +412,31 @@ class SmartArcsView extends WatchUi.WatchFace {
     		sunriseColor = oneColor;
 			sunsetColor = oneColor;
         }
-        bgColor = app.getProperty("bgColor");
-        ticksColor = app.getProperty("ticksColor");
+        bgColor = Application.Properties.getValue("bgColor");
+        ticksColor = Application.Properties.getValue("ticksColor");
         if (ticksColor != offSettingFlag) {
-            ticks1MinWidth = app.getProperty("ticks1MinWidth");
-            ticks5MinWidth = app.getProperty("ticks5MinWidth");
-            ticks15MinWidth = app.getProperty("ticks15MinWidth");
+            ticks1MinWidth = Application.Properties.getValue("ticks1MinWidth");
+            ticks5MinWidth = Application.Properties.getValue("ticks5MinWidth");
+            ticks15MinWidth = Application.Properties.getValue("ticks15MinWidth");
         }
-        handsColor = app.getProperty("handsColor");
-        handsOutlineColor = app.getProperty("handsOutlineColor");
-        hourHandWidth = app.getProperty("hourHandWidth");
-        minuteHandWidth = app.getProperty("minuteHandWidth");
-        showSecondHand = app.getProperty("showSecondHand");
+        handsColor = Application.Properties.getValue("handsColor");
+        handsOutlineColor = Application.Properties.getValue("handsOutlineColor");
+        hourHandWidth = Application.Properties.getValue("hourHandWidth");
+        minuteHandWidth = Application.Properties.getValue("minuteHandWidth");
+        showSecondHand = Application.Properties.getValue("showSecondHand");
         if (showSecondHand > 0) {
-            secondHandWidth = app.getProperty("secondHandWidth");
+            secondHandWidth = Application.Properties.getValue("secondHandWidth");
         }
-        eventColor = app.getProperty("eventColor");
-        dualTimeColor = app.getProperty("dualTimeColor");
-        dateColor = app.getProperty("dateColor");
-        hrColor = app.getProperty("hrColor");
+        eventColor = Application.Properties.getValue("eventColor");
+        dualTimeColor = Application.Properties.getValue("dualTimeColor");
+        dateColor = Application.Properties.getValue("dateColor");
+        hrColor = Application.Properties.getValue("hrColor");
 
-        useBatterySecondHandColor = app.getProperty("useBatterySecondHandColor");
+        useBatterySecondHandColor = Application.Properties.getValue("useBatterySecondHandColor");
 
         if (eventColor != offSettingFlag) {
-            eventName = app.getProperty("eventName");
-            eventDate = app.getProperty("eventDate");
+            eventName = Application.Properties.getValue("eventName");
+            eventDate = Application.Properties.getValue("eventDate");
 
             //compute days to event
             var eventDateMoment = new Time.Moment(eventDate);
@@ -441,35 +444,35 @@ class SmartArcsView extends WatchUi.WatchFace {
         }
 
         if (dualTimeColor != offSettingFlag) {
-            dualTimeOffset = app.getProperty("dualTimeOffset");
-            dualTimeLocation = app.getProperty("dualTimeLocation");
-            dualTimeUTC = app.getProperty("dualTimeUTCOffset");
+            dualTimeOffset = Application.Properties.getValue("dualTimeOffset");
+            dualTimeLocation = Application.Properties.getValue("dualTimeLocation");
+            dualTimeUTC = Application.Properties.getValue("dualTimeUTCOffset");
         }
 
         if (dateColor != offSettingFlag) {
-            datePosition = app.getProperty("datePosition");
-            dateFormat = app.getProperty("dateFormat");
+            datePosition = Application.Properties.getValue("datePosition");
+            dateFormat = Application.Properties.getValue("dateFormat");
         }
 
         if (hrColor != offSettingFlag) {
-            hrRefreshInterval = app.getProperty("hrRefreshInterval");
+            hrRefreshInterval = Application.Properties.getValue("hrRefreshInterval");
             if (datePosition == 9) {
                 datePosition = 3;
             }
         }
 
-        handsOnTop = app.getProperty("handsOnTop");
+        handsOnTop = Application.Properties.getValue("handsOnTop");
 
-        showBatteryIndicator = app.getProperty("showBatteryIndicator");
+        showBatteryIndicator = Application.Properties.getValue("showBatteryIndicator");
 
-        var power = app.getProperty("powerSaver");
-		powerSaverRefreshInterval = app.getProperty("powerSaverRefreshInterval");
+        var power = Application.Properties.getValue("powerSaver");
+		powerSaverRefreshInterval = Application.Properties.getValue("powerSaverRefreshInterval");
         if (power == 1) {
         	powerSaver = false;
     	} else {
     		powerSaver = true;
-            var powerSaverBeginning = app.getProperty("powerSaverBeginning");
-            var powerSaverEnd = app.getProperty("powerSaverEnd");
+            var powerSaverBeginning = Application.Properties.getValue("powerSaverBeginning");
+            var powerSaverEnd = Application.Properties.getValue("powerSaverEnd");
             startPowerSaverMin = parsePowerSaverTime(powerSaverBeginning);
             if (startPowerSaverMin == -1) {
                 powerSaver = false;
@@ -481,19 +484,19 @@ class SmartArcsView extends WatchUi.WatchFace {
             }
         }
 
-		locationLatitude = app.getProperty("locationLatitude");
-		locationLongitude = app.getProperty("locationLongitude");
+		locationLatitude = Application.Properties.getValue("locationLatitude");
+		locationLongitude = Application.Properties.getValue("locationLongitude");
 
-        showLostAndFound = app.getProperty("showLostAndFound");
+        showLostAndFound = Application.Properties.getValue("showLostAndFound");
         if (showLostAndFound != offSettingFlag) {
             showLostAndFound *= 3600;
         }
-        phone = app.getProperty("phone");
-        email = app.getProperty("email");
-        if (app.getProperty("lastPhoneConnectedTime") == -999) {
+        phone = Application.Properties.getValue("phone");
+        email = Application.Properties.getValue("email");
+        if (Application.Properties.getValue("lastPhoneConnectedTime") == -999) {
             lastPhoneConnectedTime = null;
         } else {
-            lastPhoneConnectedTime = new Time.Moment(app.getProperty("lastPhoneConnectedTime"));
+            lastPhoneConnectedTime = new Time.Moment(Application.Properties.getValue("lastPhoneConnectedTime"));
         }
         
         //ensure that screen will be refreshed when settings are changed 
@@ -585,6 +588,9 @@ class SmartArcsView extends WatchUi.WatchFace {
                 dualTimeMinOffset = dualTimeMinOffset * (-1);
             }
         }
+
+        //invalidate cached date so a changed date format is picked up
+        cachedDateValue = -1;
     }
 
     function parsePowerSaverTime(time) {
@@ -751,10 +757,9 @@ class SmartArcsView extends WatchUi.WatchFace {
         if (oneColor != offSettingFlag) {
             color = oneColor;
         } else if (useBatterySecondHandColor) {
-            var batStat = System.getSystemStats().battery;
-            if (batStat > 30) {
+            if (batteryLevel > 30) {
                 color = battery100Color;
-            } else if (batStat <= 30 && batStat > 15) {
+            } else if (batteryLevel <= 30 && batteryLevel > 15) {
                 color = battery30Color;
             } else {
                 color = battery15Color;
@@ -972,27 +977,34 @@ class SmartArcsView extends WatchUi.WatchFace {
     }
 
     function drawDate(dc) {
-        var dateString = "";
-        var dateInfo = Gregorian.info(Time.today(), Time.FORMAT_MEDIUM);
-        switch (dateFormat) {
-            case 0: dateString = dateInfo.day;
-                    break;
-            case 1: dateString = Lang.format("$1$ $2$", [dateInfo.day_of_week.substring(0, 3), dateInfo.day]);
-                    break;
-            case 2: dateString = Lang.format("$1$ $2$", [dateInfo.day, dateInfo.day_of_week.substring(0, 3)]);
-                    break;
-            case 3: dateString = Lang.format("$1$ $2$", [dateInfo.day, dateInfo.month.substring(0, 3)]);
-                    break;
-            case 4: dateString = Lang.format("$1$ $2$", [dateInfo.month.substring(0, 3), dateInfo.day]);
-                    break;
+        var today = Time.today();
+        var todayValue = today.value();
+        //date changes only once per day (or on settings change) - rebuild the string only then
+        if (cachedDateValue != todayValue) {
+            var dateString = "";
+            var dateInfo = Gregorian.info(today, Time.FORMAT_MEDIUM);
+            switch (dateFormat) {
+                case 0: dateString = dateInfo.day;
+                        break;
+                case 1: dateString = Lang.format("$1$ $2$", [dateInfo.day_of_week.substring(0, 3), dateInfo.day]);
+                        break;
+                case 2: dateString = Lang.format("$1$ $2$", [dateInfo.day, dateInfo.day_of_week.substring(0, 3)]);
+                        break;
+                case 3: dateString = Lang.format("$1$ $2$", [dateInfo.day, dateInfo.month.substring(0, 3)]);
+                        break;
+                case 4: dateString = Lang.format("$1$ $2$", [dateInfo.month.substring(0, 3), dateInfo.day]);
+                        break;
+            }
+            cachedDateString = dateString;
+            cachedDateValue = todayValue;
         }
         dc.setColor(dateColor, Graphics.COLOR_TRANSPARENT);
         switch (datePosition) {
-            case 3: dc.drawText(screenWidth - rc30, screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
+            case 3: dc.drawText(screenWidth - rc30, screenRadius, font, cachedDateString, Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER);
                     break;
-            case 6: dc.drawText(screenRadius, dateAt6Y, font, dateString, Graphics.TEXT_JUSTIFY_CENTER);
+            case 6: dc.drawText(screenRadius, dateAt6Y, font, cachedDateString, Graphics.TEXT_JUSTIFY_CENTER);
                     break;
-            case 9: dc.drawText(rc30, screenRadius, font, dateString, Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
+            case 9: dc.drawText(rc30, screenRadius, font, cachedDateString, Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
                     break;
         }
     }
@@ -1091,8 +1103,8 @@ class SmartArcsView extends WatchUi.WatchFace {
 	    	}
 	    		    	
 	    	if (hasLocation) {
-				Application.getApp().setProperty("locationLatitude", loc[0]);
-				Application.getApp().setProperty("locationLongitude", loc[1]);
+				Application.Properties.setValue("locationLatitude", loc[0]);
+				Application.Properties.setValue("locationLongitude", loc[1]);
 				locationLatitude = loc[0];
 				locationLongitude = loc[1];
 			}
