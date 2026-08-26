@@ -17,6 +17,7 @@
 */
 
 using Toybox.Application;
+using Toybox.WatchUi;
 
 class SmartArcsApp extends Application.AppBase {
 
@@ -44,6 +45,49 @@ class SmartArcsApp extends Application.AppBase {
     function onSettingsChanged() {
         view.loadUserSettings();
         view.requestUpdate(); //update the view to reflect changes
+    }
+
+    // on-device settings screen to quickly toggle heart rate, second hand, dual
+    // time, event countdown, power saver and lost and found
+    function getSettingsView() {
+        var menu = new WatchUi.Menu2({ :title => WatchUi.loadResource(Rez.Strings.settingsMenuTitle) });
+        menu.addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.showHrMenuTitle),
+            null,
+            "showHr",
+            Application.Properties.getValue("hrColor") != -999,
+            null));
+        menu.addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.showSecondHandMenuTitle),
+            null,
+            "showSecondHand",
+            Application.Properties.getValue("showSecondHand") != 0,
+            null));
+        menu.addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.showDualTimeMenuTitle),
+            null,
+            "showDualTime",
+            Application.Properties.getValue("dualTimeColor") != -999,
+            null));
+        menu.addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.showEventMenuTitle),
+            null,
+            "showEvent",
+            Application.Properties.getValue("eventColor") != -999,
+            null));
+        menu.addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.powerSaverMenuTitle),
+            null,
+            "powerSaver",
+            Application.Properties.getValue("powerSaver") != 1,
+            null));
+        menu.addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.showLostAndFoundMenuTitle),
+            null,
+            "showLostAndFound",
+            Application.Properties.getValue("showLostAndFound") != -999,
+            null));
+        return [menu, new SmartArcsSettingsMenuDelegate()];
     }
 
 }

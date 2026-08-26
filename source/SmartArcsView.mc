@@ -178,6 +178,7 @@ class SmartArcsView extends WatchUi.WatchFace {
     function onShow() {
         isAwake = true;
         powerSaverDrawn = false;
+        loadUserSettings(); //pick up changes made in the on-device settings menu
         requestUpdate();
     }
 
@@ -251,10 +252,12 @@ class SmartArcsView extends WatchUi.WatchFace {
         //regular update path
         powerSaverDrawn = false;
 
-        //refresh battery once per minute; reused by the battery arc and the second hand color
-        batteryLevel = System.getSystemStats().battery;
+        //refresh battery once per minute; skip the read when no consumer (battery arc or battery-colored second hand) is enabled
+        if (showBatteryIndicator || useBatterySecondHandColor) {
+            batteryLevel = System.getSystemStats().battery;
+        }
 
-		if (clockTime.min == 0) {
+		if (clockTime.min == 0 && (sunriseColor != offSettingFlag || sunsetColor != offSettingFlag)) {
             //recompute sunrise/sunset constants every hour - to address new location when traveling	
 			computeSunConstants();
 		}
@@ -773,6 +776,12 @@ class SmartArcsView extends WatchUi.WatchFace {
 
     //Handle the partial update event
     function onPartialUpdate(dc) {
+        //nothing is refreshed per-second unless HR or the always-on second hand is enabled;
+        //skip the 1Hz full-buffer blit entirely in that case
+        if (hrColor == offSettingFlag && showSecondHand != 2) {
+            return;
+        }
+
         var clockTime = System.getClockTime();
         var isPowerSave = shouldPowerSave(clockTime);
 

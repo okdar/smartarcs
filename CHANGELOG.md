@@ -1,3 +1,8 @@
+# 4.0.0 (August 26, 2026)
+* added watch face on-device settings
+* fixed use of deprecated API methods
+* small bug fixes and performance improvements
+
 # 3.0.1 (May 13, 2025)
 * minor bugfix (drawDate)
  

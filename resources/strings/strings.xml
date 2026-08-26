@@ -18,4 +18,11 @@
 
 <strings>
     <string id="AppName">SmartArcs</string>
+    <string id="settingsMenuTitle">Settings</string>
+    <string id="showHrMenuTitle">Heart rate</string>
+    <string id="showSecondHandMenuTitle">Second hand</string>
+    <string id="showDualTimeMenuTitle">Dual time</string>
+    <string id="showEventMenuTitle">Event countdown</string>
+    <string id="powerSaverMenuTitle">Power saver</string>
+    <string id="showLostAndFoundMenuTitle">Lost and found</string>
 </strings>

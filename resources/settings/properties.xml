@@ -87,7 +87,7 @@
         <string id="ticksColor">Ticks color (off or color)</string>
         <string id="ticks1MinWidth">1-minute ticks width</string>
         <string id="ticks5MinWidth">5-minute ticks width</string>
-        <string id="ticks15MinWidth">Quarter ticks width</string>
+        <string id="ticks15MinWidth">Quarter-hour ticks width</string>
         <string id="ticks1MinError">Value range: 0 to 5</string>
         <string id="ticks5MinError">Value range: 0 to 10</string>
         <string id="handsColor">Hands color</string>
