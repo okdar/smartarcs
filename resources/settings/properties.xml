@@ -224,7 +224,7 @@
         
         <string id="powerSaver">Power saver</string>
         <string id="powerSaverNever">Never</string>
-        <string id="powerSaverWindow">In defined time window</string>
+        <string id="powerSaverWindow">In a defined time window</string>
         <string id="powerSaverBeginning">Power saver begins at (hh:mm, 24-hour format)</string>
         <string id="powerSaverEnd">Power saver ends at (hh:mm, 24-hour format)</string>
         <string id="powerSaverRefreshInterval">Screen refresh interval in power saver mode (minutes)</string>

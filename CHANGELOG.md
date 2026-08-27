@@ -1,3 +1,6 @@
+# 4.0.1 (August 27, 2026)
+* when Lost and found is toggled from on-device setting and no previous value stored, use 12 hours as default
+
 # 4.0.0 (August 26, 2026)
 * added watch face on-device settings
 * fixed use of deprecated API methods
